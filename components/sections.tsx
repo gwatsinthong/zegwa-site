@@ -2,6 +2,23 @@ import Link from 'next/link'
 import ZMark from './ZMark'
 import { Arrow, Check } from './icons'
 
+// Red money figure. Reserved for loss-framing dollars in the sample report
+// (the leak, per-gap slices, the one-thing number, the do-nothing delta).
+export function Money({ children }: { children: React.ReactNode }) {
+  return <span className="font-semibold text-accent-red">{children}</span>
+}
+
+// Bordered emphasis box (sharp corners) for report callouts.
+export function Callout({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
+  return <div className={`border border-hairline bg-white p-6 sm:p-8 ${className}`}>{children}</div>
+}
+
 // Shared section-building blocks used across marketing pages (Found, About, ...).
 
 export function Container({
