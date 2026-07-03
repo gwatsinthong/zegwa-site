@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Locked tokens. Light default. */
+  --bg: #f6f5f2;
+  --text: #0e0e0f;
+  --accent-red: #f91626;
+  --accent-red-bright: #ff2a38;
+
+  /* Supporting neutrals. Not reserved. */
+  --muted: #5c5c5c;
+  --hairline: rgba(14, 14, 15, 0.12);
+}
+
+/* Dark tokens stubbed for a later step. Not wired to any toggle yet. */
+:root[data-theme='dark'] {
+  --bg: #0e0e0f;
+  --text: #f6f5f2;
+  --accent-red: #f91626;
+  --accent-red-bright: #ff2a38;
+  --muted: #9a9a9a;
+  --hairline: rgba(246, 245, 242, 0.14);
+}
+
+@layer base {
+  html {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+
+  body {
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+}
