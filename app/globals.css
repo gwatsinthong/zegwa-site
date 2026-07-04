@@ -28,6 +28,14 @@
   html {
     background-color: var(--bg);
     color: var(--text);
+    scroll-behavior: smooth;
+  }
+
+  /* Users who ask for reduced motion get instant jumps, not glides. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {
