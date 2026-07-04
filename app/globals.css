@@ -28,14 +28,26 @@
   html {
     background-color: var(--bg);
     color: var(--text);
-    scroll-behavior: smooth;
   }
 
-  /* Users who ask for reduced motion get instant jumps, not glides. */
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
+  /* Lenis (JS momentum scroll) manages smoothness, so no CSS scroll-behavior
+     here — it would conflict. These classes only take effect while Lenis is
+     running; under reduced-motion Lenis never starts and native scroll applies. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
   }
 
   body {

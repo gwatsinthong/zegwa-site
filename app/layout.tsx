@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { display, body, serif } from './fonts'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import SmoothScroll from '@/components/SmoothScroll'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} ${serif.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-bg font-body text-text">
+        <SmoothScroll />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
