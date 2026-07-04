@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="205" height="34" viewBox="0 0 205 34" fill="none" role="img" aria-label="Zegwa Studio">
+  <rect width="34" height="34" rx="9" fill="#202020"/>
+  <path d="M4 1 L31 1 L31 8 L13 23 L30 23 L30 30 L2 30 L2 23 L20 8 L4 8 Z" fill="#FEFEFE" transform="translate(7.5 7.5) scale(0.56)"/>
+  <text x="46" y="25" font-family="'Helvetica Now Display','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="24" letter-spacing="-0.72" fill="#202020"><tspan font-weight="700">Zegwa </tspan><tspan font-weight="400">Studio</tspan></text>
+</svg>

@@ -2,46 +2,51 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import ZMark from './ZMark'
 import { HELV, PillCta } from './sections'
 
-// Figma-faithful header (frame 321:1287) in the Helvetica stack, matching the
-// body so there is no font seam. CAPTURE CARVE-OUT: the frame header has a
-// "Home" item and an "Offers" dropdown; we keep the Found-only nav
-// (Pricing / About / Contact) and drop both. This is the one intentional
-// deviation from the frame in the header.
+// Figma-faithful header (frame 321:1287) on the Helvetica stack. The nav is
+// locked to Home / Pricing / About / Contact plus the "Get free audit" pill.
+// DEVIATION (intentional): the frame's "Offers" dropdown is omitted because it
+// points to Capture, which does not exist as a route.
 
 const NAV = [
+  { label: 'Home', href: '/' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ]
 
+const NAV_LINK =
+  'text-[16px] font-bold tracking-[0.16px] text-[#5c5c5c] transition-colors hover:text-[#202020]'
+
 export default function Header() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header style={{ fontFamily: HELV }} className="sticky top-0 z-50 bg-[#f6f5f2]">
-      <div className="mx-auto flex w-full max-w-shell items-center px-6 py-[16px]">
-        {/* Logo (frame 321:1290): 32x31 Z mark + Zegwa wordmark. Swap: real Z asset */}
-        <Link href="/" aria-label="Zegwa home" onClick={() => setOpen(false)} className="flex flex-1 items-center gap-[10px]">
-          <ZMark className="h-[31px] w-[32px] text-[#202020]" />
-          <span className="text-[24px] font-bold leading-none tracking-[-0.24px] text-[#202020]">Zegwa</span>
+    <header style={{ fontFamily: HELV }} className="sticky top-0 z-50 bg-bg">
+      <div className="mx-auto flex w-full max-w-[1040px] items-center gap-[32px] px-6 py-[24px]">
+        {/* Logo lockup (frame 321:1287). Swap: /logo.svg is a reconstruction of
+            the frame mark (dark Z badge + "Zegwa Studio") at the natural 205x34;
+            replace it with Gwatsin's real asset at the same path. */}
+        <Link
+          href="/"
+          aria-label="Zegwa Studio home"
+          onClick={() => setOpen(false)}
+          className="flex flex-1 items-center"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="Zegwa Studio" width={205} height={34} className="h-[34px] w-auto" />
         </Link>
 
         <nav className="hidden flex-1 items-center justify-center gap-[32px] md:flex">
           {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-[16px] font-bold tracking-[0.16px] text-[#5c5c5c] transition-colors hover:text-[#202020]"
-            >
+            <Link key={item.href} href={item.href} className={NAV_LINK}>
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden flex-1 justify-end md:flex">
           <PillCta tone="light" href="/start" label="Get free audit" />
         </div>
 
@@ -57,15 +62,10 @@ export default function Header() {
       </div>
 
       {open && (
-        <nav className="bg-[#f6f5f2] px-6 pb-4 md:hidden">
-          <div className="flex flex-col gap-4">
+        <nav className="bg-bg px-6 pb-4 md:hidden">
+          <div className="mx-auto flex max-w-[1040px] flex-col gap-4">
             {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="text-[16px] font-bold tracking-[0.16px] text-[#5c5c5c] transition-colors hover:text-[#202020]"
-              >
+              <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className={NAV_LINK}>
                 {item.label}
               </Link>
             ))}

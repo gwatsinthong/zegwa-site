@@ -4,7 +4,10 @@
 
 :root {
   /* Locked tokens. Light default. */
-  --bg: #f6f5f2;
+  /* Page surface: the cool light grey of Figma frame 321:1283 (root fill
+     #e8e8e8), not the earlier warm #f6f5f2. Cards (#fefefe), counter backing
+     (#e0e0e0), and dark sections (#202020) are unchanged. */
+  --bg: #e8e8e8;
   --text: #0e0e0f;
   --accent-red: #f91626;
   --accent-red-bright: #ff2a38;
