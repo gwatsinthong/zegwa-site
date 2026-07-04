@@ -279,3 +279,169 @@ export function LegalPage({ content }: { content: LegalContent }) {
     </>
   )
 }
+
+// ===========================================================================
+// Frame-faithful primitives (Figma frame 321:1283 "Found").
+// Extracted verbatim from app/page.tsx so every page reuses the exact same
+// treatment. Font target is Helvetica Now Display with a Helvetica fallback.
+// ===========================================================================
+
+export const HELV = "'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+
+// Exact frame color tokens.
+export const FRAME = {
+  text: '#202020',
+  secondary: '#5c5c5c',
+  tertiary: '#777',
+  tertiaryInv: '#9d9a9a',
+  white: '#fefefe',
+  counter: '#e0e0e0',
+  chrome: '#e8e8e8',
+  accent: '#f91626',
+  accentDeep: '#a80813',
+  dark: '#0c0c0d',
+} as const
+
+// The Helvetica display scale (desktop sizes/weights/tracking/leading) as
+// reusable className strings. Colour and max-width are applied per use.
+export const FRAME_TYPE = {
+  display: 'text-[40px] font-bold leading-[1.24] tracking-[-1.6px] sm:text-[56px] sm:tracking-[-2.24px]',
+  h2: 'text-[32px] font-bold leading-[1.24] tracking-[-0.96px] sm:text-[48px] sm:tracking-[-1.44px]',
+  h3: 'text-[24px] font-bold leading-[1.32] tracking-[-0.72px] sm:text-[36px] sm:tracking-[-1.08px]',
+  cardTitle: 'text-[24px] font-bold leading-[1.26] tracking-[-0.72px] sm:text-[32px] sm:tracking-[-0.96px]',
+  h5: 'text-[20px] font-bold leading-[1.26] tracking-[-0.72px] sm:text-[24px]',
+  bodyL: 'text-[18px] leading-[1.5] sm:text-[20px]',
+  bodyM: 'text-[16px] leading-[1.5]',
+  tag: 'text-[14px] font-medium uppercase leading-none',
+} as const
+
+export function ArrowRight({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <polyline points="13 5 20 12 13 19" />
+    </svg>
+  )
+}
+
+export function ArrowDown({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <line x1="12" y1="4" x2="12" y2="20" />
+      <polyline points="5 13 12 20 19 13" />
+    </svg>
+  )
+}
+
+export function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[24px] w-[24px] shrink-0" aria-hidden="true">
+      <polyline points="4 12.5 9.5 18 20 6" />
+    </svg>
+  )
+}
+
+// The frame's card: white 1px border, #e0e0e0 counter backing, inner #fefefe
+// card with layered drop shadows, plus an inset ring on the outer frame.
+export function Framed({
+  outer = 'p-[12px]',
+  inner = 'p-[32px]',
+  innerClass = '',
+  innerShadow = 'shadow-[-1px_-1px_2px_0px_rgba(0,0,0,0.15),1px_1px_2px_0px_rgba(0,0,0,0.15)]',
+  bare = false,
+  className = '',
+  children,
+}: {
+  outer?: string
+  inner?: string
+  innerClass?: string
+  innerShadow?: string
+  // bare: no single white inner card; children (their own white cards) float
+  // directly on the #e0e0e0 counter backing, as the features grid and FAQ do.
+  bare?: boolean
+  className?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className={`relative rounded-[24px] border border-[#fefefe] ${outer} ${className}`}>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[24px] bg-[#e0e0e0]" />
+      {bare ? (
+        <div className="relative">{children}</div>
+      ) : (
+        <div className={`relative rounded-[16px] bg-[#fefefe] ${innerShadow} ${inner} ${innerClass}`}>
+          {children}
+        </div>
+      )}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-[-1px] rounded-[inherit] shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)]" />
+    </div>
+  )
+}
+
+export function RuleRow({ children, onDark = false }: { children: React.ReactNode; onDark?: boolean }) {
+  const left = onDark ? 'from-[#101010] to-[#7d7d7d]' : 'from-[#f0f0f0] to-[#cecece]'
+  const right = onDark ? 'from-[#7d7d7d] to-[#101010]' : 'from-[#cecece] to-[#f0f0f0]'
+  const tag = onDark ? 'text-[#9d9a9a]' : 'text-[#777]'
+  return (
+    <div className="flex items-center gap-[8px]">
+      <span className={`h-[2px] w-[80px] bg-gradient-to-r ${left}`} />
+      <span className={`whitespace-nowrap text-[14px] font-medium uppercase leading-none ${tag}`}>
+        {children}
+      </span>
+      <span className={`h-[2px] w-[80px] bg-gradient-to-r ${right}`} />
+    </div>
+  )
+}
+
+export function Mark({ onDark = false }: { onDark?: boolean }) {
+  return <ZMark className={`h-[23px] w-[24px] ${onDark ? 'text-[#9d9a9a]' : 'text-[#202020]'}`} />
+}
+
+// Pill CTA. black/red are the ringed body CTAs; light is the frame's header CTA
+// (single #e8e8e8 pill, no ring). All reuse this one component.
+export function PillCta({
+  label = 'Get free audit',
+  href = '/start',
+  tone = 'black',
+  className = '',
+}: {
+  label?: string
+  href?: string
+  tone?: 'black' | 'red' | 'light'
+  className?: string
+}) {
+  if (tone === 'light') {
+    return (
+      <Link
+        href={href}
+        style={{ fontFamily: HELV }}
+        className={`flex items-center justify-center gap-[10px] rounded-[999px] border border-[#fefefe] bg-[#e8e8e8] px-[24px] py-[8px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`}
+      >
+        <span className="whitespace-nowrap text-[16px] font-bold tracking-[0.16px] text-[#202020]">{label}</span>
+        <ArrowRight className="h-[24px] w-[24px] text-[#202020]" />
+      </Link>
+    )
+  }
+  const ring = tone === 'red' ? 'border-[#512a2a]' : 'border-[#cecece]'
+  const grad = tone === 'red' ? 'from-[#f91626] to-[#a80813]' : 'from-[#4a4a4a] to-black'
+  return (
+    <Link href={href} className={`inline-block rounded-[999px] border-[6px] ${ring} p-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 ${className}`}>
+      <span className={`flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b ${grad} px-[48px] py-[12px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] sm:px-[80px]`}>
+        <span className="text-[16px] font-bold tracking-[0.16px] text-[#fefefe]">{label}</span>
+        <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
+      </span>
+    </Link>
+  )
+}
+
+export function CheckList({ items, gap = 'gap-[4px]' }: { items: string[]; gap?: string }) {
+  return (
+    <div className={`flex flex-col ${gap}`}>
+      {items.map((it) => (
+        <div key={it} className="flex items-start gap-[4px]">
+          <CheckIcon />
+          <p className="flex-1 text-[16px] leading-[1.5] text-[#5c5c5c]">{it}</p>
+        </div>
+      ))}
+    </div>
+  )
+}

@@ -1,6 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import ZMark from '@/components/ZMark'
+import {
+  HELV,
+  ArrowRight,
+  ArrowDown,
+  Framed,
+  RuleRow,
+  Mark,
+  PillCta,
+  CheckList,
+} from '@/components/sections'
 
 export const metadata: Metadata = {
   title: 'Zegwa · Get found before your competitor',
@@ -17,109 +26,6 @@ export const metadata: Metadata = {
 // line is kept verbatim as text; "See pricing" points to /pricing, and no
 // /capture link is created. All audit CTAs point to /start.
 
-const HELV = "'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif"
-
-function ArrowRight({ className = '' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <line x1="4" y1="12" x2="20" y2="12" />
-      <polyline points="13 5 20 12 13 19" />
-    </svg>
-  )
-}
-
-function ArrowDown({ className = '' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <line x1="12" y1="4" x2="12" y2="20" />
-      <polyline points="5 13 12 20 19 13" />
-    </svg>
-  )
-}
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[24px] w-[24px] shrink-0" aria-hidden="true">
-      <polyline points="4 12.5 9.5 18 20 6" />
-    </svg>
-  )
-}
-
-// The frame's card: white 1px border, #e0e0e0 counter backing, inner #fefefe
-// card with layered drop shadows, plus an inset ring on the outer frame.
-function Framed({
-  outer = 'p-[12px]',
-  inner = 'p-[32px]',
-  innerClass = '',
-  innerShadow = 'shadow-[-1px_-1px_2px_0px_rgba(0,0,0,0.15),1px_1px_2px_0px_rgba(0,0,0,0.15)]',
-  bare = false,
-  className = '',
-  children,
-}: {
-  outer?: string
-  inner?: string
-  innerClass?: string
-  innerShadow?: string
-  // bare: no single white inner card; children (their own white cards) float
-  // directly on the #e0e0e0 counter backing, as the features grid and FAQ do.
-  bare?: boolean
-  className?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className={`relative rounded-[24px] border border-[#fefefe] ${outer} ${className}`}>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[24px] bg-[#e0e0e0]" />
-      {bare ? (
-        <div className="relative">{children}</div>
-      ) : (
-        <div className={`relative rounded-[16px] bg-[#fefefe] ${innerShadow} ${inner} ${innerClass}`}>
-          {children}
-        </div>
-      )}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-[-1px] rounded-[inherit] shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)]" />
-    </div>
-  )
-}
-
-function RuleRow({ children, onDark = false }: { children: React.ReactNode; onDark?: boolean }) {
-  const left = onDark ? 'from-[#101010] to-[#7d7d7d]' : 'from-[#f0f0f0] to-[#cecece]'
-  const right = onDark ? 'from-[#7d7d7d] to-[#101010]' : 'from-[#cecece] to-[#f0f0f0]'
-  const tag = onDark ? 'text-[#9d9a9a]' : 'text-[#777]'
-  return (
-    <div className="flex items-center gap-[8px]">
-      <span className={`h-[2px] w-[80px] bg-gradient-to-r ${left}`} />
-      <span className={`whitespace-nowrap text-[14px] font-medium uppercase leading-none ${tag}`}>
-        {children}
-      </span>
-      <span className={`h-[2px] w-[80px] bg-gradient-to-r ${right}`} />
-    </div>
-  )
-}
-
-function Mark({ onDark = false }: { onDark?: boolean }) {
-  return <ZMark className={`h-[23px] w-[24px] ${onDark ? 'text-[#9d9a9a]' : 'text-[#202020]'}`} />
-}
-
-function PillCta({
-  label = 'Get free audit',
-  href = '/start',
-  tone = 'black',
-}: {
-  label?: string
-  href?: string
-  tone?: 'black' | 'red'
-}) {
-  const ring = tone === 'red' ? 'border-[#512a2a]' : 'border-[#cecece]'
-  const grad = tone === 'red' ? 'from-[#f91626] to-[#a80813]' : 'from-[#4a4a4a] to-black'
-  return (
-    <Link href={href} className={`inline-block rounded-[999px] border-[6px] ${ring} p-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40`}>
-      <span className={`flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b ${grad} px-[48px] py-[12px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] sm:px-[80px]`}>
-        <span className="text-[16px] font-bold tracking-[0.16px] text-[#fefefe]">{label}</span>
-        <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
-      </span>
-    </Link>
-  )
-}
 
 const FEATURES = [
   { title: 'Show up in search', desc: 'On Google, maps, and even when they ask AI search.' },
@@ -227,18 +133,6 @@ const FAQS = [
   },
 ]
 
-function CheckList({ items, gap = 'gap-[4px]' }: { items: string[]; gap?: string }) {
-  return (
-    <div className={`flex flex-col ${gap}`}>
-      {items.map((it) => (
-        <div key={it} className="flex items-start gap-[4px]">
-          <CheckIcon />
-          <p className="flex-1 text-[16px] leading-[1.5] text-[#5c5c5c]">{it}</p>
-        </div>
-      ))}
-    </div>
-  )
-}
 
 export default function FoundPage() {
   return (

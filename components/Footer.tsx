@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import ZMark from './ZMark'
 import { SocialLinks } from './Social'
+import { HELV } from './sections'
 
-// Shared footer chrome for every page. Rebuilt from Figma node 321:1659.
-// Dark band: gradient #272729 to #0c0c0d, hairline top rule, muted labels.
+// Figma-faithful footer (frame 321:1659) in the Helvetica stack, matching the
+// body. Dark band: gradient #272729 to #0c0c0d, #cecece top rule, #9d9a9a
+// labels, #cecece bold links. The STUDIO wordmark is red per the frame.
 
 const OFFERS = [
   { label: 'Get free audit', href: '/start' },
@@ -34,6 +36,9 @@ const LEGAL = [
   { label: 'Cookie Policy', href: '/cookies' },
 ]
 
+const LABEL = 'text-[14px] font-medium uppercase leading-none text-[#9d9a9a]'
+const LINK = 'text-[16px] font-bold tracking-[0.16px] text-[#cecece] outline-none transition-colors hover:text-white focus-visible:text-white'
+
 function LinkColumn({
   title,
   links,
@@ -45,14 +50,11 @@ function LinkColumn({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-sm uppercase tracking-wide text-[#9d9a9a]">{title}</p>
+      <p className={LABEL}>{title}</p>
       <ul className="flex flex-col gap-2">
         {links.map((l) => (
           <li key={l.label}>
-            <Link
-              href={l.href}
-              className="text-[#cecece] outline-none transition-colors hover:text-white focus-visible:text-white"
-            >
+            <Link href={l.href} className={LINK}>
               {l.label}
             </Link>
           </li>
@@ -65,20 +67,24 @@ function LinkColumn({
 
 export default function Footer() {
   return (
-    <footer className="border-t-2 border-[#cecece] bg-gradient-to-b from-[#272729] to-[#0c0c0d] text-[#cecece]">
+    <footer
+      style={{ fontFamily: HELV }}
+      className="border-t-2 border-[#cecece] bg-gradient-to-b from-[#272729] to-[#0c0c0d] text-[#cecece]"
+    >
       <div className="mx-auto w-full max-w-shell px-6 py-14">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
-          <div className="flex max-w-[250px] flex-col gap-5">
-            <span className="flex items-center gap-2">
-              <ZMark className="h-7 w-auto text-[#cecece]" />
+          {/* Brand lockup (frame Group 9): Z mark + ZEGWA + red STUDIO. Swap: real logo asset */}
+          <div className="flex max-w-[250px] flex-col gap-6">
+            <span className="flex items-center gap-[10px]">
+              <ZMark className="h-[30px] w-[31px] text-[#f6f5f2]" />
               <span className="flex flex-col leading-none">
-                <span className="font-display text-xl text-[#f6f5f2]">Zegwa</span>
-                <span className="mt-1 text-[10px] uppercase tracking-[0.3em] text-[#9d9a9a]">
+                <span className="text-[22px] font-bold tracking-[0.2em] text-[#f6f5f2]">ZEGWA</span>
+                <span className="mt-1 text-[11px] font-bold uppercase tracking-[0.42em] text-[#f91626]">
                   Studio
                 </span>
               </span>
             </span>
-            <p className="text-sm text-[#cecece]">
+            <p className="max-w-[197px] text-[14px] font-bold text-[#cecece]">
               Helping businesses get found and book more.
             </p>
           </div>
@@ -92,10 +98,7 @@ export default function Footer() {
               links={LEGAL}
               extra={
                 <li>
-                  <button
-                    type="button"
-                    className="text-left text-[#cecece] outline-none transition-colors hover:text-white focus-visible:text-white"
-                  >
+                  <button type="button" className={`text-left ${LINK}`}>
                     Cookie settings
                   </button>
                 </li>
@@ -105,13 +108,11 @@ export default function Footer() {
 
           <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-4">
-              <p className="text-sm uppercase tracking-wide text-[#9d9a9a]">
-                Get in touch
-              </p>
+              <p className={LABEL}>Get in touch</p>
               <div className="flex flex-col gap-3">
                 <a
                   href="mailto:hello@zegwastudio.com"
-                  className="text-sm text-[#cecece] outline-none transition-colors hover:text-white focus-visible:text-white"
+                  className="text-[14px] font-bold text-[#cecece] outline-none transition-colors hover:text-white focus-visible:text-white"
                 >
                   hello@zegwastudio.com
                 </a>
@@ -120,19 +121,19 @@ export default function Footer() {
             </div>
 
             <div className="flex max-w-[253px] flex-col gap-4">
-              <p className="text-sm uppercase tracking-wide text-[#9d9a9a]">Company</p>
-              <address className="text-sm not-italic leading-relaxed text-[#cecece]">
+              <p className={LABEL}>Company</p>
+              <address className="text-[14px] font-bold not-italic leading-relaxed text-[#cecece]">
                 Zegwa Studio (OPC) Private Limited
                 <br />
                 <br />
-                No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk,
-                Bangalore South, Karnataka, India 560095
+                No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore
+                South, Karnataka, India 560095
               </address>
             </div>
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t border-white/10 pt-6 text-sm text-[#9d9a9a] md:flex-row md:justify-between">
+        <div className="mt-14 flex flex-col gap-2 border-t border-white/10 pt-6 text-[14px] font-bold text-[#9d9a9a] md:flex-row md:justify-between">
           <p>© 2026 Zegwa Studio (OPC) Private Limited. All rights reserved.</p>
           <p>CIN: U62012KA2026OPC218915</p>
         </div>
