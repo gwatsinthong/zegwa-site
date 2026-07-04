@@ -22,8 +22,13 @@ const NAV_LINK =
 export default function Header() {
   const [open, setOpen] = useState(false)
 
+  // Transparent, non-sticky header (frame 321:1287 authors no header fill and
+  // the frame is a static artboard). The page surface #e8e8e8 shows through and
+  // the vertical margin rules pass behind it. In normal flow the header paints
+  // over the surface (above the -z-10 rules) and scrolls away with the page, so
+  // it never overlaps the dark band or footer.
   return (
-    <header style={{ fontFamily: HELV }} className="sticky top-0 z-50 bg-bg">
+    <header style={{ fontFamily: HELV }}>
       <div className="mx-auto flex w-full max-w-[1040px] items-center gap-[32px] px-6 py-[24px]">
         {/* Logo lockup (frame 321:1287). Swap: /logo.svg is a reconstruction of
             the frame mark (dark Z badge + "Zegwa Studio") at the natural 205x34;
