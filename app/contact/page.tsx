@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import ContactForm from '@/components/ContactForm'
 import { SocialLinks } from '@/components/Social'
-import { Container, Kicker } from '@/components/sections'
+import { HELV, FRAME_TYPE, RuleRow } from '@/components/sections'
 
 export const metadata: Metadata = {
   title: 'Contact · Zegwa',
@@ -9,69 +9,84 @@ export const metadata: Metadata = {
     'Questions? Talk to a real person. Send a note and we will get back to you within a day.',
 }
 
-// Copy is verbatim from Figma frame 364:4886.
+// Figma-faithful rebuild of frame 364:4886 "Contact" (body only; the shell
+// supplies Header + Footer). Exact radii, colors, shadows, and type sizes are
+// read per node. Font target is Helvetica Now Display. The form lives in
+// ContactForm (mailto action, no submit endpoint); the details column carries
+// both emails, the registered office + CIN, and the shared social icons.
+
+const LABEL = 'text-[14px] font-bold leading-[1.5] text-[#5c5c5c]'
+const VALUE = 'text-[16px] font-bold leading-[1.5] tracking-[0.16px] text-[#202020]'
+const EMAIL = `${VALUE} outline-none underline-offset-4 hover:underline focus-visible:underline`
 
 export default function ContactPage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="py-16 sm:py-24">
-        <Container className="flex flex-col items-center gap-6 text-center">
-          <Kicker>Contact</Kicker>
-          <h1 className="max-w-2xl">Questions? Talk to a real person.</h1>
-          <p className="max-w-xl text-lg text-muted">
+    <div style={{ fontFamily: HELV }} className="text-[#202020]">
+      {/* ============================= HERO (364:4889) ========================= */}
+      <section className="px-6 pb-[64px] pt-[64px] sm:pb-[80px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[26px] text-center">
+          <RuleRow>Contact</RuleRow>
+          <h1
+            style={{ fontFamily: HELV }}
+            className={`max-w-[704px] text-[#202020] ${FRAME_TYPE.display}`}
+          >
+            Questions? Talk to a real person.
+          </h1>
+          <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
             Not ready for an audit yet? Just want to ask something? Send a note and we&#39;ll get
             back to you within a day.
           </p>
-        </Container>
+        </div>
       </section>
 
-      {/* Form + details */}
-      <section className="pb-16 sm:pb-24">
-        <Container>
-          <div className="grid gap-10 md:grid-cols-2 md:gap-12">
+      {/* ==================== FORM + DETAILS (364:4941) ======================== */}
+      <section className="px-6 pb-[80px] sm:pb-[100px]">
+        <div className="mx-auto flex max-w-[984px] flex-col items-stretch gap-[40px] md:flex-row md:items-center md:gap-[24px]">
+          <div className="w-full md:flex-1">
             <ContactForm />
+          </div>
 
-            <div className="flex flex-col justify-center gap-10">
-              <div className="flex flex-col gap-1">
-                <p className="text-sm font-medium text-muted">Prefer email?</p>
-                <a
-                  href="mailto:hello@zegwastudio.com"
-                  className="font-medium text-text underline underline-offset-4"
-                >
+          <div className="flex w-full flex-col items-center gap-[64px] md:flex-1">
+            {/* Emails */}
+            <div className="flex w-full max-w-[367px] flex-col gap-[16px]">
+              <div className="flex flex-col">
+                <p className={LABEL}>Prefer email?</p>
+                <a href="mailto:hello@zegwastudio.com" className={EMAIL}>
                   hello@zegwastudio.com
                 </a>
-                <p className="mt-4 text-sm font-medium text-muted">Privacy or data questions?</p>
-                <a
-                  href="mailto:privacy@zegwastudio.com"
-                  className="font-medium text-text underline underline-offset-4"
-                >
+              </div>
+              <div className="flex flex-col">
+                <p className={LABEL}>Privacy or data questions?</p>
+                <a href="mailto:privacy@zegwastudio.com" className={EMAIL}>
                   privacy@zegwastudio.com
                 </a>
               </div>
+            </div>
 
-              <div className="flex flex-col gap-1">
-                <p className="text-sm font-medium text-muted">Registered office:</p>
-                <address className="font-medium not-italic leading-relaxed text-text">
-                  Zegwa Studio (OPC) Private Limited
-                  <br />
-                  <br />
-                  No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore
-                  South, Karnataka, India 560095
-                  <br />
-                  <br />
-                  CIN: U62012KA2026OPC218915
-                </address>
+            {/* Registered office */}
+            <div className="flex w-full max-w-[367px] flex-col gap-[16px]">
+              <div className="flex flex-col">
+                <p className={LABEL}>Registered office:</p>
+                <p className={VALUE}>Zegwa Studio (OPC) Private Limited</p>
               </div>
+              <address className={`not-italic ${VALUE}`}>
+                No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore South,
+                Karnataka, India 560095
+              </address>
+              <p className={VALUE}>CIN: U62012KA2026OPC218915</p>
+            </div>
 
-              <div className="flex flex-col gap-3">
-                <p className="text-sm font-medium text-muted">Our Socials:</p>
-                <SocialLinks linkClassName="text-muted hover:text-text focus-visible:text-text" />
-              </div>
+            {/* Socials */}
+            <div className="flex w-full max-w-[367px] flex-col gap-[8px]">
+              <p className={LABEL}>Our Socials:</p>
+              <SocialLinks
+                size={16}
+                linkClassName="text-[#202020] hover:text-[#5c5c5c] focus-visible:text-[#5c5c5c]"
+              />
             </div>
           </div>
-        </Container>
+        </div>
       </section>
-    </>
+    </div>
   )
 }

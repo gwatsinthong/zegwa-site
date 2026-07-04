@@ -427,12 +427,18 @@ export function PillCta({
   tone = 'black',
   block = false,
   className = '',
+  onClick,
+  type = 'button',
 }: {
   label?: string
   href?: string
   tone?: 'black' | 'red' | 'light' | 'white' | 'blackFlat'
   block?: boolean
   className?: string
+  // When onClick is set (flat tones only), render a <button> instead of a Link,
+  // for form actions like Contact's Send that run JS rather than navigate.
+  onClick?: () => void
+  type?: 'button' | 'submit'
 }) {
   if (tone === 'light') {
     return (
@@ -452,14 +458,23 @@ export function PillCta({
         ? 'bg-gradient-to-b from-[#4a4a4a] to-black'
         : 'border border-[#fefefe] bg-[#fefefe]'
     const fg = tone === 'blackFlat' ? 'text-[#fefefe]' : 'text-[#202020]'
-    return (
-      <Link
-        href={href}
-        style={{ fontFamily: HELV }}
-        className={`${block ? 'w-full ' : ''}flex items-center justify-center gap-[10px] rounded-[999px] ${bg} px-[24px] py-[8px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`}
-      >
+    const cls = `${block ? 'w-full ' : ''}flex items-center justify-center gap-[10px] rounded-[999px] ${bg} px-[24px] py-[8px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`
+    const inner = (
+      <>
         <span className={`whitespace-nowrap text-[16px] font-bold tracking-[0.16px] ${fg}`}>{label}</span>
         <ArrowRight className={`h-[24px] w-[24px] ${fg}`} />
+      </>
+    )
+    if (onClick) {
+      return (
+        <button type={type} onClick={onClick} style={{ fontFamily: HELV }} className={cls}>
+          {inner}
+        </button>
+      )
+    }
+    return (
+      <Link href={href} style={{ fontFamily: HELV }} className={cls}>
+        {inner}
       </Link>
     )
   }

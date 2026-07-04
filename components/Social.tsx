@@ -24,10 +24,19 @@ export const SOCIALS: { label: string; path: string }[] = [
   },
 ]
 
-// linkClassName controls color (footer is on dark, Contact is on light).
-export function SocialLinks({ linkClassName = '' }: { linkClassName?: string }) {
+// Shared across the footer and the Contact page. `size` is the icon edge in px
+// and defaults to 18 (the footer's established size, left untouched); the
+// Contact page passes 16 to match its frame (364:5132). linkClassName controls
+// color (footer is on dark, Contact is on light) so both callers stay in sync.
+export function SocialLinks({
+  linkClassName = '',
+  size = 18,
+}: {
+  linkClassName?: string
+  size?: number
+}) {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-[16px]">
       {SOCIALS.map((s) => (
         <a
           key={s.label}
@@ -35,7 +44,7 @@ export function SocialLinks({ linkClassName = '' }: { linkClassName?: string }) 
           aria-label={`Zegwa on ${s.label}`}
           className={`outline-none transition-colors ${linkClassName}`}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d={s.path} />
           </svg>
         </a>
