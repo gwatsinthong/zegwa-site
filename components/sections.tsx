@@ -203,43 +203,51 @@ export type LegalContent = {
   sections: LegalSection[]
 }
 
+// Frame-faithful legal styling (Privacy 364:5158 / Terms 387:1819 / Cookie
+// 387:2000). Body is 16px Helvetica in #202020; section headings are 24px bold.
+// Labels are bold inline lead-ins.
+
 function Labeled({ label, text }: { label: string; text: string }) {
   return (
     <>
-      <strong className="font-semibold">{label}</strong>
+      <strong className="font-bold">{label}</strong>
       {text}
     </>
   )
 }
 
-function LegalBlockView({ block }: { block: LegalBlock }) {
+function LegalBlockView({ block, first = false }: { block: LegalBlock; first?: boolean }) {
   switch (block.k) {
     case 'p':
       return (
         <p>{block.label ? <Labeled label={block.label} text={block.text} /> : block.text}</p>
       )
     case 'sub':
-      return <p className="font-semibold text-text">{block.text}</p>
+      // A bold lead-in that starts a new group; extra top space unless it opens
+      // the section (matches the frame's blank-line grouping).
+      return <p className={`font-bold text-[#202020] ${first ? '' : 'mt-[12px]'}`}>{block.text}</p>
     case 'ul':
       return (
-        <ul className="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        <ul className="flex list-disc flex-col gap-[8px] pl-[20px] marker:text-[#202020]">
           {block.items.map((item, i) => (
-            <li key={i}>
+            <li key={i} className="pl-[4px]">
               {typeof item === 'string' ? item : <Labeled label={item.label} text={item.text} />}
             </li>
           ))}
         </ul>
       )
     case 'table':
+      // The frame renders these as borderless text columns: 14px bold headers,
+      // 16px cells, column gaps, no rules or fills. Scrolls on narrow screens.
       return (
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[34rem] border-collapse text-sm">
+        <div className="overflow-x-auto pt-[8px]">
+          <table className="w-full min-w-[460px] border-collapse text-left align-top">
             <thead>
               <tr>
                 {block.head.map((h) => (
                   <th
                     key={h}
-                    className="border border-hairline bg-black/[0.03] px-3 py-2 text-left font-semibold text-text"
+                    className="pb-[12px] pr-[24px] align-top text-[14px] font-bold leading-[1.5] text-[#202020] last:pr-0"
                   >
                     {h}
                   </th>
@@ -248,9 +256,12 @@ function LegalBlockView({ block }: { block: LegalBlock }) {
             </thead>
             <tbody>
               {block.rows.map((row, i) => (
-                <tr key={i}>
+                <tr key={i} className="align-top">
                   {row.map((cell, j) => (
-                    <td key={j} className="border border-hairline px-3 py-2 align-top text-muted">
+                    <td
+                      key={j}
+                      className="py-[6px] pr-[24px] align-top text-[16px] leading-[1.5] text-[#202020] last:pr-0"
+                    >
                       {cell}
                     </td>
                   ))}
@@ -265,36 +276,45 @@ function LegalBlockView({ block }: { block: LegalBlock }) {
 
 export function LegalPage({ content }: { content: LegalContent }) {
   return (
-    <>
-      <section className="py-16 sm:py-20">
-        <Container className="flex flex-col items-center gap-6 text-center">
-          <Kicker>{content.kicker}</Kicker>
-          <h1>{content.title}</h1>
-          <p className="text-muted">
-            {content.org}
-            <br />
-            {content.updated}
-          </p>
-        </Container>
-      </section>
-
-      <section className="pb-20 sm:pb-24">
-        <div className="mx-auto w-full max-w-2xl px-6">
-          <div className="flex flex-col gap-12">
-            {content.sections.map((section, i) => (
-              <div key={i} className={i > 0 ? 'border-t border-hairline pt-12' : ''}>
-                <h2 className="mb-5 font-display text-2xl">{section.heading}</h2>
-                <div className="flex flex-col gap-4 text-base leading-relaxed text-text">
-                  {section.blocks.map((block, j) => (
-                    <LegalBlockView key={j} block={block} />
-                  ))}
-                </div>
-              </div>
-            ))}
+    <div style={{ fontFamily: HELV }} className="text-[#202020]">
+      {/* Hero (e.g. 364:5161): rule kicker, 56px title, org + last-updated. */}
+      <section className="px-6 pb-[64px] pt-[64px] sm:pb-[80px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[26px] text-center">
+          <RuleRow>{content.kicker}</RuleRow>
+          <h1
+            style={{ fontFamily: HELV }}
+            className={`max-w-[704px] text-[#202020] ${FRAME_TYPE.display}`}
+          >
+            {content.title}
+          </h1>
+          <div className="max-w-[503px]">
+            <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#202020]">
+              {content.org}
+            </p>
+            <p className="text-[20px] leading-[1.5] text-[#5c5c5c]">{content.updated}</p>
           </div>
         </div>
       </section>
-    </>
+
+      {/* Reading column (frame 500px). Sections stacked with 64px gaps. */}
+      <section className="px-6 pb-[80px] sm:pb-[100px]">
+        <div className="mx-auto flex max-w-[500px] flex-col gap-[64px]">
+          {content.sections.map((section, i) => (
+            <div key={i} className="flex flex-col gap-[8px] text-[16px] leading-[1.5] text-[#202020]">
+              <h2
+                style={{ fontFamily: HELV }}
+                className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#202020]"
+              >
+                {section.heading}
+              </h2>
+              {section.blocks.map((block, j) => (
+                <LegalBlockView key={j} block={block} first={j === 0} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
   )
 }
 
