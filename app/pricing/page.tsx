@@ -1,8 +1,16 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import AuditCta from '@/components/AuditCta'
-import { Arrow } from '@/components/icons'
-import { Container, Kicker, SectionMark, TierCard, type Price } from '@/components/sections'
+import {
+  HELV,
+  FRAME_TYPE,
+  ArrowRight,
+  Framed,
+  RuleRow,
+  Mark,
+  PillCta,
+  TierCard,
+  type Price,
+} from '@/components/sections'
 
 export const metadata: Metadata = {
   title: 'Pricing · Zegwa',
@@ -10,7 +18,13 @@ export const metadata: Metadata = {
     'The price is on the page. Always. Pick what fixes your problem, or fix both and save.',
 }
 
-// Copy and figures are verbatim from Figma frame 348:1723.
+// Figma-faithful rebuild of frame 348:1723 "Pricing" (body only; the shell
+// supplies Header + Footer). Exact radii, colors, gradients, shadows, and type
+// sizes are read per node. Font target is Helvetica Now Display. Images are
+// labeled placeholders at the frame's dimensions; swap points are commented.
+// CAPTURE CARVE-OUT: the Capture tier and the Capture problem row render as
+// designed, but every CTA points to /start and no /capture route is linked.
+// Each Capture touchpoint is flagged inline.
 
 type Tier = {
   name: string
@@ -18,13 +32,14 @@ type Tier = {
   setup: Price
   monthly: Price
   features: string[]
-  cta: { label: string; href: string }
+  cta: { label: string; href: string; tone: 'white' | 'blackFlat' }
   highlighted?: boolean
+  bestValue?: string
 }
 
 const TIERS: Tier[] = [
   {
-    name: 'Found',
+    name: 'FOUND',
     tagline: 'Get found everywhere they look.',
     setup: { now: '$1,500', suffix: 'setup' },
     monthly: { prefix: '+', now: '$500', suffix: '/mo' },
@@ -35,10 +50,11 @@ const TIERS: Tier[] = [
       'Monthly upkeep and reporting',
       'No minimum. Cancel anytime.',
     ],
-    cta: { label: 'See the fix', href: '/start' },
+    cta: { label: 'See the fix', href: '/start', tone: 'white' },
   },
   {
-    name: 'Capture',
+    // CAPTURE CARVE-OUT: Capture tier renders as designed; CTA -> /start.
+    name: 'CAPTURE',
     tagline: 'Never miss a call or a booking.',
     setup: { now: '$3,000', suffix: 'setup' },
     monthly: { prefix: '+', now: '$1,000', suffix: '/mo per location' },
@@ -49,10 +65,10 @@ const TIERS: Tier[] = [
       '1,000 voice minutes, tuning, reporting',
       '3-month minimum, then cancel anytime.',
     ],
-    cta: { label: 'See the fix', href: '/start' },
+    cta: { label: 'See the fix', href: '/start', tone: 'white' },
   },
   {
-    name: 'Bundle',
+    name: 'BUNDLE',
     tagline: 'Get found and never miss a booking.',
     setup: { old: '$4,500', now: '$4,000', suffix: 'setup' },
     monthly: { prefix: '+', old: '$1,500', now: '$1,300', suffix: '/mo' },
@@ -62,126 +78,162 @@ const TIERS: Tier[] = [
       'Built together so nothing falls through',
       'Save $500 upfront and $200/mo.',
     ],
-    cta: { label: 'Get free audit', href: '/start' },
+    cta: { label: 'Get free audit', href: '/start', tone: 'blackFlat' },
     highlighted: true,
+    bestValue: 'BEST VALUE',
   },
 ]
 
-const PROBLEMS = [
+type Problem = {
+  name: string
+  heading: string
+  body: string
+  cta: { label: string; tone: 'light' | 'blackFlat' }
+}
+
+const PROBLEMS: Problem[] = [
   {
-    name: 'Found',
+    name: 'FOUND',
     heading: 'Nobody can find you online?',
     body: 'Get seen, get the site working, catch the easy leads.',
-    cta: 'Start with Found',
+    cta: { label: 'Start with Found', tone: 'light' },
   },
   {
-    name: 'Capture',
+    // CAPTURE CARVE-OUT: Capture problem row renders as designed; CTA -> /start.
+    name: 'CAPTURE',
     heading: 'Getting calls but missing them?',
     body: 'Every call answered, every booking kept. Nothing slips.',
-    cta: 'Start with Capture',
+    cta: { label: 'Start with Capture', tone: 'light' },
   },
   {
-    name: 'Bundle',
+    name: 'BUNDLE',
     heading: 'Got both problems?',
     body: 'The full system, built together, at a lower price.',
-    cta: 'Get the Bundle',
+    cta: { label: 'Get the Bundle', tone: 'blackFlat' },
   },
 ]
 
 export default function PricingPage() {
   return (
-    <>
-      {/* Hero + tiers */}
-      <section className="py-16 sm:py-24">
-        <Container className="flex flex-col items-center gap-14">
-          <div className="flex max-w-2xl flex-col items-center gap-6 text-center">
-            <Kicker>Pricing</Kicker>
-            <h1>The price is on the page. Always.</h1>
-            <p className="max-w-xl text-lg text-muted">
+    <div style={{ fontFamily: HELV }} className="text-[#202020]">
+      {/* ============================= HERO (348:1726) ========================= */}
+      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[1188px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[26px]">
+            <RuleRow>Pricing</RuleRow>
+            <h1
+              style={{ fontFamily: HELV }}
+              className={`max-w-[704px] text-center text-[#202020] ${FRAME_TYPE.display}`}
+            >
+              The price is on the page. Always.
+            </h1>
+            <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
               No calls to book, no quotes to chase. Pick what fixes your problem, or fix both and
               save.
             </p>
           </div>
 
-          <div className="grid w-full gap-6 lg:grid-cols-3">
-            {TIERS.map((tier) => (
-              <TierCard key={tier.name} {...tier} />
-            ))}
+          <div className="flex w-full flex-col items-center gap-[16px]">
+            {/* Tier cards (348:2770): three cards float on the grey counter backing */}
+            <Framed outer="p-[16px]" bare className="w-full">
+              <div className="flex flex-col gap-[16px] lg:flex-row">
+                {TIERS.map((tier) => (
+                  <TierCard key={tier.name} {...tier} />
+                ))}
+              </div>
+            </Framed>
+
+            {/* Contact line (348:2807) -> /contact */}
+            <p className="text-center text-[16px] leading-[1.5] text-[#777]">
+              Not sure which fits? We&#39;ll help you decide.{' '}
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-[4px] align-middle text-[16px] font-bold tracking-[0.16px] text-[#202020]"
+              >
+                Contact us
+                <ArrowRight className="h-[24px] w-[24px]" />
+              </Link>
+            </p>
+
+            <div className="mt-[16px] flex flex-col items-center gap-[12px]">
+              <PillCta />
+              <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+                Your audit in 24 hours. No strings.
+              </p>
+            </div>
           </div>
-
-          <p className="text-center text-muted">
-            Not sure which fits? We&#39;ll help you decide.{' '}
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-1 font-medium text-text underline underline-offset-4"
-            >
-              Contact us
-              <Arrow />
-            </Link>
-          </p>
-
-          <AuditCta />
-        </Container>
+        </div>
       </section>
 
-      {/* Not sure which one? */}
-      <section className="border-t border-hairline py-16 sm:py-24">
-        <Container className="flex flex-col items-center gap-14">
-          <div className="flex flex-col items-center gap-6 text-center">
-            <SectionMark />
-            <Kicker>Not sure which one?</Kicker>
-            <div className="flex max-w-xl flex-col gap-4">
-              <h2>Spot your problem below, then start there.</h2>
-              <p className="text-muted">
-                We handle the building, the setup, and the launch. You&#39;re live and booking in
-                two weeks.
+      {/* ===================== NOT SURE WHICH ONE? (348:4043) ================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark />
+            <RuleRow>Not sure which one?</RuleRow>
+            <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
+              <h2 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h2}`}>
+                Spot your problem below, then start there.
+              </h2>
+              <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
+                We handle the building, the setup, and the launch. You&#39;re live and booking in two
+                weeks.
               </p>
             </div>
           </div>
 
-          <div className="flex w-full max-w-5xl flex-col gap-6">
+          <div className="flex w-full flex-col gap-[24px]">
             {PROBLEMS.map((p) => (
-              <div
-                key={p.name}
-                className="grid items-center gap-8 border border-hairline bg-white p-6 md:grid-cols-2 md:gap-10 md:p-8"
-              >
-                <div
-                  className="aspect-video w-full border border-hairline bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]"
-                  aria-hidden="true"
-                />
-                <div className="flex flex-col gap-3">
-                  <p className="text-sm font-medium uppercase tracking-wide text-muted">
-                    {p.name}
-                  </p>
-                  <h3 className="font-display text-2xl">{p.heading}</h3>
-                  <p className="text-muted">{p.body}</p>
-                  <Link
-                    href="/start"
-                    className="mt-2 inline-flex items-center gap-1.5 font-medium text-text underline underline-offset-4"
-                  >
-                    {p.cta}
-                    <Arrow />
-                  </Link>
+              <Framed key={p.name} outer="p-[12px]" inner="p-[32px]" className="w-full">
+                <div className="flex flex-col items-center gap-[24px] sm:flex-row">
+                  {/* Swap: problem image for "{p.name}" (frame 400x267) */}
+                  <div className="flex aspect-[400/267] w-full shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de] sm:aspect-auto sm:h-[267px] sm:w-[400px]">
+                    <span className="text-[12px] uppercase tracking-wide text-[#777]">image</span>
+                  </div>
+
+                  <div className="flex flex-1 flex-col items-start gap-[32px]">
+                    <div className="flex w-full flex-col gap-[8px]">
+                      <p className="text-[14px] font-bold leading-[1.5] text-[#777]">{p.name}</p>
+                      <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h3}`}>
+                        {p.heading}
+                      </h3>
+                      <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{p.body}</p>
+                    </div>
+                    {/* CAPTURE CARVE-OUT applies to the Capture row; all rows -> /start */}
+                    <PillCta label={p.cta.label} href="/start" tone={p.cta.tone} />
+                  </div>
                 </div>
-              </div>
+              </Framed>
             ))}
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* Let's get started */}
-      <section className="border-t border-hairline py-16 sm:py-24">
-        <Container className="flex max-w-2xl flex-col items-center gap-6 text-center">
-          <SectionMark />
-          <Kicker>Let&#39;s get started</Kicker>
-          <h2>Still deciding? Start with the free audit.</h2>
-          <p className="max-w-lg text-lg text-muted">
-            We&#39;ll show you exactly what you&#39;re missing and which fix pays off first. No
-            pressure, no commitment.
-          </p>
-          <AuditCta className="mt-2" />
-        </Container>
+      {/* ====================== LET'S GET STARTED (348:2081) =================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[40px]">
+          <div className="flex flex-col items-center gap-[24px] text-center">
+            <Mark />
+            <RuleRow>Let&#39;s get started</RuleRow>
+            <h2
+              style={{ fontFamily: HELV }}
+              className={`max-w-[897px] text-[#202020] ${FRAME_TYPE.display}`}
+            >
+              Still deciding? Start with the free audit.
+            </h2>
+            <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+              We&#39;ll show you exactly what you&#39;re missing and which fix pays off first. No
+              pressure, no commitment.
+            </p>
+          </div>
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta />
+            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+              Your audit in 24 hours. No strings.
+            </p>
+          </div>
+        </div>
       </section>
-    </>
+    </div>
   )
 }

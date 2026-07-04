@@ -7,10 +7,11 @@ import { HELV } from './sections'
 // body. Dark band: gradient #272729 to #0c0c0d, #cecece top rule, #9d9a9a
 // labels, #cecece bold links. The STUDIO wordmark is red per the frame.
 
+// CAPTURE CARVE-OUT: no "Capture" link — /capture is out of scope. The item is
+// omitted (not repointed) so the footer offers only real routes.
 const OFFERS = [
   { label: 'Get free audit', href: '/start' },
   { label: 'Found', href: '/' },
-  { label: 'Capture', href: '/capture' },
   { label: 'Pricing', href: '/pricing' },
 ]
 

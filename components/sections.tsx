@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import ZMark from './ZMark'
-import { Arrow, Check } from './icons'
 
 // Red money figure. Reserved for loss-framing dollars in the sample report
 // (the leak, per-gap slices, the one-thing number, the do-nothing delta).
@@ -63,9 +62,10 @@ export function ToggleSign() {
   )
 }
 
-// A price line. `old` (if present) renders struck through, `now` is the live
-// figure. Reserved-red note: the strikethrough on `old` is red on purpose, to
-// match the Figma Bundle card. FLAG for review.
+// A price figure. `old` (if present) is the pre-bundle price, struck through in
+// accent red (the frame draws a hand-tilted red line; a straight red
+// line-through reads the same). `now` is the live figure. Setup renders `now`
+// large (48px, or 36px when an `old` sits beside it); monthly renders 32px.
 export type Price = {
   prefix?: string
   old?: string
@@ -73,26 +73,43 @@ export type Price = {
   suffix: string
 }
 
-function PriceLine({ price, lead }: { price: Price; lead?: boolean }) {
-  const num = price.old ? 'text-4xl' : lead ? 'text-5xl' : 'text-3xl'
+// Faint red wash behind the Bundle tier. Swap: the Figma "Pattern / 50% alt /
+// 90°" red squiggle tile, blended hard-light at 4%. This interlocking-arc tile
+// is a self-contained stand-in at the same 75px cell size and opacity.
+const BUNDLE_WASH =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='75' height='75'%3E%3Cg fill='none' stroke='%23f91626' stroke-width='6'%3E%3Ccircle cx='0' cy='0' r='19'/%3E%3Ccircle cx='75' cy='0' r='19'/%3E%3Ccircle cx='0' cy='75' r='19'/%3E%3Ccircle cx='75' cy='75' r='19'/%3E%3Ccircle cx='37.5' cy='37.5' r='19'/%3E%3C/g%3E%3C/svg%3E\")"
+
+function TierPrice({ price, lead }: { price: Price; lead?: boolean }) {
+  // lead = the large setup line (48px, or 36px when an old price sits beside it).
+  const nowSize = price.old
+    ? 'text-[36px] leading-[1.32] tracking-[-1.08px]'
+    : lead
+      ? 'text-[48px] leading-[1.24]'
+      : 'text-[32px] leading-[1.26] tracking-[-0.96px]'
+  const oldSize = lead
+    ? 'text-[36px] leading-[1.32] tracking-[-1.08px]'
+    : 'text-[32px] leading-[1.26] tracking-[-0.96px]'
+  const track = lead ? 'tracking-[-1.44px]' : 'tracking-[-0.72px]'
   return (
-    <p className="flex flex-wrap items-baseline gap-x-1.5 font-display leading-tight">
-      {price.prefix && <span className="text-3xl">{price.prefix}</span>}
+    <p style={{ fontFamily: HELV }} className={`whitespace-normal font-bold text-[#202020] sm:whitespace-nowrap ${track}`}>
+      {price.prefix && (
+        <span className="text-[32px] leading-[1.26] tracking-[-0.96px]">{price.prefix} </span>
+      )}
       {price.old && (
-        <span
-          className={`${num} text-[#9d9a9a] line-through decoration-accent-red decoration-[3px]`}
-        >
-          {price.old}
+        <span className={`text-[#9d9a9a] line-through decoration-[#f91626] decoration-2 ${oldSize}`}>
+          {price.old}{' '}
         </span>
       )}
-      <span className={num}>{price.now}</span>
-      <span className="text-xl text-muted">{price.suffix}</span>
+      <span className={nowSize}>{price.now}</span>
+      <span className="text-[24px] leading-[1.26] tracking-[-0.72px]"> {price.suffix}</span>
     </p>
   )
 }
 
-// Reusable pricing tier card. `highlighted` renders the reserved-red treatment
-// from the Figma Bundle tier (red border, red BEST VALUE tag, faint red wash).
+// Frame-faithful pricing tier card (Figma 348:2771 / 348:2938). Fixed 520px
+// height with the CTA pinned to the bottom. `highlighted` adds the Bundle
+// treatment: red border, faint red wash, red BEST VALUE tag, and red price
+// strikethroughs (driven by each Price's `old`).
 export function TierCard({
   name,
   tagline,
@@ -101,65 +118,66 @@ export function TierCard({
   features,
   cta,
   highlighted = false,
+  bestValue,
 }: {
   name: string
   tagline: string
   setup: Price
   monthly: Price
   features: string[]
-  cta: { label: string; href: string }
+  cta: { label: string; href: string; tone: 'white' | 'blackFlat' }
   highlighted?: boolean
+  bestValue?: string
 }) {
   return (
     <div
-      className={`relative flex flex-col justify-between gap-8 border bg-white p-6 ${
-        highlighted ? 'border-accent-red' : 'border-hairline'
+      style={{ fontFamily: HELV }}
+      className={`relative flex h-[520px] flex-1 flex-col items-center justify-between overflow-hidden rounded-[16px] bg-[#fefefe] p-[24px] shadow-[-1px_-1px_2px_0px_rgba(0,0,0,0.15),1px_1px_2px_0px_rgba(0,0,0,0.15)] ${
+        highlighted ? 'border border-[#f91626]' : ''
       }`}
     >
       {highlighted && (
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-accent-red opacity-[0.03]"
+            className="pointer-events-none absolute inset-0 opacity-[0.04]"
+            style={{ backgroundImage: BUNDLE_WASH, backgroundSize: '75px 75px' }}
           />
-          <span className="absolute right-6 top-6 z-10 text-sm font-medium tracking-wide text-accent-red">
-            BEST VALUE
-          </span>
+          {bestValue && (
+            <span className="absolute right-[24px] top-[24px] z-10 text-[14px] font-bold leading-[1.5] text-[#f91626]">
+              {bestValue}
+            </span>
+          )}
         </>
       )}
 
-      <div className="relative flex flex-col gap-6">
-        <p className="text-sm font-medium uppercase tracking-wide text-muted">{name}</p>
-        <p className="text-muted">{tagline}</p>
+      <div className="relative flex w-full flex-col items-start gap-[24px] overflow-hidden">
+        <p className="w-full text-[14px] font-bold leading-[1.5] text-[#777]">{name}</p>
+        <p className="w-full text-[16px] leading-[1.5] text-[#5c5c5c]">{tagline}</p>
 
-        <div className="flex flex-col">
-          <PriceLine price={setup} lead />
-          <PriceLine price={monthly} />
+        <div className="flex w-full flex-col gap-[16px]">
+          <div className="flex flex-col">
+            <TierPrice price={setup} lead />
+            <TierPrice price={monthly} />
+          </div>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #fefefe 0%, #dedede 30%, #dedede 70%, #fefefe 100%)',
+            }}
+          />
+          <CheckList items={features} gap="gap-[8px]" />
         </div>
-
-        <div className="h-px w-full bg-hairline" />
-
-        <ul className="flex flex-col gap-2.5">
-          {features.map((f) => (
-            <li key={f} className="flex gap-2.5">
-              <Check className="mt-0.5 shrink-0 text-text" />
-              <span className="text-muted">{f}</span>
-            </li>
-          ))}
-        </ul>
       </div>
 
-      <Link
+      <PillCta
+        label={cta.label}
         href={cta.href}
-        className={`relative flex w-full items-center justify-center gap-2 px-6 py-3 text-base font-medium outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-          highlighted
-            ? 'bg-text text-bg focus-visible:ring-text/40'
-            : 'border border-hairline bg-white text-text focus-visible:ring-text/30'
-        }`}
-      >
-        {cta.label}
-        <Arrow />
-      </Link>
+        tone={cta.tone}
+        block
+        className="relative z-10"
+      />
     </div>
   )
 }
@@ -397,16 +415,23 @@ export function Mark({ onDark = false }: { onDark?: boolean }) {
 }
 
 // Pill CTA. black/red are the ringed body CTAs; light is the frame's header CTA
-// (single #e8e8e8 pill, no ring). All reuse this one component.
+// (single #e8e8e8 pill, no ring). white/blackFlat are the flat, ringless pills
+// used inside the pricing tier cards and problem rows: `white` is the #fefefe
+// "See the fix" pill, `blackFlat` the black-gradient "Get free audit" / "Get the
+// Bundle" pill. `block` makes the pill span its container (tier CTAs); left off,
+// it hugs its label (problem-row CTAs, under an items-start parent). All reuse
+// this one component.
 export function PillCta({
   label = 'Get free audit',
   href = '/start',
   tone = 'black',
+  block = false,
   className = '',
 }: {
   label?: string
   href?: string
-  tone?: 'black' | 'red' | 'light'
+  tone?: 'black' | 'red' | 'light' | 'white' | 'blackFlat'
+  block?: boolean
   className?: string
 }) {
   if (tone === 'light') {
@@ -418,6 +443,23 @@ export function PillCta({
       >
         <span className="whitespace-nowrap text-[16px] font-bold tracking-[0.16px] text-[#202020]">{label}</span>
         <ArrowRight className="h-[24px] w-[24px] text-[#202020]" />
+      </Link>
+    )
+  }
+  if (tone === 'white' || tone === 'blackFlat') {
+    const bg =
+      tone === 'blackFlat'
+        ? 'bg-gradient-to-b from-[#4a4a4a] to-black'
+        : 'border border-[#fefefe] bg-[#fefefe]'
+    const fg = tone === 'blackFlat' ? 'text-[#fefefe]' : 'text-[#202020]'
+    return (
+      <Link
+        href={href}
+        style={{ fontFamily: HELV }}
+        className={`${block ? 'w-full ' : ''}flex items-center justify-center gap-[10px] rounded-[999px] ${bg} px-[24px] py-[8px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`}
+      >
+        <span className={`whitespace-nowrap text-[16px] font-bold tracking-[0.16px] ${fg}`}>{label}</span>
+        <ArrowRight className={`h-[24px] w-[24px] ${fg}`} />
       </Link>
     )
   }
