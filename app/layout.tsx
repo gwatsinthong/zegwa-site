@@ -46,14 +46,18 @@ export default function RootLayout({
         <SmoothScroll />
         {/* Two full-height vertical margin rules (frame 321:1284 / 1285, present
             on every frame): bg #cecece with a 1px #fefefe border on each side,
-            3px wide, at the 100px page insets (a centered 1240px column),
-            spanning the full document height. Absolute inside the isolated body
-            so they paint ABOVE the body surface fill but BEHIND content (a fixed
-            + -z-10 element paints behind the body's own background instead).
-            Hidden below the column width. */}
+            3px wide, spanning the full document height (top:0 -> bottom).
+            Horizontally they track the content column: a centered 1240px column
+            = the 1040px content column plus the frame's 100px inset on each
+            side, so at 1440 they sit at x=100 / x=1338 and at any wider width
+            they stay a constant 100px outside the centered content (not tied to
+            the raw viewport edge). z-[60] keeps them ABOVE the sticky header
+            (z-50) so they run from the very top; at x=100 / x=1337 they clear
+            all header content (logo, nav, pill), so the nav stays readable in
+            front. Hidden below the column width. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-1/2 -z-10 hidden w-full max-w-[1240px] -translate-x-1/2 min-[1240px]:block"
+          className="pointer-events-none absolute inset-y-0 left-1/2 z-[60] hidden w-full max-w-[1240px] -translate-x-1/2 min-[1240px]:block"
         >
           <span className="absolute inset-y-0 left-0 w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
           <span className="absolute inset-y-0 right-0 w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
