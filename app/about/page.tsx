@@ -1,6 +1,13 @@
 import type { Metadata } from 'next'
-import AuditCta from '@/components/AuditCta'
-import { ToggleSign, Container, Kicker, SectionMark } from '@/components/sections'
+import {
+  HELV,
+  FRAME_TYPE,
+  RuleRow,
+  Mark,
+  PillCta,
+  SplitFeature,
+  FaqList,
+} from '@/components/sections'
 
 export const metadata: Metadata = {
   title: 'About · Zegwa',
@@ -8,7 +15,11 @@ export const metadata: Metadata = {
     'A studio built to deliver, not to bill hours. We build it, run it, and hand you everything.',
 }
 
-// Copy is verbatim from Figma frame 360:4180 (the locked, polished version).
+// Figma-faithful rebuild of frame 360:4180 "About" (body only; the shell
+// supplies Header + Footer). Exact radii, colors, gradients, shadows, and type
+// sizes are read per node. Font target is Helvetica Now Display. The two
+// image cards are labeled placeholders at the frame's 293px height; swap points
+// are commented. All audit CTAs point to /start.
 
 const WORK = [
   {
@@ -46,89 +57,112 @@ const FAQS = [
 
 export default function AboutPage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="py-16 sm:py-24">
-        <Container className="flex flex-col items-center gap-10 text-center">
-          <div className="flex max-w-3xl flex-col items-center gap-6">
-            <Kicker>About</Kicker>
-            <h1>A studio built to deliver, not to bill hours.</h1>
-            <p className="max-w-xl text-lg text-muted">
+    <div style={{ fontFamily: HELV }} className="text-[#202020]">
+      {/* ============================= HERO (360:4183) ========================= */}
+      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
+          <div className="flex flex-col items-center gap-[26px]">
+            <RuleRow>About</RuleRow>
+            <h1
+              style={{ fontFamily: HELV }}
+              className={`max-w-[704px] text-center text-[#202020] ${FRAME_TYPE.display}`}
+            >
+              A studio built to deliver, not to bill hours.
+            </h1>
+            <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
               Businesses hire us to get found and stop missing bookings. We build it, run it, and
               hand you everything.
             </p>
           </div>
-          <AuditCta />
-        </Container>
-      </section>
-
-      {/* Statement */}
-      <section className="py-16 sm:py-24">
-        <Container>
-          <div className="mx-auto flex max-w-2xl flex-col gap-8 border-y border-hairline py-12 text-center">
-            <p className="font-display text-2xl leading-snug sm:text-3xl">
-              The old way of hiring this out is broken. Getting found and answering every call used
-              to mean an agency retainer, a full-time front desk, or both. Most local businesses
-              couldn&#39;t justify either. New tools changed the math. We can now build and run the
-              whole thing for a fraction of what it used to cost, and hand you finished work, not a
-              stack of hours billed. That gap is the entire reason Zegwa exists.
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta />
+            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+              Your audit in 24 hours. No strings.
             </p>
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* How we work + No lock-in */}
-      {WORK.map((section, i) => (
-        <section key={section.kicker} className="border-t border-hairline py-16 sm:py-24">
-          <Container className="flex flex-col items-center gap-14">
-            <div className="flex flex-col items-center gap-6 text-center">
-              <SectionMark />
-              <Kicker>{section.kicker}</Kicker>
-              <h2 className="max-w-2xl">{section.heading}</h2>
-            </div>
+      {/* ========================== STATEMENT (360:4733) ====================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[550px] flex-col items-center gap-[64px]">
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)',
+            }}
+          />
+          <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
+            <p>The old way of hiring this out is broken.</p>
+            <p className="mt-[1.32em]">
+              Getting found and answering every call used to mean an agency retainer, a full-time
+              front desk, or both. Most local businesses couldn&#39;t justify either.
+            </p>
+            <p className="mt-[1.32em] text-[#777]">
+              New tools changed the math. We can now build and run the whole thing for a fraction of
+              what it used to cost, and hand you finished work, not a stack of hours billed.
+            </p>
+            <p className="mt-[1.32em] text-[#777]">That gap is the entire reason Zegwa exists.</p>
+          </div>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+            }}
+          />
+        </div>
+      </section>
 
-            <div className="grid w-full max-w-5xl items-center gap-8 md:grid-cols-2 md:gap-12">
-              <div
-                className="aspect-[3/2] w-full border border-hairline bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]"
-                aria-hidden="true"
-              />
-              <div className="flex flex-col gap-4 text-xl leading-relaxed text-text">
-                {section.body.map((p, j) => (
-                  <p key={j}>{p}</p>
-                ))}
-              </div>
+      {/* =============== HOW WE WORK (360:4738) / NO LOCK-IN (364:4849) ======== */}
+      {WORK.map((section) => (
+        <section key={section.kicker} className="px-6 py-[80px] sm:py-[100px]">
+          <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+            <div className="flex flex-col items-center gap-[24px]">
+              <Mark />
+              <RuleRow>{section.kicker}</RuleRow>
+              <h2
+                style={{ fontFamily: HELV }}
+                className={`max-w-[572px] text-center text-[#202020] ${FRAME_TYPE.h2}`}
+              >
+                {section.heading}
+              </h2>
             </div>
-          </Container>
+            <SplitFeature body={section.body} />
+          </div>
         </section>
       ))}
 
-      {/* Let's get started + FAQ */}
-      <section className="border-t border-hairline py-16 sm:py-24" id="faq">
-        <Container className="flex flex-col items-center gap-14">
-          <div className="flex max-w-2xl flex-col items-center gap-6 text-center">
-            <SectionMark />
-            <Kicker>Let&#39;s get started</Kicker>
-            <h2>You know who we are. One step left.</h2>
-            <p className="max-w-lg text-lg text-muted">
-              Get your free audit in 24 hours. See exactly where you&#39;re losing bookings before
-              you decide anything.
-            </p>
-            <AuditCta className="mt-2" />
+      {/* =============== LET'S GET STARTED + FAQ (360:4361) =================== */}
+      <section id="faq" className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[40px]">
+            <div className="flex flex-col items-center gap-[24px] text-center">
+              <Mark />
+              <RuleRow>Let&#39;s get started</RuleRow>
+              <h2
+                style={{ fontFamily: HELV }}
+                className={`max-w-[897px] text-[#202020] ${FRAME_TYPE.display}`}
+              >
+                You know who we are. One step left.
+              </h2>
+              <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+                Get your free audit in 24 hours. See exactly where you&#39;re losing bookings before
+                you decide anything.
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-[12px]">
+              <PillCta />
+              <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+                Your audit in 24 hours. No strings.
+              </p>
+            </div>
           </div>
 
-          <div className="flex w-full max-w-2xl flex-col gap-3">
-            {FAQS.map((item) => (
-              <details key={item.q} className="group border border-hairline bg-white">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-6 outline-none [&::-webkit-details-marker]:hidden">
-                  <span className="font-display text-lg sm:text-xl">{item.q}</span>
-                  <ToggleSign />
-                </summary>
-                <p className="-mt-2 px-6 pb-6 text-muted">{item.a}</p>
-              </details>
-            ))}
-          </div>
-        </Container>
+          <FaqList items={FAQS} />
+        </div>
       </section>
-    </>
+    </div>
   )
 }
