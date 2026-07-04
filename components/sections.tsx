@@ -416,8 +416,14 @@ export function Framed({
 }
 
 export function RuleRow({ children, onDark = false }: { children: React.ReactNode; onDark?: boolean }) {
-  const left = onDark ? 'from-[#101010] to-[#7d7d7d]' : 'from-[#f0f0f0] to-[#cecece]'
-  const right = onDark ? 'from-[#7d7d7d] to-[#101010]' : 'from-[#cecece] to-[#f0f0f0]'
+  // Verbatim from frame 321:1308 / 321:1310: each 2px x 80px bar carries the
+  // gradient plus a 1px bottom border (#f0f0f0 left, #ffffff right).
+  const left = onDark
+    ? 'from-[#101010] to-[#7d7d7d]'
+    : 'from-[#f0f0f0] to-[#cecece] border-b border-[#f0f0f0]'
+  const right = onDark
+    ? 'from-[#7d7d7d] to-[#101010]'
+    : 'from-[#cecece] to-[#f0f0f0] border-b border-white'
   const tag = onDark ? 'text-[#9d9a9a]' : 'text-[#777]'
   return (
     <div className="flex items-center gap-[8px]">

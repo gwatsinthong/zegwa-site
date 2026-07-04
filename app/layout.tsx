@@ -37,7 +37,7 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${body.variable} ${serif.variable}`}
     >
-      <body className="flex min-h-screen flex-col bg-bg font-body text-text">
+      <body className="relative isolate flex min-h-screen flex-col bg-bg font-body text-text">
         {/* Organization + WebSite JSON-LD, rendered in the SSR/SSG HTML. */}
         <script
           type="application/ld+json"
@@ -45,12 +45,15 @@ export default function RootLayout({
         />
         <SmoothScroll />
         {/* Two full-height vertical margin rules (frame 321:1284 / 1285, present
-            on every frame): a #cecece hairline flanked by #fefefe, 3px wide, at
-            the 100px page insets (a 1240px column). Fixed, behind content, and
-            hidden below the column width. */}
+            on every frame): bg #cecece with a 1px #fefefe border on each side,
+            3px wide, at the 100px page insets (a centered 1240px column),
+            spanning the full document height. Absolute inside the isolated body
+            so they paint ABOVE the body surface fill but BEHIND content (a fixed
+            + -z-10 element paints behind the body's own background instead).
+            Hidden below the column width. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none fixed inset-y-0 left-1/2 -z-10 hidden w-full max-w-[1240px] -translate-x-1/2 min-[1240px]:block"
+          className="pointer-events-none absolute inset-y-0 left-1/2 -z-10 hidden w-full max-w-[1240px] -translate-x-1/2 min-[1240px]:block"
         >
           <span className="absolute inset-y-0 left-0 w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
           <span className="absolute inset-y-0 right-0 w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
