@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { pageMeta } from '@/lib/seo'
 import {
   HELV,
   FRAME_TYPE,
@@ -12,11 +13,12 @@ import {
   type Price,
 } from '@/components/sections'
 
-export const metadata: Metadata = {
-  title: 'Pricing · Zegwa',
+export const metadata: Metadata = pageMeta({
+  title: 'Pricing',
   description:
-    'The price is on the page. Always. Pick what fixes your problem, or fix both and save.',
-}
+    'See the price on the page. Get found with Found, answer every call with Capture, or bundle both and save. No quotes to chase.',
+  path: '/pricing',
+})
 
 // Figma-faithful rebuild of frame 348:1723 "Pricing" (body only; the shell
 // supplies Header + Footer). Exact radii, colors, gradients, shadows, and type

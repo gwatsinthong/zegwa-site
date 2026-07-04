@@ -2,12 +2,14 @@ import type { Metadata } from 'next'
 import ContactForm from '@/components/ContactForm'
 import { SocialLinks } from '@/components/Social'
 import { HELV, FRAME_TYPE, RuleRow } from '@/components/sections'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Contact · Zegwa',
+export const metadata: Metadata = pageMeta({
+  title: 'Contact',
   description:
-    'Questions? Talk to a real person. Send a note and we will get back to you within a day.',
-}
+    'Talk to a real person. Send a note and we reply within one business day, or start your free audit.',
+  path: '/contact',
+})
 
 // Figma-faithful rebuild of frame 364:4886 "Contact" (body only; the shell
 // supplies Header + Footer). Exact radii, colors, shadows, and type sizes are

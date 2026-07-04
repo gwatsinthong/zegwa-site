@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { Money, Callout } from '@/components/sections'
 import { Arrow, Check } from '@/components/icons'
 
+// Kept out of search: noindex + not in the sitemap. Shared manually only.
 export const metadata: Metadata = {
-  title: 'Sample audit report · Zegwa',
+  title: 'Sample audit report',
   description:
     'A sample of the free audit. The business shown is fictional. Your report uses your real numbers.',
   robots: { index: false, follow: false },

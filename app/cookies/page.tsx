@@ -1,7 +1,13 @@
 import type { Metadata } from 'next'
 import { LegalPage, type LegalContent } from '@/components/sections'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata: Metadata = { title: 'Cookie Policy · Zegwa' }
+export const metadata: Metadata = pageMeta({
+  title: 'Cookie Policy',
+  description:
+    'The cookies we use to run the site and, only with your consent, understand usage. No advertising or third-party marketing cookies.',
+  path: '/cookies',
+})
 
 // Copy is verbatim from Figma frame 387:2000. Legal text is authoritative.
 // Note: the frame's hero kicker text node reads "TERMS" (a copy-paste leftover);

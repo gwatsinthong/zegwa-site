@@ -1,7 +1,13 @@
 import type { Metadata } from 'next'
 import { LegalPage, type LegalContent } from '@/components/sections'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata: Metadata = { title: 'Privacy Policy · Zegwa' }
+export const metadata: Metadata = pageMeta({
+  title: 'Privacy Policy',
+  description:
+    'How Zegwa Studio collects, uses, and protects your data, and the rights you have under GDPR, CCPA, and the DPDP Act.',
+  path: '/privacy',
+})
 
 // Copy is verbatim from Figma frame 364:5158. Legal text is authoritative.
 

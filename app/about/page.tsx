@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/seo'
 import {
   HELV,
   FRAME_TYPE,
@@ -9,11 +10,12 @@ import {
   FaqList,
 } from '@/components/sections'
 
-export const metadata: Metadata = {
-  title: 'About · Zegwa',
+export const metadata: Metadata = pageMeta({
+  title: 'About',
   description:
-    'A studio built to deliver, not to bill hours. We build it, run it, and hand you everything.',
-}
+    'A small studio that builds and runs your web presence and AI front desk, then hands you everything you own. New, and honest about it.',
+  path: '/about',
+})
 
 // Figma-faithful rebuild of frame 360:4180 "About" (body only; the shell
 // supplies Header + Footer). Exact radii, colors, gradients, shadows, and type

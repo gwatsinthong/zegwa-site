@@ -1,7 +1,13 @@
 import type { Metadata } from 'next'
 import AuditForm from '@/components/AuditForm'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata: Metadata = { title: 'Get free audit · Zegwa' }
+export const metadata: Metadata = pageMeta({
+  title: 'Get your free audit',
+  description:
+    'Tell us about your business and we show you where bookings are slipping, in 24 hours, free. No calls and no commitment.',
+  path: '/start',
+})
 
 export default function StartPage() {
   return (

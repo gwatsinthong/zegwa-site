@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { pageMeta } from '@/lib/seo'
 import {
   HELV,
   ArrowRight,
@@ -11,11 +12,13 @@ import {
   CheckList,
 } from '@/components/sections'
 
-export const metadata: Metadata = {
-  title: 'Zegwa · Get found before your competitor',
+export const metadata: Metadata = pageMeta({
+  title: 'Zegwa Studio: get found and never miss a booking',
   description:
-    'A website and online presence that puts you on Google, maps, directories, and AI search. Live in days.',
-}
+    'We build your web presence and an AI front desk so local businesses show up in search and answer every call. Get a free audit in 24 hours.',
+  path: '/',
+  absoluteTitle: true,
+})
 
 // Figma-faithful rebuild of frame 321:1283 "Found" (body only; the shell
 // supplies Header + Footer). Exact radii, colors, gradients, shadows, and type
