@@ -157,8 +157,13 @@ export default function FoundPage() {
             </p>
           </div>
 
-          {/* VSL block (321:1318). Swap: hero-vsl-poster */}
-          <Framed outer="p-[12px]" inner="p-[10px]" innerShadow="shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]" className="w-full max-w-[927px]">
+          {/* VSL block (frame 321:1318 / 1319 / 1320): outer bezel rounded-[24px]
+              border #fefefe + #e0e0e0 backing + inset ring; inner white card
+              rounded-[15px]; 903x508 screen rounded-[15px]. Outer width 947 =
+              903 + 20 (inner pad) + 24 (outer pad). Swap: hero-vsl-poster. */}
+          <div className="relative w-full max-w-[947px] rounded-[24px] border border-[#fefefe] p-[12px]">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[24px] bg-[#e0e0e0]" />
+            <div className="relative rounded-[15px] bg-[#fefefe] p-[10px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]">
             <div className="relative aspect-[903/508] w-full overflow-hidden rounded-[15px] bg-gradient-to-br from-[#4a4a4a] to-[#202020] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)]">
               <div className="absolute inset-0 bg-black/30" />
               <div className="absolute left-3 top-3">
@@ -174,7 +179,9 @@ export default function FoundPage() {
                 </div>
               </div>
             </div>
-          </Framed>
+            </div>
+            <div aria-hidden="true" className="pointer-events-none absolute inset-[-1px] rounded-[inherit] shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)]" />
+          </div>
 
           <div className="flex flex-col items-center gap-[12px]">
             <PillCta />

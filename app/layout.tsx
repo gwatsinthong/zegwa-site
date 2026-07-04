@@ -44,6 +44,17 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
         <SmoothScroll />
+        {/* Two full-height vertical margin rules (frame 321:1284 / 1285, present
+            on every frame): a #cecece hairline flanked by #fefefe, 3px wide, at
+            the 100px page insets (a 1240px column). Fixed, behind content, and
+            hidden below the column width. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-y-0 left-1/2 -z-10 hidden w-full max-w-[1240px] -translate-x-1/2 min-[1240px]:block"
+        >
+          <span className="absolute inset-y-0 left-0 w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
+          <span className="absolute inset-y-0 right-0 w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
+        </div>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
