@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import AuditCta from '@/components/AuditCta'
-import { Check, Play, Arrow } from '@/components/icons'
-import { Container, Kicker, SectionMark, ToggleSign } from '@/components/sections'
+import ZMark from '@/components/ZMark'
 
 export const metadata: Metadata = {
   title: 'Zegwa · Get found before your competitor',
@@ -10,7 +8,118 @@ export const metadata: Metadata = {
     'A website and online presence that puts you on Google, maps, directories, and AI search. Live in days.',
 }
 
-// Copy is verbatim from Figma frame 321:1283 (the locked, polished version).
+// Figma-faithful rebuild of frame 321:1283 "Found" (body only; the shell
+// supplies Header + Footer). Exact radii, colors, gradients, shadows, and type
+// sizes are read per node. Font target is Helvetica Now Display; the closest
+// available stack is used as a fallback until the licensed font is installed.
+// Real images are labeled placeholders at the frame's aspect ratios; swap
+// points are commented. CAPTURE CARVE-OUT: the pricing "Found + Capture bundle"
+// line is kept verbatim as text; "See pricing" points to /pricing, and no
+// /capture link is created. All audit CTAs point to /start.
+
+const HELV = "'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+
+function ArrowRight({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <polyline points="13 5 20 12 13 19" />
+    </svg>
+  )
+}
+
+function ArrowDown({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <line x1="12" y1="4" x2="12" y2="20" />
+      <polyline points="5 13 12 20 19 13" />
+    </svg>
+  )
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[24px] w-[24px] shrink-0" aria-hidden="true">
+      <polyline points="4 12.5 9.5 18 20 6" />
+    </svg>
+  )
+}
+
+// The frame's card: white 1px border, #e0e0e0 counter backing, inner #fefefe
+// card with layered drop shadows, plus an inset ring on the outer frame.
+function Framed({
+  outer = 'p-[12px]',
+  inner = 'p-[32px]',
+  innerClass = '',
+  innerShadow = 'shadow-[-1px_-1px_2px_0px_rgba(0,0,0,0.15),1px_1px_2px_0px_rgba(0,0,0,0.15)]',
+  bare = false,
+  className = '',
+  children,
+}: {
+  outer?: string
+  inner?: string
+  innerClass?: string
+  innerShadow?: string
+  // bare: no single white inner card; children (their own white cards) float
+  // directly on the #e0e0e0 counter backing, as the features grid and FAQ do.
+  bare?: boolean
+  className?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className={`relative rounded-[24px] border border-[#fefefe] ${outer} ${className}`}>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[24px] bg-[#e0e0e0]" />
+      {bare ? (
+        <div className="relative">{children}</div>
+      ) : (
+        <div className={`relative rounded-[16px] bg-[#fefefe] ${innerShadow} ${inner} ${innerClass}`}>
+          {children}
+        </div>
+      )}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-[-1px] rounded-[inherit] shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)]" />
+    </div>
+  )
+}
+
+function RuleRow({ children, onDark = false }: { children: React.ReactNode; onDark?: boolean }) {
+  const left = onDark ? 'from-[#101010] to-[#7d7d7d]' : 'from-[#f0f0f0] to-[#cecece]'
+  const right = onDark ? 'from-[#7d7d7d] to-[#101010]' : 'from-[#cecece] to-[#f0f0f0]'
+  const tag = onDark ? 'text-[#9d9a9a]' : 'text-[#777]'
+  return (
+    <div className="flex items-center gap-[8px]">
+      <span className={`h-[2px] w-[80px] bg-gradient-to-r ${left}`} />
+      <span className={`whitespace-nowrap text-[14px] font-medium uppercase leading-none ${tag}`}>
+        {children}
+      </span>
+      <span className={`h-[2px] w-[80px] bg-gradient-to-r ${right}`} />
+    </div>
+  )
+}
+
+function Mark({ onDark = false }: { onDark?: boolean }) {
+  return <ZMark className={`h-[23px] w-[24px] ${onDark ? 'text-[#9d9a9a]' : 'text-[#202020]'}`} />
+}
+
+function PillCta({
+  label = 'Get free audit',
+  href = '/start',
+  tone = 'black',
+}: {
+  label?: string
+  href?: string
+  tone?: 'black' | 'red'
+}) {
+  const ring = tone === 'red' ? 'border-[#512a2a]' : 'border-[#cecece]'
+  const grad = tone === 'red' ? 'from-[#f91626] to-[#a80813]' : 'from-[#4a4a4a] to-black'
+  return (
+    <Link href={href} className={`inline-block rounded-[999px] border-[6px] ${ring} p-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40`}>
+      <span className={`flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b ${grad} px-[48px] py-[12px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] sm:px-[80px]`}>
+        <span className="text-[16px] font-bold tracking-[0.16px] text-[#fefefe]">{label}</span>
+        <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
+      </span>
+    </Link>
+  )
+}
 
 const FEATURES = [
   { title: 'Show up in search', desc: 'On Google, maps, and even when they ask AI search.' },
@@ -28,9 +137,9 @@ const BUILD_ROWS = [
   { build: 'One dashboard', does: 'Every visit, lead, and call tracked in one place you own' },
 ]
 
-const DELIVERABLES = [
+const DELIVERABLES_LEFT = [
   {
-    title: 'Your website',
+    title: 'YOUR WEBSITE',
     items: [
       'Conversion website, built to book',
       'A page for each core service',
@@ -45,7 +154,21 @@ const DELIVERABLES = [
     ],
   },
   {
-    title: 'Getting found',
+    title: 'TRUST & CONVERSION',
+    items: [
+      'Review-request flow setup',
+      'Before/after gallery and social-proof blocks',
+      'Social profile claim and setup',
+      'FAQ chat widget',
+      'Photo and media cleanup',
+      'Lead magnet / offer funnel',
+    ],
+  },
+]
+
+const DELIVERABLES_RIGHT = [
+  {
+    title: 'GETTING FOUND',
     items: [
       'On-page SEO, titles, meta, structured markup',
       'Local and service keyword research',
@@ -57,49 +180,35 @@ const DELIVERABLES = [
     ],
   },
   {
-    title: 'Day-one win',
-    items: [
-      'One-time dead-lead reactivation sweep, re-books past inquiries who never booked',
-    ],
+    title: 'DAY-ONE WIN',
+    items: ['One-time dead-lead reactivation sweep, re-books past inquiries who never booked'],
   },
   {
-    title: 'Trust & conversion',
-    items: [
-      'Review-request flow setup',
-      'Before/after gallery and social-proof blocks',
-      'Social profile claim and setup',
-      'FAQ chat widget',
-      'Photo and media cleanup',
-      'Lead magnet / offer funnel',
-    ],
-  },
-  {
-    title: 'Tracking & ownership',
+    title: 'TRACKING & OWNERSHIP',
     items: [
       'Analytics and conversion tracking',
       'One dashboard, every visit and lead logged',
       'The site, content, and data are yours to keep',
     ],
   },
-  {
-    title: 'Ongoing (monthly)',
-    items: [
-      'Listings and citation upkeep',
-      'Review monitoring with AI-drafted responses',
-      'AI search (AEO) maintenance',
-      'Monthly performance report',
-    ],
-  },
+]
+
+const ONGOING = [
+  'Listings and citation upkeep',
+  'Review monitoring with AI-drafted responses',
+  'AI search (AEO) maintenance',
+  'Monthly performance report',
 ]
 
 const SETUP_ITEMS = [
   'The whole site and presence, built for you',
-  'Google, maps, directories, and AI search set up',
-  'Reviews, photos, and social profiles handled',
-  'Everything is yours to keep',
+  'Google, maps, directories, and AI search',
+  'Reviews, photos, and social handled',
+  'Monthly upkeep and reporting',
+  'No minimum. Cancel anytime.',
 ]
 
-const ONGOING_ITEMS = [
+const PRICING_ONGOING_ITEMS = [
   'Your listings and citations kept accurate everywhere',
   'New reviews answered for you, in your voice',
   'Your AI and local presence maintained as things shift',
@@ -107,10 +216,7 @@ const ONGOING_ITEMS = [
 ]
 
 const FAQS = [
-  {
-    q: 'Is there a contract?',
-    a: "No minimum on Found. It's month to month. Cancel anytime.",
-  },
+  { q: 'Is there a contract?', a: "No minimum on Found. It's month to month. Cancel anytime." },
   {
     q: 'I already have a website. Do I need a new one?',
     a: "Not always. The audit shows what's working and what's costing you bookings. Sometimes we improve what you have, sometimes a rebuild pays for itself.",
@@ -121,274 +227,356 @@ const FAQS = [
   },
 ]
 
+function CheckList({ items, gap = 'gap-[4px]' }: { items: string[]; gap?: string }) {
+  return (
+    <div className={`flex flex-col ${gap}`}>
+      {items.map((it) => (
+        <div key={it} className="flex items-start gap-[4px]">
+          <CheckIcon />
+          <p className="flex-1 text-[16px] leading-[1.5] text-[#5c5c5c]">{it}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function FoundPage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="py-16 sm:py-24">
-        <Container className="flex flex-col items-center gap-12 text-center">
-          <div className="flex max-w-3xl flex-col items-center gap-6">
-            <Kicker>Found</Kicker>
-            <h1>Show up when they search, before your competitor.</h1>
-            <p className="max-w-xl text-lg text-muted">
+    <div style={{ fontFamily: HELV }} className="text-[#202020]">
+      {/* ============================ HERO (321:1286) ============================ */}
+      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
+          <div className="flex flex-col items-center gap-[26px]">
+            <RuleRow>Found</RuleRow>
+            <h1
+              style={{ fontFamily: HELV }}
+              className="max-w-[704px] text-center text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]"
+            >
+              Show up when they search, before your competitor.
+            </h1>
+            <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
               A website and online presence that puts you on Google, maps, directories, and AI
               search. Live in days.
             </p>
           </div>
 
-          {/* VSL: poster placeholder with the reserved red play button */}
-          <div className="relative aspect-video w-full max-w-4xl overflow-hidden border border-hairline bg-gradient-to-br from-[#e6e5e2] to-[#d6d5d2]">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <button
-                type="button"
-                aria-label="Play the video"
-                className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-accent-red text-white shadow-sm outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#d6d5d2]"
-              >
-                <Play className="ml-0.5" />
-              </button>
+          {/* VSL block (321:1318). Swap: hero-vsl-poster */}
+          <Framed outer="p-[12px]" inner="p-[10px]" innerShadow="shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]" className="w-full max-w-[927px]">
+            <div className="relative aspect-[903/508] w-full overflow-hidden rounded-[15px] bg-gradient-to-br from-[#4a4a4a] to-[#202020] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)]">
+              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute left-3 top-3">
+                <span className="text-[12px] uppercase tracking-wide text-white/70">VSL poster (sample)</span>
+              </div>
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="rounded-[999px] border-[6px] border-[#cecece] p-[6px]">
+                  <div className="flex items-center justify-center rounded-[999px] bg-gradient-to-b from-[#f91626] to-[#a80813] p-[12px]">
+                    <svg viewBox="0 0 24 24" fill="#fefefe" className="h-[24px] w-[24px]" aria-hidden="true">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </Framed>
 
-          <AuditCta />
-        </Container>
-      </section>
-
-      {/* Statement */}
-      <section className="py-16 sm:py-24">
-        <Container>
-          <div className="mx-auto flex max-w-2xl flex-col gap-8 border-y border-hairline py-12 text-center">
-            <p className="font-display text-2xl leading-snug sm:text-3xl">
-              Most businesses are invisible online. They don&#39;t show up in search, and the site
-              they have just sits there. The customers looking right now are finding someone else.
-              We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free audit
-              shows you exactly where you&#39;re losing customers first. Then you decide.
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta />
+            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+              Your audit in 24 hours. No strings.
             </p>
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* What you get */}
-      <section className="border-t border-hairline py-16 sm:py-24">
-        <Container className="flex flex-col items-center gap-14">
-          <div className="flex flex-col items-center gap-6 text-center">
-            <SectionMark />
-            <Kicker>What you get</Kicker>
-            <div className="flex max-w-xl flex-col gap-4">
-              <h2>A website alone won&#39;t get you found.</h2>
-              <p className="text-muted">
+      {/* ========================= STATEMENT (321:1331) ========================= */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[550px] flex-col items-center gap-[64px]">
+          <div className="h-[2px] w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)' }} />
+          <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
+            <p>
+              Most businesses are invisible online. They don&#39;t show up in search, and the site
+              they have just sits there. The customers looking right now are finding someone else.
+            </p>
+            <p className="mt-[1.32em] text-[#777]">
+              We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
+              audit shows you exactly where you&#39;re losing customers first. Then you decide.
+            </p>
+          </div>
+          <div className="h-[2px] w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)' }} />
+        </div>
+      </section>
+
+      {/* ========================= WHAT YOU GET (321:1336) ====================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark />
+            <RuleRow>What you get</RuleRow>
+            <div className="flex max-w-[500px] flex-col items-center gap-[24px] text-center">
+              <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
+                A website alone won&#39;t get you found.
+              </h2>
+              <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
                 Being found takes search, maps, directories, and reviews. We handle all of it.
               </p>
             </div>
           </div>
 
-          <div className="grid w-full gap-6 sm:grid-cols-2">
-            {FEATURES.map((f) => (
-              <div key={f.title} className="flex flex-col gap-6 border border-hairline bg-white p-8">
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-display text-2xl sm:text-3xl">{f.title}</h3>
-                  <p className="text-muted">{f.desc}</p>
+          <Framed outer="p-[16px]" bare className="w-full">
+            <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-2">
+              {FEATURES.map((f) => (
+                <div key={f.title} className="flex flex-col gap-[24px] rounded-[16px] bg-[#fefefe] p-[32px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]">
+                  <div className="flex flex-col gap-[8px]">
+                    <h3 style={{ fontFamily: HELV }} className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#202020] sm:text-[32px] sm:tracking-[-0.96px]">
+                      {f.title}
+                    </h3>
+                    <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{f.desc}</p>
+                  </div>
+                  {/* Swap: feature image for "{f.title}" */}
+                  <div className="flex aspect-[160/90] w-full items-center justify-center overflow-hidden rounded-[8px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]">
+                    <span className="text-[12px] uppercase tracking-wide text-[#777]">image</span>
+                  </div>
                 </div>
-                <div className="aspect-video w-full border border-hairline bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
-              </div>
-            ))}
-          </div>
-        </Container>
+              ))}
+            </div>
+          </Framed>
+        </div>
       </section>
 
-      {/* The cost of waiting (money band) */}
-      <section className="border-y-2 border-[#cecece] bg-[#202020] py-20 text-white sm:py-28">
-        <Container className="flex flex-col items-center gap-10 text-center">
-          <div className="flex flex-col items-center gap-6">
-            <SectionMark onDark />
-            <Kicker onDark>The cost of waiting</Kicker>
-            <h2 className="max-w-xl text-white">
+      {/* ===================== THE COST OF WAITING (321:1380) =================== */}
+      <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[80px] text-[#fefefe] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px] text-center">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark onDark />
+            <RuleRow onDark>The cost of waiting</RuleRow>
+            <h2 style={{ fontFamily: HELV }} className="max-w-[522px] text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
               Right now, someone&#39;s searching. They&#39;re not finding you.
             </h2>
           </div>
 
-          <p className="max-w-md text-xl font-semibold text-[#9d9a9a] sm:text-2xl">
+          <p className="max-w-[416px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
             Every day you&#39;re invisible is a customer who found your competitor instead.
           </p>
 
-          <p className="max-w-3xl font-display text-4xl leading-tight sm:text-5xl">
-            Recover 10 bookings. That&#39;s about{' '}
-            <span className="text-accent-red">$10,000</span> you almost lost.
+          <p className="max-w-[828px] text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#fefefe] sm:text-[56px] sm:tracking-[-2.24px]">
+            Recover 10 bookings. That&#39;s about <span className="text-[#f91626]">$10,000</span> you
+            almost lost.
           </p>
 
-          <div className="flex max-w-md flex-col gap-4 text-lg text-[#9d9a9a] sm:text-xl">
+          <div className="max-w-[416px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
             <p>And that&#39;s just the first month.</p>
-            <p>
+            <p className="mt-[1.26em]">
               Being found isn&#39;t luck. It&#39;s the setup most businesses never get around to. We
               do it in a few days.
             </p>
           </div>
 
-          <AuditCta variant="red" onDark className="mt-2" />
-        </Container>
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta tone="red" />
+            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
+              Your audit in 24 hours. No strings.
+            </p>
+          </div>
+        </div>
       </section>
 
-      {/* What's included */}
-      <section className="py-16 sm:py-24">
-        <Container className="flex flex-col items-center gap-14">
-          <div className="flex flex-col items-center gap-6 text-center">
-            <SectionMark />
-            <Kicker>What&#39;s included</Kicker>
-            <div className="flex max-w-xl flex-col gap-4">
-              <h2>Everything we build and run for you.</h2>
-              <p className="text-muted">
+      {/* ======================= WHAT'S INCLUDED (321:1397) ===================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark />
+            <RuleRow>What&#39;s included</RuleRow>
+            <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
+              <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
+                Everything we build and run for you.
+              </h2>
+              <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
                 Set up, optimized, and yours to keep. You don&#39;t touch any of it.
               </p>
             </div>
           </div>
 
-          <div className="w-full border border-hairline bg-white">
-            <div className="hidden grid-cols-2 gap-8 border-b border-hairline px-8 py-5 sm:grid">
-              <p className="text-sm font-medium uppercase tracking-wide text-muted">What we build</p>
-              <p className="text-sm font-medium uppercase tracking-wide text-muted">What it does</p>
-            </div>
-            {BUILD_ROWS.map((r) => (
-              <div
-                key={r.build}
-                className="grid gap-1 border-b border-hairline px-8 py-5 last:border-b-0 sm:grid-cols-2 sm:gap-8"
-              >
-                <p className="font-display text-lg">{r.build}</p>
-                <p className="text-muted">{r.does}</p>
+          {/* Summary table */}
+          <Framed outer="p-[12px]" inner="p-[24px] sm:p-[32px]" className="w-full max-w-[947px]">
+            <div className="flex flex-col gap-[24px]">
+              <div className="hidden items-start justify-between sm:flex">
+                <div className="flex w-[400px] flex-col gap-[8px]">
+                  <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">What we build</p>
+                  <div className="h-[2px] w-[178px] bg-gradient-to-r from-[#cecece] to-[#f0f0f0]" />
+                </div>
+                <div className="flex w-[400px] flex-col gap-[8px]">
+                  <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">What it does</p>
+                  <div className="h-[2px] w-[155px] bg-gradient-to-r from-[#cecece] to-[#f0f0f0]" />
+                </div>
               </div>
-            ))}
-          </div>
-
-          <details className="group w-full">
-            <summary className="mx-auto flex w-fit cursor-pointer list-none items-center gap-2 text-sm font-medium text-text outline-none [&::-webkit-details-marker]:hidden">
-              See everything included
-              <Arrow className="rotate-90 transition-transform group-open:-rotate-90" />
-            </summary>
-
-            <div className="mt-10 border border-hairline bg-white p-8 sm:p-10">
-              <p className="mb-8 text-center font-display text-xl">Full deliverables list</p>
-              <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
-                {DELIVERABLES.map((group) => (
-                  <div key={group.title} className="flex flex-col gap-4">
-                    <p className="text-sm uppercase tracking-wide text-muted">{group.title}</p>
-                    <ul className="flex flex-col gap-2.5">
-                      {group.items.map((item) => (
-                        <li key={item} className="flex gap-2.5">
-                          <Check className="mt-0.5 shrink-0 text-text" />
-                          <span className="text-muted">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+              <div className="flex flex-col gap-[24px]">
+                {BUILD_ROWS.map((r) => (
+                  <div key={r.build} className="flex flex-col items-start justify-between gap-[16px] sm:flex-row sm:items-center">
+                    <div className="flex w-full items-center gap-[24px] sm:w-[400px]">
+                      {/* Swap: build icon for "{r.build}" */}
+                      <div className="size-[64px] shrink-0 rounded-[12px] bg-[#fefefe] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]" />
+                      <p style={{ fontFamily: HELV }} className="text-[26px] font-bold leading-[1.26] tracking-[-0.96px] text-[#202020] sm:text-[32px]">{r.build}</p>
+                    </div>
+                    <p className="text-[18px] font-bold leading-[1.5] tracking-[-0.4px] text-[#5c5c5c] sm:w-[400px] sm:text-[20px]">{r.does}</p>
                   </div>
                 ))}
               </div>
             </div>
-          </details>
-        </Container>
+          </Framed>
+
+          {/* See everything included (321:1455) */}
+          <a href="#deliverables" className="flex items-center gap-[10px] rounded-[999px] border border-[#fefefe] bg-[#e8e8e8] px-[24px] py-[8px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30">
+            <span className="text-[16px] font-bold tracking-[0.16px] text-[#202020]">See everything included</span>
+            <ArrowDown className="h-[24px] w-[24px] text-[#202020]" />
+          </a>
+
+          {/* Full deliverables list */}
+          <Framed outer="p-[12px]" inner="p-[24px] sm:p-[32px]" className="w-full max-w-[947px]">
+            <div id="deliverables" className="flex flex-col gap-[32px]">
+              <div className="flex flex-col items-center gap-[8px]">
+                <p style={{ fontFamily: HELV }} className="text-center text-[26px] font-bold leading-[1.26] tracking-[-0.96px] text-[#777] sm:text-[32px]">
+                  Full Deliverables List
+                </p>
+                <div className="h-[2px] w-[298px] max-w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)' }} />
+              </div>
+              <div className="flex flex-col gap-[40px] sm:flex-row">
+                <div className="flex flex-1 flex-col gap-[32px]">
+                  {DELIVERABLES_LEFT.map((group) => (
+                    <div key={group.title} className="flex flex-col gap-[16px]">
+                      <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">{group.title}</p>
+                      <CheckList items={group.items} />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-1 flex-col gap-[32px]">
+                  {DELIVERABLES_RIGHT.map((group) => (
+                    <div key={group.title} className="flex flex-col gap-[16px]">
+                      <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">{group.title}</p>
+                      <CheckList items={group.items} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col gap-[16px]">
+                <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">ONGOING (monthly)</p>
+                <CheckList items={ONGOING} />
+              </div>
+            </div>
+          </Framed>
+        </div>
       </section>
 
-      {/* Pricing */}
-      <section className="border-t border-hairline py-16 sm:py-24">
-        <Container className="flex flex-col items-center gap-14">
-          <div className="flex flex-col items-center gap-6 text-center">
-            <SectionMark />
-            <Kicker>Pricing</Kicker>
-            <div className="flex max-w-xl flex-col gap-4">
-              <h2>The price is on the page. Always.</h2>
-              <p className="text-muted">
+      {/* ============================ PRICING (321:1567) ======================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark />
+            <RuleRow>Pricing</RuleRow>
+            <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
+              <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
+                The price is on the page. Always.
+              </h2>
+              <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
                 Everything built once, then a small monthly to keep you found. No minimum, cancel
                 anytime.
               </p>
             </div>
           </div>
 
-          <div className="w-full border border-hairline bg-white">
-            <div className="grid gap-10 p-8 sm:grid-cols-2 sm:gap-0">
-              <PriceColumn label="Setup" price="$1,500" suffix="one-time" items={SETUP_ITEMS} />
-              <PriceColumn
-                label="Ongoing"
-                price="$500"
-                suffix="/mo"
-                items={ONGOING_ITEMS}
-                className="sm:border-l sm:border-hairline sm:pl-10"
-              />
+          <div className="flex w-full flex-col items-center gap-[16px]">
+            <div className="flex w-full flex-col gap-[32px]">
+              <div className="h-[2px] w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)' }} />
+              <Framed outer="p-[16px]" inner="p-[24px] sm:p-[32px]" className="w-full">
+                <div className="flex flex-col gap-[32px] sm:flex-row">
+                  <div className="flex flex-1 flex-col gap-[40px] px-[16px] py-[24px]">
+                    <p className="text-[20px] leading-[1.5] text-[#202020]">SETUP</p>
+                    <div className="flex flex-col gap-[16px]">
+                      <p style={{ fontFamily: HELV }} className="font-bold tracking-[-1.44px] text-[#202020]">
+                        <span className="text-[48px] leading-[1.24]">$1,500 </span>
+                        <span className="text-[32px] leading-[1.26] tracking-[-0.96px]">one-time</span>
+                      </p>
+                      <CheckList items={SETUP_ITEMS} gap="gap-[8px]" />
+                    </div>
+                  </div>
+                  <div className="h-[2px] w-full self-stretch bg-gradient-to-r from-[#fefefe] via-[#dedede] to-[#fefefe] sm:h-auto sm:w-[2px] sm:bg-gradient-to-b" />
+                  <div className="flex flex-1 flex-col gap-[40px] px-[16px] py-[24px]">
+                    <p className="text-[20px] leading-[1.5] text-[#202020]">ONGOING</p>
+                    <div className="flex flex-col gap-[16px]">
+                      <p style={{ fontFamily: HELV }} className="font-bold tracking-[-1.44px] text-[#202020]">
+                        <span className="text-[48px] leading-[1.24]">$500</span>
+                        <span className="text-[24px] leading-[1.26]">/mo</span>
+                      </p>
+                      <CheckList items={PRICING_ONGOING_ITEMS} gap="gap-[8px]" />
+                    </div>
+                  </div>
+                </div>
+              </Framed>
+            </div>
+
+            {/* CAPTURE CARVE-OUT: verbatim bundle text kept; "See pricing" -> /pricing */}
+            <div className="flex flex-wrap items-end justify-center gap-[4px] text-center">
+              <p className="text-[16px] leading-[1.5] text-[#777]">
+                Want the calls handled too? The Found + Capture bundle saves on both.
+              </p>
+              <Link href="/pricing" className="inline-flex items-center gap-[4px] text-[16px] font-bold tracking-[0.16px] text-[#202020]">
+                See pricing
+                <ArrowRight className="h-[24px] w-[24px]" />
+              </Link>
+            </div>
+
+            <div className="mt-[16px] flex flex-col items-center gap-[12px]">
+              <PillCta />
+              <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+                Your audit in 24 hours. No strings.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== LET'S GET STARTED + FAQ (321:1623) ================= */}
+      <section id="faq" className="border-b border-[#fefefe] px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[40px]">
+            <div className="flex flex-col items-center gap-[24px] text-center">
+              <Mark />
+              <RuleRow>Let&#39;s get started</RuleRow>
+              <h2 style={{ fontFamily: HELV }} className="max-w-[897px] text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]">
+                The customers are searching. Let&#39;s make sure they find you.
+              </h2>
+              <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+                Get your free audit in 24 hours. See exactly where you&#39;re losing customers
+                before you decide anything.
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-[12px]">
+              <PillCta />
+              <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+                Your audit in 24 hours. No strings.
+              </p>
             </div>
           </div>
 
-          <p className="text-center text-muted">
-            Want the calls handled too? The Found + Capture bundle saves on both.{' '}
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-1 font-medium text-text underline underline-offset-4"
-            >
-              See pricing
-              <Arrow />
-            </Link>
-          </p>
-
-          <AuditCta />
-        </Container>
+          <Framed outer="p-[12px]" bare className="w-full max-w-[700px]">
+            <div className="flex flex-col gap-[10px]">
+              {FAQS.map((item) => (
+                <details key={item.q} className="group rounded-[12px] bg-[#fefefe] p-[24px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)]">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-[16px] [&::-webkit-details-marker]:hidden">
+                    <span style={{ fontFamily: HELV }} className="text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#202020] sm:text-[24px]">
+                      {item.q}
+                    </span>
+                    <span aria-hidden="true" className="relative flex size-[40px] shrink-0 items-center justify-center">
+                      <span className="absolute h-[2px] w-[16px] bg-[#202020]" />
+                      <span className="absolute h-[16px] w-[2px] bg-[#202020] transition-opacity group-open:opacity-0" />
+                    </span>
+                  </summary>
+                  <p className="mt-[16px] max-w-[500px] text-[16px] leading-[1.5] text-[#5c5c5c]">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </Framed>
+        </div>
       </section>
-
-      {/* Let's get started + FAQ */}
-      <section className="border-t border-hairline py-16 sm:py-24" id="faq">
-        <Container className="flex flex-col items-center gap-14">
-          <div className="flex max-w-2xl flex-col items-center gap-6 text-center">
-            <SectionMark />
-            <Kicker>Let&#39;s get started</Kicker>
-            <h2>
-              The customers are searching. Let&#39;s make sure they find you.
-            </h2>
-            <p className="max-w-lg text-lg text-muted">
-              Get your free audit in 24 hours. See exactly where you&#39;re losing customers before
-              you decide anything.
-            </p>
-            <AuditCta className="mt-2" />
-          </div>
-
-          <div className="flex w-full max-w-2xl flex-col gap-3">
-            {FAQS.map((item) => (
-              <details key={item.q} className="group border border-hairline bg-white">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-6 outline-none [&::-webkit-details-marker]:hidden">
-                  <span className="font-display text-lg sm:text-xl">{item.q}</span>
-                  <ToggleSign />
-                </summary>
-                <p className="-mt-2 px-6 pb-6 text-muted">{item.a}</p>
-              </details>
-            ))}
-          </div>
-        </Container>
-      </section>
-    </>
-  )
-}
-
-function PriceColumn({
-  label,
-  price,
-  suffix,
-  items,
-  className = '',
-}: {
-  label: string
-  price: string
-  suffix: string
-  items: string[]
-  className?: string
-}) {
-  return (
-    <div className={`flex flex-col gap-8 ${className}`}>
-      <p className="text-lg uppercase tracking-wide text-muted">{label}</p>
-      <p className="font-display leading-none">
-        <span className="text-5xl">{price}</span>{' '}
-        <span className="text-2xl text-muted">{suffix}</span>
-      </p>
-      <ul className="flex flex-col gap-3">
-        {items.map((item) => (
-          <li key={item} className="flex gap-2.5">
-            <Check className="mt-0.5 shrink-0 text-text" />
-            <span className="text-muted">{item}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   )
 }
