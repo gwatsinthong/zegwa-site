@@ -44,24 +44,23 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
         <SmoothScroll />
-        {/* Two full-height vertical margin rules (frame 321:1284 / 1285, present
-            on every frame): bg #cecece with a 1px #fefefe border on each side,
-            3px wide, spanning the full document height (top:0 -> bottom).
-            Horizontally they track the content column: a centered 1240px column
-            = the 1040px content column plus the frame's 100px inset on each
-            side, so at 1440 they sit at x=100 / x=1338 and at any wider width
-            they stay a constant 100px outside the centered content (not tied to
-            the raw viewport edge). -z-10 (inside the isolated body) keeps them
-            BEHIND content: they show through the now-transparent header band at
-            the top and are correctly occluded by the opaque dark band and
-            footer, exactly as the frame layers them. Hidden below the column
-            width. */}
+        {/* Two vertical margin rules (frame 321:1284 / 1285): bg #cecece with a
+            1px #fefefe border on each side, 3px wide. They live in a
+            max-w-[1440px] mx-auto container (the frame artboard width) centered
+            on the full-bleed #e8e8e8 surface, with each rule 100px inside the
+            container edge — symmetric 100/100 at 1440 (x=100 / x=1337). Beyond
+            1440 the container caps and centers, so the rules stay locked to the
+            centered 1440 artboard (100px inside it) instead of spreading with
+            the viewport. Height is the frame's 9453px (not the full document).
+            -z-10 (inside the isolated body) keeps them behind content: they show
+            through the transparent header at the top and are occluded by the
+            dark band and footer. Hidden below the column width. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-1/2 -z-10 hidden w-full max-w-[1240px] -translate-x-1/2 min-[1240px]:block"
+          className="pointer-events-none absolute left-1/2 top-0 -z-10 hidden h-[9453px] w-full max-w-[1440px] -translate-x-1/2 min-[1240px]:block"
         >
-          <span className="absolute inset-y-0 left-0 w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
-          <span className="absolute inset-y-0 right-0 w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
+          <span className="absolute left-[100px] top-0 h-full w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
+          <span className="absolute right-[100px] top-0 h-full w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
         </div>
         <Header />
         <main className="flex-1">{children}</main>
