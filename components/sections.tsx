@@ -504,11 +504,16 @@ export function PillCta({
       </Link>
     )
   }
+  // Ringed body CTA (frame black tray 321:1326 / pill 321:1327). Both the tray
+  // and the pill are FLAT — the frame authors no shadow/emboss on either, so
+  // there is none here (only a focus-visible ring for keyboard a11y, which is
+  // not a resting visual effect). Tray: 6px #cecece border, 6px pad, r-999.
+  // Pill: #4a4a4a->black gradient, 12px/80px pad, r-999, gap 10.
   const ring = tone === 'red' ? 'border-[#512a2a]' : 'border-[#cecece]'
   const grad = tone === 'red' ? 'from-[#f91626] to-[#a80813]' : 'from-[#4a4a4a] to-black'
   return (
     <Link href={href} className={`inline-block rounded-[999px] border-[6px] ${ring} p-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 ${className}`}>
-      <span className={`flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b ${grad} px-[48px] py-[12px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] sm:px-[80px]`}>
+      <span className={`flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b ${grad} px-[48px] py-[12px] sm:px-[80px]`}>
         <span className="text-[16px] font-bold tracking-[0.16px] text-[#fefefe]">{label}</span>
         <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
       </span>
