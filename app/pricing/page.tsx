@@ -116,6 +116,89 @@ const PROBLEMS: Problem[] = [
 ]
 
 export default function PricingPage() {
+  // HIDDEN (Found-only launch, restore later): these two sections are lifted out
+  // of the returned JSX so the Pricing page ends after the tier cards. Their
+  // markup is preserved verbatim in the unused consts below; the render site
+  // keeps a marker comment for each. Shared components (Framed, PillCta, Mark,
+  // RuleRow) and the PROBLEMS data stay imported/defined because these consts —
+  // and other pages — still reference them.
+  const hiddenProblemSpotter = (
+    <>
+      {/* ===================== NOT SURE WHICH ONE? (348:4043) ================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark />
+            <RuleRow>Not sure which one?</RuleRow>
+            <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
+              <h2 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h2}`}>
+                Spot your problem below, then start there.
+              </h2>
+              <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
+                We handle the building, the setup, and the launch. You&#39;re live and booking in two
+                weeks.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex w-full flex-col gap-[24px]">
+            {PROBLEMS.map((p) => (
+              <Framed key={p.name} outer="p-[12px]" inner="p-[32px]" className="w-full">
+                <div className="flex flex-col items-center gap-[24px] sm:flex-row">
+                  {/* Swap: problem image for "{p.name}" (frame 400x267) */}
+                  <div className="flex aspect-[400/267] w-full shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de] sm:aspect-auto sm:h-[267px] sm:w-[400px]">
+                    <span className="text-[12px] uppercase tracking-wide text-[#777]">image</span>
+                  </div>
+
+                  <div className="flex flex-1 flex-col items-start gap-[32px]">
+                    <div className="flex w-full flex-col gap-[8px]">
+                      <p className="text-[14px] font-bold leading-[1.5] text-[#777]">{p.name}</p>
+                      <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h3}`}>
+                        {p.heading}
+                      </h3>
+                      <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{p.body}</p>
+                    </div>
+                    {/* CAPTURE CARVE-OUT applies to the Capture row; all rows -> /start */}
+                    <PillCta label={p.cta.label} href="/start" tone={p.cta.tone} />
+                  </div>
+                </div>
+              </Framed>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  )
+  const hiddenClosingCta = (
+    <>
+      {/* ====================== LET'S GET STARTED (348:2081) =================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[40px]">
+          <div className="flex flex-col items-center gap-[24px] text-center">
+            <Mark />
+            <RuleRow>Let&#39;s get started</RuleRow>
+            <h2
+              style={{ fontFamily: HELV }}
+              className={`max-w-[897px] text-[#202020] ${FRAME_TYPE.display}`}
+            >
+              Still deciding? Start with the free audit.
+            </h2>
+            <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+              We&#39;ll show you exactly what you&#39;re missing and which fix pays off first. No
+              pressure, no commitment.
+            </p>
+          </div>
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta />
+            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+              Your audit in 24 hours. No strings.
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================= HERO (348:1726) ========================= */}
@@ -167,75 +250,14 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ===================== NOT SURE WHICH ONE? (348:4043) ================== */}
-      <section className="px-6 py-[80px] sm:py-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
-          <div className="flex flex-col items-center gap-[24px]">
-            <Mark />
-            <RuleRow>Not sure which one?</RuleRow>
-            <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
-              <h2 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h2}`}>
-                Spot your problem below, then start there.
-              </h2>
-              <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
-                We handle the building, the setup, and the launch. You&#39;re live and booking in two
-                weeks.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex w-full flex-col gap-[24px]">
-            {PROBLEMS.map((p) => (
-              <Framed key={p.name} outer="p-[12px]" inner="p-[32px]" className="w-full">
-                <div className="flex flex-col items-center gap-[24px] sm:flex-row">
-                  {/* Swap: problem image for "{p.name}" (frame 400x267) */}
-                  <div className="flex aspect-[400/267] w-full shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de] sm:aspect-auto sm:h-[267px] sm:w-[400px]">
-                    <span className="text-[12px] uppercase tracking-wide text-[#777]">image</span>
-                  </div>
-
-                  <div className="flex flex-1 flex-col items-start gap-[32px]">
-                    <div className="flex w-full flex-col gap-[8px]">
-                      <p className="text-[14px] font-bold leading-[1.5] text-[#777]">{p.name}</p>
-                      <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h3}`}>
-                        {p.heading}
-                      </h3>
-                      <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{p.body}</p>
-                    </div>
-                    {/* CAPTURE CARVE-OUT applies to the Capture row; all rows -> /start */}
-                    <PillCta label={p.cta.label} href="/start" tone={p.cta.tone} />
-                  </div>
-                </div>
-              </Framed>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====================== LET'S GET STARTED (348:2081) =================== */}
-      <section className="px-6 py-[80px] sm:py-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[40px]">
-          <div className="flex flex-col items-center gap-[24px] text-center">
-            <Mark />
-            <RuleRow>Let&#39;s get started</RuleRow>
-            <h2
-              style={{ fontFamily: HELV }}
-              className={`max-w-[897px] text-[#202020] ${FRAME_TYPE.display}`}
-            >
-              Still deciding? Start with the free audit.
-            </h2>
-            <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              We&#39;ll show you exactly what you&#39;re missing and which fix pays off first. No
-              pressure, no commitment.
-            </p>
-          </div>
-          <div className="flex flex-col items-center gap-[12px]">
-            <PillCta />
-            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
-              Your audit in 24 hours. No strings.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* HIDDEN (Found-only launch, restore later): the "Not sure which one?"
+          problem-spotter section (348:4043) is lifted into the unused
+          `hiddenProblemSpotter` const above. To restore, move that <section>
+          back here. */}
+      {/* HIDDEN (Found-only launch, restore later): the "Let's get started"
+          closing CTA section (348:2081) is lifted into the unused
+          `hiddenClosingCta` const above. To restore, move that <section>
+          back here. */}
     </div>
   )
 }
