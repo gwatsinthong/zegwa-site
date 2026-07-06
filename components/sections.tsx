@@ -507,20 +507,23 @@ export function PillCta({
     )
   }
   // Body CTA (black tone): the authored frame (nodes 321:1326 tray / 321:1327
-  // pill) wraps the black gradient pill in a flat "tray" ring — 6px solid
-  // #cecece border, 6px transparent padding gap, radius 999px, NO fill and NO
-  // shadow. The pill sits flush inside, also shadowless, gradient #4a4a4a→#000
-  // top-to-bottom, padding 12px/80px, gap 10px. The Link is the tray; the inner
-  // span is the pill.
+  // pill) wraps the black gradient pill in a flat 6px #cecece "tray" ring that
+  // HUGS the pill — the tray's render bounds are 308×60 = pill 296×48 + 12px,
+  // i.e. exactly the 6px stroke per side with NO transparent gap. So the border
+  // sits flush against the pill (no padding); a p-[6px] gap would double the
+  // ring zone and read as a raised bezel. Radius 999px, NO fill, NO shadow. The
+  // pill is also shadowless: gradient #4a4a4a→#000 top-to-bottom, padding
+  // 12px/80px, gap 10px, text 16px/1.5. The Link is the tray; the inner span is
+  // the pill.
   if (tone === 'black') {
     return (
       <Link
         href={href}
         style={{ fontFamily: HELV }}
-        className={`inline-flex items-center justify-center rounded-[999px] border-[6px] border-[#cecece] p-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 ${className}`}
+        className={`inline-flex items-center justify-center rounded-[999px] border-[6px] border-[#cecece] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 ${className}`}
       >
         <span className="flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b from-[#4a4a4a] to-black px-[80px] py-[12px]">
-          <span className="text-[16px] font-bold tracking-[0.16px] text-[#fefefe]">{label}</span>
+          <span className="text-[16px] font-bold leading-[1.5] tracking-[0.16px] text-[#fefefe]">{label}</span>
           <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
         </span>
       </Link>
