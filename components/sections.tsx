@@ -440,7 +440,9 @@ export function Mark({ onDark = false }: { onDark?: boolean }) {
   return <ZMark className={`h-[23px] w-[24px] ${onDark ? 'text-[#9d9a9a]' : 'text-[#202020]'}`} />
 }
 
-// Pill CTA. black/red are the ringed body CTAs; light is the frame's header CTA
+// Pill CTA. black is the ringed body CTA (grey #cecece tray around a black
+// gradient pill, per the frame); red is the money-band body CTA (standalone
+// gradient pill, no ring, on the dark band); light is the frame's header CTA
 // (single #e8e8e8 pill, no ring). white/blackFlat are the flat, ringless pills
 // used inside the pricing tier cards and problem rows: `white` is the #fefefe
 // "See the fix" pill, `blackFlat` the black-gradient "Get free audit" / "Get the
@@ -504,21 +506,34 @@ export function PillCta({
       </Link>
     )
   }
-  // Body CTA: the black (or red) gradient pill raised directly on the surface,
-  // no enclosing grey ring. On the light surface (black tone) it uses a soft
-  // neumorphic shadow — a light halo top-left, a dark shadow bottom-right. The
-  // red tone sits on the dark "cost of waiting" band, so it gets a plain soft
-  // drop shadow (a white halo would glow on dark).
-  const grad = tone === 'red' ? 'from-[#f91626] to-[#a80813]' : 'from-[#4a4a4a] to-black'
-  const shadow =
-    tone === 'red'
-      ? 'shadow-[0_10px_24px_rgba(0,0,0,0.35)]'
-      : 'shadow-[5px_5px_14px_rgba(0,0,0,0.22),-5px_-5px_14px_rgba(255,255,255,0.65)]'
+  // Body CTA (black tone): the authored frame (nodes 321:1326 tray / 321:1327
+  // pill) wraps the black gradient pill in a flat "tray" ring — 6px solid
+  // #cecece border, 6px transparent padding gap, radius 999px, NO fill and NO
+  // shadow. The pill sits flush inside, also shadowless, gradient #4a4a4a→#000
+  // top-to-bottom, padding 12px/80px, gap 10px. The Link is the tray; the inner
+  // span is the pill.
+  if (tone === 'black') {
+    return (
+      <Link
+        href={href}
+        style={{ fontFamily: HELV }}
+        className={`inline-flex items-center justify-center rounded-[999px] border-[6px] border-[#cecece] p-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 ${className}`}
+      >
+        <span className="flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b from-[#4a4a4a] to-black px-[80px] py-[12px]">
+          <span className="text-[16px] font-bold tracking-[0.16px] text-[#fefefe]">{label}</span>
+          <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
+        </span>
+      </Link>
+    )
+  }
+  // Red tone: the money-band CTA sits on the dark "cost of waiting" surface and
+  // has no authored ring node, so it keeps its standalone gradient pill with a
+  // plain soft drop shadow (a light ring/halo would glow on dark).
   return (
     <Link
       href={href}
       style={{ fontFamily: HELV }}
-      className={`inline-flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b ${grad} px-[48px] py-[14px] ${shadow} outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 sm:px-[80px] ${className}`}
+      className={`inline-flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b from-[#f91626] to-[#a80813] px-[48px] py-[14px] shadow-[0_10px_24px_rgba(0,0,0,0.35)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 sm:px-[80px] ${className}`}
     >
       <span className="text-[16px] font-bold tracking-[0.16px] text-[#fefefe]">{label}</span>
       <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
