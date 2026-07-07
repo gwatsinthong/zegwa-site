@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import ZMark from './ZMark'
 import { SocialLinks } from './Social'
 import { HELV } from './sections'
 
@@ -74,17 +73,17 @@ export default function Footer() {
     >
       <div className="mx-auto w-full max-w-shell px-6 py-14">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
-          {/* Brand lockup (frame Group 9): Z mark + ZEGWA + red STUDIO. Swap: real logo asset */}
+          {/* Brand lockup (frame Group 9). Gwatsin's real logo asset, dark-bg
+              variant (white wordmark, light Z badge) at the natural 205x34. */}
           <div className="flex max-w-[250px] flex-col gap-6">
-            <span className="flex items-center gap-[10px]">
-              <ZMark className="h-[30px] w-[31px] text-[#f6f5f2]" />
-              <span className="flex flex-col leading-none">
-                <span className="text-[22px] font-bold tracking-[0.2em] text-[#f6f5f2]">ZEGWA</span>
-                <span className="mt-1 text-[11px] font-bold uppercase tracking-[0.42em] text-[#f91626]">
-                  Studio
-                </span>
-              </span>
-            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-inverse.svg"
+              alt="Zegwa Studio"
+              width={205}
+              height={34}
+              className="h-[34px] w-auto"
+            />
             <p className="max-w-[197px] text-[14px] font-bold text-[#cecece]">
               Helping businesses get found and book more.
             </p>

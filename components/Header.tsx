@@ -30,9 +30,9 @@ export default function Header() {
   return (
     <header style={{ fontFamily: HELV }}>
       <div className="mx-auto flex w-full max-w-[1040px] items-center gap-[32px] px-6 py-[24px]">
-        {/* Logo lockup (frame 321:1287). Swap: /logo.svg is a reconstruction of
-            the frame mark (dark Z badge + "Zegwa Studio") at the natural 205x34;
-            replace it with Gwatsin's real asset at the same path. */}
+        {/* Logo lockup (frame 321:1287): Gwatsin's real logo asset (dark Z badge
+            + "Zegwa Studio") at the natural 205x34. logo-inverse.svg is the
+            dark-bg companion, used on the Footer. */}
         <Link
           href="/"
           aria-label="Zegwa Studio home"
