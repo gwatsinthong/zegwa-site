@@ -20,8 +20,10 @@ export const metadata: Metadata = pageMeta({
 // Figma-faithful rebuild of frame 360:4180 "About" (body only; the shell
 // supplies Header + Footer). Exact radii, colors, gradients, shadows, and type
 // sizes are read per node. Font target is Helvetica Now Display. The two
-// image cards are labeled placeholders at the frame's 293px height; swap points
-// are commented. All audit CTAs point to /start.
+// section images render from public/images/about-*.jpg at the frame's 456x293
+// card; each file is currently a labeled placeholder -- drop in the real
+// asset at the same path/name to replace it, no code change needed. All
+// audit CTAs point to /start.
 
 const WORK = [
   {
@@ -31,6 +33,7 @@ const WORK = [
       'We keep the team small on purpose. The people who scope your work are the people who build and run it, no handoffs, no account managers, no one hiding behind a ticket queue.',
       'That means someone is accountable for your result, every month. We earn the renewal or you cancel. Simple as that.',
     ],
+    image: '/images/about-how-we-work.jpg',
   },
   {
     kicker: 'No lock-in',
@@ -39,6 +42,7 @@ const WORK = [
       'The website, the content, the phone number, the agent, the data. Every piece we build is yours. If you ever leave, you take it all with you.',
       "No lock-in, no assets held hostage, no proprietary formats you can't export. We don't trap you into staying. We earn it every month, or you walk with everything.",
     ],
+    image: '/images/about-no-lockin.jpg',
   },
 ]
 
@@ -131,7 +135,7 @@ export default function AboutPage() {
                 {section.heading}
               </h2>
             </div>
-            <SplitFeature body={section.body} />
+            <SplitFeature body={section.body} image={section.image} alt={section.heading} />
           </div>
         </section>
       ))}

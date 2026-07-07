@@ -25,26 +25,68 @@ export const metadata: Metadata = pageMeta({
 // supplies Header + Footer). Exact radii, colors, gradients, shadows, and type
 // sizes are read per node. Font target is Helvetica Now Display; the closest
 // available stack is used as a fallback until the licensed font is installed.
-// Real images are labeled placeholders at the frame's aspect ratios; swap
-// points are commented. CAPTURE CARVE-OUT: the pricing "Found + Capture bundle"
+// Images render from public/images/home-*.{jpg,png} at the frame's exact
+// dimensions -- each file is currently a labeled placeholder; drop in the
+// real asset at the same path/name to replace it, no code change needed.
+// CAPTURE CARVE-OUT: the pricing "Found + Capture bundle"
 // line is kept verbatim as text; "See pricing" points to /pricing, and no
 // /capture link is created. All audit CTAs point to /start.
 
 
 const FEATURES = [
-  { title: 'Show up in search', desc: 'On Google, maps, and even when they ask AI search.' },
-  { title: 'A site that converts', desc: 'Fast, clean, and built to turn a visit into a booking.' },
-  { title: 'Listed everywhere', desc: 'Consistent across directories, so you rank and look trusted.' },
-  { title: 'Win back old leads', desc: 'A one-time sweep of past inquiries who never booked you.' },
+  {
+    title: 'Show up in search',
+    desc: 'On Google, maps, and even when they ask AI search.',
+    image: '/images/home-feature-search.jpg',
+  },
+  {
+    title: 'A site that converts',
+    desc: 'Fast, clean, and built to turn a visit into a booking.',
+    image: '/images/home-feature-converts.jpg',
+  },
+  {
+    title: 'Listed everywhere',
+    desc: 'Consistent across directories, so you rank and look trusted.',
+    image: '/images/home-feature-listed.jpg',
+  },
+  {
+    title: 'Win back old leads',
+    desc: 'A one-time sweep of past inquiries who never booked you.',
+    image: '/images/home-feature-winback.jpg',
+  },
 ]
 
 const BUILD_ROWS = [
-  { build: 'Conversion website', does: 'Fast, clean, built to turn visits into bookings' },
-  { build: 'Google Business Profile', does: 'Optimized so you show up in maps and local search' },
-  { build: 'Directory listings', does: 'Consistent across the web so you rank and look trusted' },
-  { build: 'AI search optimization', does: 'Found when customers ask AI, not just Google' },
-  { build: 'Lead reactivation', does: 'A one-time sweep that re-books past inquiries' },
-  { build: 'One dashboard', does: 'Every visit, lead, and call tracked in one place you own' },
+  {
+    build: 'Conversion website',
+    does: 'Fast, clean, built to turn visits into bookings',
+    icon: '/images/home-build-website.png',
+  },
+  {
+    build: 'Google Business Profile',
+    does: 'Optimized so you show up in maps and local search',
+    icon: '/images/home-build-gbp.png',
+  },
+  {
+    build: 'Directory listings',
+    does: 'Consistent across the web so you rank and look trusted',
+    icon: '/images/home-build-directories.png',
+  },
+  {
+    build: 'AI search optimization',
+    does: 'Found when customers ask AI, not just Google',
+    icon: '/images/home-build-ai-search.png',
+  },
+  {
+    build: 'Lead reactivation',
+    does: 'A one-time sweep that re-books past inquiries',
+    icon: '/images/home-build-reactivation.png',
+  },
+  {
+    build: 'One dashboard',
+    does: 'Every visit, lead, and call tracked in one place you own',
+    icon: '/images/home-build-dashboard.png',
+  },
 ]
 
 const DELIVERABLES_LEFT = [
@@ -161,15 +203,20 @@ export default function FoundPage() {
           {/* VSL block (frame 321:1318 / 1319 / 1320): outer bezel rounded-[24px]
               border #fefefe + #e0e0e0 backing + inset ring; inner white card
               rounded-[15px]; 903x508 screen rounded-[15px]. Outer width 947 =
-              903 + 20 (inner pad) + 24 (outer pad). Swap: hero-vsl-poster. */}
+              903 + 20 (inner pad) + 24 (outer pad). Image: public/images/
+              home-vsl-poster.jpg (903x508) -- replace that file with the real
+              poster/thumbnail. */}
           <div className="relative w-full max-w-[947px] rounded-[24px] border border-[#fefefe] p-[12px]">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[24px] bg-[#e0e0e0]" />
             <div className="relative rounded-[15px] bg-[#fefefe] p-[10px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]">
-            <div className={`relative aspect-[903/508] w-full overflow-hidden rounded-[15px] bg-gradient-to-br from-[#4a4a4a] to-[#202020] ${SOFT_DROP_SHADOW}`}>
+            <div className={`relative aspect-[903/508] w-full overflow-hidden rounded-[15px] ${SOFT_DROP_SHADOW}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/home-vsl-poster.jpg"
+                alt="Video preview"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
               <div className="absolute inset-0 bg-black/30" />
-              <div className="absolute left-3 top-3">
-                <span className="text-[12px] uppercase tracking-wide text-white/70">VSL poster (sample)</span>
-              </div>
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="rounded-[999px] border-[6px] border-[#cecece] p-[6px]">
                   <div className="flex items-center justify-center rounded-[999px] bg-gradient-to-b from-[#f91626] to-[#a80813] p-[12px]">
@@ -237,10 +284,12 @@ export default function FoundPage() {
                     </h3>
                     <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{f.desc}</p>
                   </div>
-                  {/* Swap: feature image for "{f.title}" */}
-                  <div className="flex aspect-[160/90] w-full items-center justify-center overflow-hidden rounded-[8px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]">
-                    <span className="text-[12px] uppercase tracking-wide text-[#777]">image</span>
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={f.image}
+                    alt=""
+                    className="aspect-[160/90] w-full rounded-[8px] object-cover"
+                  />
                 </div>
               ))}
             </div>
@@ -318,8 +367,12 @@ export default function FoundPage() {
                 {BUILD_ROWS.map((r) => (
                   <div key={r.build} className="flex flex-col items-start justify-between gap-[16px] sm:flex-row sm:items-center">
                     <div className="flex w-full items-center gap-[24px] sm:w-[400px]">
-                      {/* Swap: build icon for "{r.build}" */}
-                      <div className="size-[64px] shrink-0 rounded-[12px] bg-[#fefefe] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]" />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={r.icon}
+                        alt=""
+                        className="size-[64px] shrink-0 rounded-[12px] bg-[#fefefe] object-cover shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]"
+                      />
                       <p style={{ fontFamily: HELV }} className="text-[26px] font-bold leading-[1.26] tracking-[-0.96px] text-[#202020] sm:text-[32px]">{r.build}</p>
                     </div>
                     <p className="text-[18px] font-bold leading-[1.5] tracking-[-0.4px] text-[#5c5c5c] sm:w-[400px] sm:text-[20px]">{r.does}</p>

@@ -604,22 +604,22 @@ export function CheckList({ items, gap = 'gap-[4px]' }: { items: string[]; gap?:
 }
 
 // Two-column image + text block (Figma "Frame 170", e.g. About 364:4815). A
-// framed image card (empty white inner at the frame's 293px height) beside a
+// framed image card (white inner at the frame's 293px height) beside a
 // column of 24px-bold Helvetica paragraphs; stacks on mobile, image-left on
 // desktop. Body paragraphs are separated by one line of leading, matching the
 // frame's blank-line gaps.
-export function SplitFeature({ body }: { body: string[] }) {
+export function SplitFeature({ body, image, alt = '' }: { body: string[]; image: string; alt?: string }) {
   return (
     <div className="flex w-full max-w-[984px] flex-col items-center gap-[24px] md:flex-row">
-      {/* Swap: section image (frame inner card 456x293) */}
       <Framed
         outer="p-[12px]"
         inner=""
-        innerClass="flex h-[293px] items-center justify-center"
+        innerClass="relative h-[293px] overflow-hidden"
         innerShadow="shadow-[-1px_-1px_2px_0px_rgba(0,0,0,0.15),1px_1px_2px_0px_rgba(0,0,0,0.15)]"
         className="w-full md:flex-1"
       >
-        <span className="text-[12px] uppercase tracking-wide text-[#777]">image</span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image} alt={alt} className="absolute inset-0 h-full w-full object-cover" />
       </Framed>
       <div
         style={{ fontFamily: HELV }}
