@@ -473,6 +473,8 @@ export function PillCta({
   className = '',
   onClick,
   type = 'button',
+  disabled = false,
+  icon,
 }: {
   label?: string
   href?: string
@@ -480,16 +482,31 @@ export function PillCta({
   block?: boolean
   className?: string
   // When onClick is set (flat tones only), render a <button> instead of a Link,
-  // for form actions like Contact's Send that run JS rather than navigate.
+  // for form actions like Contact's Send or AuditForm's submit that run JS
+  // rather than navigate.
   onClick?: () => void
   type?: 'button' | 'submit'
+  // disabled/icon: onClick-button mode only (e.g. AuditForm's submitting lock,
+  // which swaps the trailing arrow for a spinner). No authored frame covers
+  // this state; it reuses the button's own treatment rather than inventing one.
+  disabled?: boolean
+  icon?: React.ReactNode
 }) {
+  // The pill's soft bevel authors TWO drop-shadow effects (a light halo top-
+  // left, a dark shadow bottom-right). Tailwind's `drop-shadow-[a,b]` puts both
+  // inside ONE drop-shadow() filter function separated by a comma — invalid
+  // CSS (unlike box-shadow, the drop-shadow() filter function accepts only a
+  // single shadow spec), so the whole `filter` declaration was silently
+  // dropped and no shadow rendered at all. Using Tailwind's arbitrary-property
+  // syntax emits two properly space-chained drop-shadow() functions instead.
+  const dualDropShadow =
+    '[filter:drop-shadow(-1px_-1px_2px_rgba(0,0,0,.15))_drop-shadow(1px_1px_2px_rgba(0,0,0,.15))]'
   if (tone === 'light') {
     return (
       <Link
         href={href}
         style={{ fontFamily: HELV }}
-        className={`flex items-center justify-center gap-[10px] rounded-[999px] border border-[#fefefe] bg-[#e8e8e8] px-[24px] py-[8px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`}
+        className={`flex items-center justify-center gap-[10px] rounded-[999px] border border-[#fefefe] bg-[#e8e8e8] px-[24px] py-[8px] ${dualDropShadow} outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`}
       >
         <span className="whitespace-nowrap text-[16px] font-bold tracking-[0.16px] text-[#202020]">{label}</span>
         <ArrowRight className="h-[24px] w-[24px] text-[#202020]" />
@@ -502,16 +519,23 @@ export function PillCta({
         ? 'bg-gradient-to-b from-[#4a4a4a] to-black'
         : 'border border-[#fefefe] bg-[#fefefe]'
     const fg = tone === 'blackFlat' ? 'text-[#fefefe]' : 'text-[#202020]'
-    const cls = `${block ? 'w-full ' : ''}flex items-center justify-center gap-[10px] rounded-[999px] ${bg} px-[24px] py-[8px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`
+    const cls = `${block ? 'w-full ' : ''}flex items-center justify-center gap-[10px] rounded-[999px] ${bg} px-[24px] py-[8px] ${dualDropShadow} outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 disabled:cursor-wait disabled:opacity-80 ${className}`
     const inner = (
       <>
         <span className={`whitespace-nowrap text-[16px] font-bold tracking-[0.16px] ${fg}`}>{label}</span>
-        <ArrowRight className={`h-[24px] w-[24px] ${fg}`} />
+        {icon ?? <ArrowRight className={`h-[24px] w-[24px] ${fg}`} />}
       </>
     )
     if (onClick) {
       return (
-        <button type={type} onClick={onClick} style={{ fontFamily: HELV }} className={cls}>
+        <button
+          type={type}
+          onClick={onClick}
+          disabled={disabled}
+          aria-disabled={disabled}
+          style={{ fontFamily: HELV }}
+          className={cls}
+        >
           {inner}
         </button>
       )

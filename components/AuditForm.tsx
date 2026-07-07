@@ -1,9 +1,15 @@
 'use client'
 
 import { useId, useRef, useState } from 'react'
+import { Framed, HELV, PillCta } from './sections'
 
-// Reusable, embeddable "Get free audit" form.
-// Talks to one external endpoint from the browser. No SSR, no storage APIs.
+// Reusable, embeddable "Get free audit" form (Figma frame 395:2244 "Start",
+// demo card 395:2286). Talks to one external endpoint from the browser. No
+// SSR, no storage APIs, no <form> submit (controlled inputs; the primary
+// action is a plain button + fetch). Card, field, and submit-button styling
+// are read verbatim from the frame; the selection/success/rate-limited/error
+// panels have no frame counterpart (dynamic states), so they reuse the same
+// design tokens for visual consistency rather than inventing a new look.
 
 const ENDPOINT = process.env.NEXT_PUBLIC_AUDIT_ENDPOINT
 
@@ -18,7 +24,7 @@ type FieldErrors = {
 }
 
 const COPY = {
-  submit: 'Get free audit',
+  submit: 'Get my free audit',
   submitting: 'Sending your request',
   reassure:
     "No commitment. We'll never share your details. Your audit lands within 24 hours.",
@@ -178,10 +184,15 @@ export default function AuditForm({ className = '' }: { className?: string }) {
   }
 
   return (
-    <div className={`w-full max-w-[480px] ${className}`}>
-      <div className="border border-hairline bg-white p-6 sm:p-8">
+    <Framed
+      outer="p-[12px]"
+      inner="p-[32px]"
+      innerClass="flex flex-col gap-[24px]"
+      className={`w-full max-w-[500px] ${className}`}
+    >
+      <div style={{ fontFamily: HELV }} className="flex flex-col gap-[24px]">
         {phase === 'form' && (
-          <div className="flex flex-col gap-6">
+          <>
             <Field
               id={ids.businessName}
               label="Business name"
@@ -195,11 +206,11 @@ export default function AuditForm({ className = '' }: { className?: string }) {
             />
             <Field
               id={ids.city}
-              label="City"
+              label="Business location / city"
               required
               value={values.city}
               onChange={(v) => setField('city', v)}
-              placeholder="Your city"
+              placeholder="To audit your online local presence"
               error={errors.city}
               disabled={submitting}
               autoComplete="address-level2"
@@ -211,68 +222,58 @@ export default function AuditForm({ className = '' }: { className?: string }) {
               required
               value={values.email}
               onChange={(v) => setField('email', v)}
-              placeholder="you@business.com"
+              placeholder="To send you the audit report"
               error={errors.email}
               disabled={submitting}
               autoComplete="email"
             />
             <Field
               id={ids.website}
-              label="Website"
+              label="Website URL (optional)"
               type="url"
-              optional
               value={values.website}
               onChange={(v) => setField('website', v)}
-              placeholder="yourbusiness.com"
+              placeholder="Your website"
               disabled={submitting}
               autoComplete="url"
             />
 
-            <div className="flex flex-col gap-3">
-              <button
-                type="button"
+            <div className="flex flex-col items-stretch gap-[8px]">
+              <PillCta
+                tone="blackFlat"
+                block
+                label={submitting ? COPY.submitting : COPY.submit}
                 onClick={onSubmit}
                 disabled={submitting}
-                aria-disabled={submitting}
-                className="flex w-full items-center justify-center gap-2 bg-text px-6 py-3 text-base font-medium text-bg outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-text/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-wait"
-              >
-                {submitting ? (
-                  <>
-                    <Spinner />
-                    {COPY.submitting}
-                  </>
-                ) : (
-                  <>
-                    {COPY.submit}
-                    <Arrow />
-                  </>
-                )}
-              </button>
-              <p className="text-center text-sm text-muted">{COPY.reassure}</p>
+                icon={submitting ? <Spinner tone="light" /> : undefined}
+              />
+              <p className="text-center text-[16px] leading-[1.5] text-[#777]">{COPY.reassure}</p>
             </div>
-          </div>
+          </>
         )}
 
         {phase === 'selection' && (
-          <div className="flex flex-col gap-5" role="group" aria-label={COPY.selectionHeading}>
-            <div className="flex flex-col gap-1">
-              <h2 className="font-display text-xl">{COPY.selectionHeading}</h2>
-              <p className="text-sm text-muted">{COPY.selectionSub}</p>
+          <div className="flex flex-col gap-[24px]" role="group" aria-label={COPY.selectionHeading}>
+            <div className="flex flex-col gap-[8px]">
+              <h2 style={{ fontFamily: HELV }} className="text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#202020] sm:text-[24px]">
+                {COPY.selectionHeading}
+              </h2>
+              <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{COPY.selectionSub}</p>
             </div>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-[12px]">
               {candidates.map((c, i) => (
                 <li key={c.placeId || i}>
                   <button
                     type="button"
                     onClick={() => onPick(c.placeId)}
                     disabled={submitting}
-                    className="flex w-full items-center justify-between gap-3 border border-hairline bg-white px-4 py-3 text-left outline-none transition-colors hover:border-text focus-visible:border-text focus-visible:ring-2 focus-visible:ring-text/15 disabled:opacity-60"
+                    className="flex w-full items-center justify-between gap-[12px] rounded-[8px] bg-[#fefefe] px-[16px] py-[12px] text-left shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)] outline-none transition-shadow hover:shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.35),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.35)] focus-visible:ring-2 focus-visible:ring-[#202020]/20 disabled:opacity-60"
                   >
-                    <span className="flex flex-col gap-0.5">
-                      <span className="font-medium text-text">{c.name}</span>
-                      <span className="text-sm text-muted">{c.address}</span>
+                    <span className="flex flex-col gap-[2px]">
+                      <span className="text-[16px] font-bold leading-[1.5] text-[#202020]">{c.name}</span>
+                      <span className="text-[14px] leading-[1.5] text-[#5c5c5c]">{c.address}</span>
                     </span>
-                    {pendingChoice === c.placeId && <Spinner tone="text" />}
+                    {pendingChoice === c.placeId && <Spinner tone="dark" />}
                   </button>
                 </li>
               ))}
@@ -281,7 +282,7 @@ export default function AuditForm({ className = '' }: { className?: string }) {
               type="button"
               onClick={onNone}
               disabled={submitting}
-              className="self-start text-sm text-muted underline underline-offset-4 outline-none transition-colors hover:text-text focus-visible:text-text disabled:opacity-60"
+              className="self-start text-[14px] font-bold leading-[1.5] text-[#5c5c5c] underline underline-offset-4 outline-none transition-colors hover:text-[#202020] focus-visible:text-[#202020] disabled:opacity-60"
             >
               {pendingChoice === 'none' ? COPY.submitting : COPY.none}
             </button>
@@ -289,11 +290,13 @@ export default function AuditForm({ className = '' }: { className?: string }) {
         )}
 
         {phase === 'success' && (
-          <div className="flex flex-col gap-3" role="status" aria-live="polite">
+          <div className="flex flex-col gap-[12px]" role="status" aria-live="polite">
             <CheckMark />
-            <h2 className="font-display text-xl">{COPY.successHeading}</h2>
-            <p className="text-muted">{COPY.successBody}</p>
-            <p className="text-sm text-muted">{COPY.successNote}</p>
+            <h2 style={{ fontFamily: HELV }} className="text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#202020] sm:text-[24px]">
+              {COPY.successHeading}
+            </h2>
+            <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{COPY.successBody}</p>
+            <p className="text-[14px] leading-[1.5] text-[#777]">{COPY.successNote}</p>
           </div>
         )}
 
@@ -315,7 +318,7 @@ export default function AuditForm({ className = '' }: { className?: string }) {
           />
         )}
       </div>
-    </div>
+    </Framed>
   )
 }
 
@@ -327,7 +330,6 @@ function Field({
   onChange,
   placeholder,
   required,
-  optional,
   error,
   disabled,
   autoComplete,
@@ -339,23 +341,20 @@ function Field({
   onChange: (value: string) => void
   placeholder?: string
   required?: boolean
-  optional?: boolean
   error?: string
   disabled?: boolean
   autoComplete?: string
 }) {
   const errorId = `${id}-error`
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-text">
+    <div className="flex w-full flex-col gap-[8px]">
+      <label htmlFor={id} className="text-[14px] font-bold leading-[1.5] text-[#202020]">
         {label}
         {required && (
-          <span aria-hidden="true" className="text-muted">
-            {' '}
+          <span aria-hidden="true" className="text-[#f91626]">
             *
           </span>
         )}
-        {optional && <span className="font-normal text-muted"> (optional)</span>}
       </label>
       <input
         id={id}
@@ -370,12 +369,12 @@ function Field({
         aria-required={required || undefined}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
-        className={`w-full border bg-white px-3 py-2.5 text-base text-text outline-none transition-colors placeholder:text-muted focus-visible:border-text focus-visible:ring-2 focus-visible:ring-text/15 disabled:opacity-60 ${
-          error ? 'border-text' : 'border-hairline'
+        className={`w-full rounded-[8px] bg-[#fefefe] px-[12px] py-[8px] text-[16px] leading-[1.5] text-[#202020] shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)] outline-none transition-shadow placeholder:text-[#777] focus-visible:ring-2 focus-visible:ring-[#202020]/20 disabled:opacity-60 ${
+          error ? 'ring-2 ring-[#f91626]/70' : ''
         }`}
       />
       {error && (
-        <p id={errorId} className="text-sm text-text">
+        <p id={errorId} className="text-[14px] leading-[1.5] text-[#f91626]">
           {error}
         </p>
       )}
@@ -395,62 +394,34 @@ function StatusPanel({
   onAction: () => void
 }) {
   return (
-    <div className="flex flex-col gap-3" role="status" aria-live="polite">
-      <h2 className="font-display text-xl">{heading}</h2>
-      <p className="text-muted">{body}</p>
-      <button
-        type="button"
-        onClick={onAction}
-        className="mt-1 self-start bg-text px-5 py-2.5 text-sm font-medium text-bg outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-text/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-      >
-        {actionLabel}
-      </button>
+    <div className="flex flex-col items-start gap-[12px]" role="status" aria-live="polite">
+      <h2 style={{ fontFamily: HELV }} className="text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#202020] sm:text-[24px]">
+        {heading}
+      </h2>
+      <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{body}</p>
+      <PillCta tone="blackFlat" label={actionLabel} onClick={onAction} className="mt-[4px]" />
     </div>
   )
 }
 
-function Spinner({ tone = 'bg' }: { tone?: 'bg' | 'text' }) {
+function Spinner({ tone = 'light' }: { tone?: 'light' | 'dark' }) {
+  const track = tone === 'light' ? 'text-[#fefefe]/30' : 'text-[#202020]/25'
+  const arc = tone === 'light' ? 'text-[#fefefe]' : 'text-[#202020]'
   return (
     <svg
-      className="h-4 w-4 animate-spin"
+      className="h-[16px] w-[16px] animate-spin"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
     >
-      <circle
-        cx="12"
-        cy="12"
-        r="9"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        className={tone === 'bg' ? 'text-bg/30' : 'text-text/25'}
-      />
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2.5" className={track} />
       <path
         d="M21 12a9 9 0 0 0-9-9"
         stroke="currentColor"
         strokeWidth="2.5"
         strokeLinecap="round"
-        className={tone === 'bg' ? 'text-bg' : 'text-text'}
+        className={arc}
       />
-    </svg>
-  )
-}
-
-function Arrow() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <polyline points="13 6 19 12 13 18" />
     </svg>
   )
 }
@@ -467,7 +438,7 @@ function CheckMark() {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className="text-text"
+      className="text-[#202020]"
     >
       <circle cx="12" cy="12" r="9" />
       <polyline points="8.5 12 11 14.5 15.5 9.5" />
