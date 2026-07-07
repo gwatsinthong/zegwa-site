@@ -456,6 +456,21 @@ export function Mark({ onDark = false }: { onDark?: boolean }) {
   return <ZMark className={`h-[23px] w-[24px] ${onDark ? 'text-[#9d9a9a]' : 'text-[#202020]'}`} />
 }
 
+// Shared soft-emboss bevel: two DROP_SHADOW effects authored together wherever
+// this treatment appears (e.g. PillCta's light/white/blackFlat tones, the VSL
+// screen 321:1320, the "See everything included" toggle 321:1455, each FAQ
+// card e.g. About 364:4864) — a light halo top-left, a dark shadow
+// bottom-right, both #00000026 (~15%), offset ±1px, 4px blur. Tailwind's
+// `drop-shadow-[a,b]` packs both into ONE drop-shadow() filter function
+// separated by a comma — invalid CSS (unlike box-shadow, drop-shadow() takes
+// only a single shadow spec), so the whole `filter` declaration is silently
+// dropped and no shadow renders at all. This arbitrary-property value emits
+// two properly space-chained drop-shadow() functions instead. Exported so
+// every authored occurrence of this bevel uses the working form, not a
+// hand-copied (and easily re-broken) comma variant.
+export const SOFT_DROP_SHADOW =
+  '[filter:drop-shadow(-1px_-1px_2px_rgba(0,0,0,.15))_drop-shadow(1px_1px_2px_rgba(0,0,0,.15))]'
+
 // Pill CTA. black is the ringed body CTA (grey #cecece tray around a black
 // gradient pill, per the frame); red is the money-band body CTA (standalone
 // gradient pill, no ring, on the dark band); light is the frame's header CTA
@@ -492,21 +507,12 @@ export function PillCta({
   disabled?: boolean
   icon?: React.ReactNode
 }) {
-  // The pill's soft bevel authors TWO drop-shadow effects (a light halo top-
-  // left, a dark shadow bottom-right). Tailwind's `drop-shadow-[a,b]` puts both
-  // inside ONE drop-shadow() filter function separated by a comma — invalid
-  // CSS (unlike box-shadow, the drop-shadow() filter function accepts only a
-  // single shadow spec), so the whole `filter` declaration was silently
-  // dropped and no shadow rendered at all. Using Tailwind's arbitrary-property
-  // syntax emits two properly space-chained drop-shadow() functions instead.
-  const dualDropShadow =
-    '[filter:drop-shadow(-1px_-1px_2px_rgba(0,0,0,.15))_drop-shadow(1px_1px_2px_rgba(0,0,0,.15))]'
   if (tone === 'light') {
     return (
       <Link
         href={href}
         style={{ fontFamily: HELV }}
-        className={`flex items-center justify-center gap-[10px] rounded-[999px] border border-[#fefefe] bg-[#e8e8e8] px-[24px] py-[8px] ${dualDropShadow} outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`}
+        className={`flex items-center justify-center gap-[10px] rounded-[999px] border border-[#fefefe] bg-[#e8e8e8] px-[24px] py-[8px] ${SOFT_DROP_SHADOW} outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 ${className}`}
       >
         <span className="whitespace-nowrap text-[16px] font-bold tracking-[0.16px] text-[#202020]">{label}</span>
         <ArrowRight className="h-[24px] w-[24px] text-[#202020]" />
@@ -519,7 +525,7 @@ export function PillCta({
         ? 'bg-gradient-to-b from-[#4a4a4a] to-black'
         : 'border border-[#fefefe] bg-[#fefefe]'
     const fg = tone === 'blackFlat' ? 'text-[#fefefe]' : 'text-[#202020]'
-    const cls = `${block ? 'w-full ' : ''}flex items-center justify-center gap-[10px] rounded-[999px] ${bg} px-[24px] py-[8px] ${dualDropShadow} outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 disabled:cursor-wait disabled:opacity-80 ${className}`
+    const cls = `${block ? 'w-full ' : ''}flex items-center justify-center gap-[10px] rounded-[999px] ${bg} px-[24px] py-[8px] ${SOFT_DROP_SHADOW} outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30 disabled:cursor-wait disabled:opacity-80 ${className}`
     const inner = (
       <>
         <span className={`whitespace-nowrap text-[16px] font-bold tracking-[0.16px] ${fg}`}>{label}</span>
@@ -637,7 +643,7 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
         {items.map((item) => (
           <details
             key={item.q}
-            className="group rounded-[12px] bg-[#fefefe] p-[24px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)]"
+            className={`group rounded-[12px] bg-[#fefefe] p-[24px] ${SOFT_DROP_SHADOW}`}
           >
             <summary className="flex cursor-pointer list-none items-center justify-between gap-[16px] [&::-webkit-details-marker]:hidden">
               <span

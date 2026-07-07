@@ -10,6 +10,7 @@ import {
   Mark,
   PillCta,
   CheckList,
+  SOFT_DROP_SHADOW,
 } from '@/components/sections'
 
 export const metadata: Metadata = pageMeta({
@@ -164,7 +165,7 @@ export default function FoundPage() {
           <div className="relative w-full max-w-[947px] rounded-[24px] border border-[#fefefe] p-[12px]">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[24px] bg-[#e0e0e0]" />
             <div className="relative rounded-[15px] bg-[#fefefe] p-[10px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]">
-            <div className="relative aspect-[903/508] w-full overflow-hidden rounded-[15px] bg-gradient-to-br from-[#4a4a4a] to-[#202020] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)]">
+            <div className={`relative aspect-[903/508] w-full overflow-hidden rounded-[15px] bg-gradient-to-br from-[#4a4a4a] to-[#202020] ${SOFT_DROP_SHADOW}`}>
               <div className="absolute inset-0 bg-black/30" />
               <div className="absolute left-3 top-3">
                 <span className="text-[12px] uppercase tracking-wide text-white/70">VSL poster (sample)</span>
@@ -329,7 +330,7 @@ export default function FoundPage() {
           </Framed>
 
           {/* See everything included (321:1455) */}
-          <a href="#deliverables" className="flex items-center gap-[10px] rounded-[999px] border border-[#fefefe] bg-[#e8e8e8] px-[24px] py-[8px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30">
+          <a href="#deliverables" className={`flex items-center gap-[10px] rounded-[999px] border border-[#fefefe] bg-[#e8e8e8] px-[24px] py-[8px] ${SOFT_DROP_SHADOW} outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30`}>
             <span className="text-[16px] font-bold tracking-[0.16px] text-[#202020]">See everything included</span>
             <ArrowDown className="h-[24px] w-[24px] text-[#202020]" />
           </a>
@@ -464,7 +465,7 @@ export default function FoundPage() {
           <Framed outer="p-[12px]" bare className="w-full max-w-[700px]">
             <div className="flex flex-col gap-[10px]">
               {FAQS.map((item) => (
-                <details key={item.q} className="group rounded-[12px] bg-[#fefefe] p-[24px] drop-shadow-[-1px_-1px_2px_rgba(0,0,0,0.15),1px_1px_2px_rgba(0,0,0,0.15)]">
+                <details key={item.q} className={`group rounded-[12px] bg-[#fefefe] p-[24px] ${SOFT_DROP_SHADOW}`}>
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-[16px] [&::-webkit-details-marker]:hidden">
                     <span style={{ fontFamily: HELV }} className="text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#202020] sm:text-[24px]">
                       {item.q}
