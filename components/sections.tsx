@@ -62,10 +62,11 @@ export function ToggleSign() {
   )
 }
 
-// A price figure. `old` (if present) is the pre-bundle price, struck through in
-// accent red (the frame draws a hand-tilted red line; a straight red
-// line-through reads the same). `now` is the live figure. Setup renders `now`
-// large (48px, or 36px when an `old` sits beside it); monthly renders 32px.
+// A price figure. `old` (if present) is the pre-bundle price, struck by a single
+// hand-tilted red line over ONLY the grey figure (matching the frame's drawn
+// stroke). `now` is the live figure. Setup renders `now` at 48px (36px when an
+// `old` sits beside it); monthly at 32px (both lines: the new price matches its
+// own line's size, it does not jump to 36px).
 export type Price = {
   prefix?: string
   old?: string
@@ -73,32 +74,47 @@ export type Price = {
   suffix: string
 }
 
-// Faint red wash behind the Bundle tier. Swap: the Figma "Pattern / 50% alt /
-// 90°" red squiggle tile, blended hard-light at 4%. This interlocking-arc tile
-// is a self-contained stand-in at the same 75px cell size and opacity.
+// Faint red wash behind the Bundle tier (Figma node 348:3499 "Pattern / 50% alt
+// / 90°", placed left -180.33px / top -43px / 600px wide, mix-blend hard-light,
+// opacity 4%). The exact squiggle tile is a Figma image asset that can't be
+// fetched, so this fine interlocking-arc SVG is a stand-in at the authored
+// opacity/blend/position; thin 2px strokes keep it a faint wash rather than a
+// loud ring. FLAG: export the real tile for a pixel match.
 const BUNDLE_WASH =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='75' height='75'%3E%3Cg fill='none' stroke='%23f91626' stroke-width='6'%3E%3Ccircle cx='0' cy='0' r='19'/%3E%3Ccircle cx='75' cy='0' r='19'/%3E%3Ccircle cx='0' cy='75' r='19'/%3E%3Ccircle cx='75' cy='75' r='19'/%3E%3Ccircle cx='37.5' cy='37.5' r='19'/%3E%3C/g%3E%3C/svg%3E\")"
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='75' height='75'%3E%3Cg fill='none' stroke='%23f91626' stroke-width='2'%3E%3Ccircle cx='0' cy='0' r='19'/%3E%3Ccircle cx='75' cy='0' r='19'/%3E%3Ccircle cx='0' cy='75' r='19'/%3E%3Ccircle cx='75' cy='75' r='19'/%3E%3Ccircle cx='37.5' cy='37.5' r='19'/%3E%3C/g%3E%3C/svg%3E\")"
 
 function TierPrice({ price, lead }: { price: Price; lead?: boolean }) {
-  // lead = the large setup line (48px, or 36px when an old price sits beside it).
-  const nowSize = price.old
-    ? 'text-[36px] leading-[1.32] tracking-[-1.08px]'
-    : lead
-      ? 'text-[48px] leading-[1.24]'
-      : 'text-[32px] leading-[1.26] tracking-[-0.96px]'
-  const oldSize = lead
-    ? 'text-[36px] leading-[1.32] tracking-[-1.08px]'
-    : 'text-[32px] leading-[1.26] tracking-[-0.96px]'
+  // lead = the large setup line. When an old price sits beside it the figures
+  // shrink: setup 36px (-1.08), monthly 32px (-0.96). The NEW price matches its
+  // own line's size (setup 36, monthly 32) — it does not always jump to 36px.
+  const priceLg = 'text-[36px] leading-[1.32] tracking-[-1.08px]'
+  const priceMd = 'text-[32px] leading-[1.26] tracking-[-0.96px]'
+  const nowSize = price.old ? (lead ? priceLg : priceMd) : lead ? 'text-[48px] leading-[1.24]' : priceMd
+  const oldSize = lead ? priceLg : priceMd
   const track = lead ? 'tracking-[-1.44px]' : 'tracking-[-0.72px]'
+  // Old price strike: a single hand-tilted red line over ONLY the grey figure
+  // (Figma 348:3998 setup / 348:4000 monthly). Recreated as a 2px #f91626 bar at
+  // the authored angle/width; the exact hand-drawn stroke is a Figma image asset
+  // (imgLine2 / imgLine3) that can't be fetched — flag for export if a pixel
+  // match is needed.
+  const strikeW = lead ? '117px' : '95px'
+  const strikeDeg = lead ? -9.87 : -11.55
   return (
     <p style={{ fontFamily: HELV }} className={`whitespace-normal font-bold text-[#202020] sm:whitespace-nowrap ${track}`}>
       {price.prefix && (
         <span className="text-[32px] leading-[1.26] tracking-[-0.96px]">{price.prefix} </span>
       )}
       {price.old && (
-        <span className={`text-[#9d9a9a] line-through decoration-[#f91626] decoration-2 ${oldSize}`}>
-          {price.old}{' '}
-        </span>
+        <>
+          <span className={`relative inline-block text-[#9d9a9a] ${oldSize}`}>
+            {price.old}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[2px] bg-[#f91626]"
+              style={{ width: strikeW, transform: `translate(-50%, -50%) rotate(${strikeDeg}deg)` }}
+            />
+          </span>{' '}
+        </>
       )}
       <span className={nowSize}>{price.now}</span>
       <span className="text-[24px] leading-[1.26] tracking-[-0.72px]"> {price.suffix}</span>
@@ -140,11 +156,11 @@ export function TierCard({
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-[0.04]"
+            className="pointer-events-none absolute left-[-180.33px] top-[-43px] h-[640px] w-[600px] opacity-[0.04] mix-blend-hard-light"
             style={{ backgroundImage: BUNDLE_WASH, backgroundSize: '75px 75px' }}
           />
           {bestValue && (
-            <span className="absolute right-[24px] top-[24px] z-10 text-[14px] font-bold leading-[1.5] text-[#f91626]">
+            <span className="absolute right-[24px] top-[13px] z-10 text-[14px] font-bold leading-[1.5] text-[#f91626]">
               {bestValue}
             </span>
           )}
