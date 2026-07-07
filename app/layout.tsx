@@ -44,27 +44,36 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
         <SmoothScroll />
-        {/* Two vertical margin rules (frame 321:1284 / 1285): bg #cecece with a
-            1px #fefefe border on each side, 3px wide. They live in a
-            max-w-[1440px] mx-auto container (the frame artboard width) centered
-            on the full-bleed #e8e8e8 surface, with each rule 100px inside the
-            container edge — symmetric 100/100 at 1440 (x=100 / x=1337). Beyond
-            1440 the container caps and centers, so the rules stay locked to the
-            centered 1440 artboard (100px inside it) instead of spreading with
-            the viewport. Height is the frame's 9453px (not the full document).
-            -z-10 (inside the isolated body) keeps them behind content: they show
-            through the transparent header at the top and are occluded by the
-            dark band and footer. Hidden below the column width. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-0 -z-10 hidden h-[9453px] w-full max-w-[1440px] -translate-x-1/2 min-[1240px]:block"
-        >
-          <span className="absolute left-[100px] top-0 h-full w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
-          <span className="absolute right-[100px] top-0 h-full w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
+        {/* Header/main/Footer + the margin rules share this wrapper so the rules'
+            height tracks real content instead of a hardcoded number: the
+            wrapper's height is set by its normal-flow children (Header + main +
+            Footer), and the absolutely-positioned rules stretch to match via
+            inset-y-0 (top:0/bottom:0) rather than a fixed h-[]. That keeps
+            document scrollHeight equal to the footer's bottom on every page,
+            regardless of how tall that page's content is. */}
+        <div className="relative flex flex-1 flex-col">
+          {/* Two vertical margin rules (frame 321:1284 / 1285): bg #cecece with a
+              1px #fefefe border on each side, 3px wide. They live in a
+              max-w-[1440px] mx-auto container (the frame artboard width) centered
+              on the full-bleed #e8e8e8 surface, with each rule 100px inside the
+              container edge — symmetric 100/100 at 1440 (x=100 / x=1337). Beyond
+              1440 the container caps and centers, so the rules stay locked to the
+              centered 1440 artboard (100px inside it) instead of spreading with
+              the viewport. -z-10 (inside the isolated body) keeps them behind
+              content: they show through the transparent header at the top and
+              are occluded by the dark band and footer. Hidden below the column
+              width. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-1/2 -z-10 hidden w-full max-w-[1440px] -translate-x-1/2 min-[1240px]:block"
+          >
+            <span className="absolute left-[100px] top-0 h-full w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
+            <span className="absolute right-[100px] top-0 h-full w-[3px] border-x border-[#fefefe] bg-[#cecece]" />
+          </div>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
         </div>
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
       </body>
     </html>
   )
