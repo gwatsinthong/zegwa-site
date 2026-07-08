@@ -25,10 +25,8 @@ export const metadata: Metadata = pageMeta({
 // supplies Header + Footer). Exact radii, colors, gradients, shadows, and type
 // sizes are read per node. Font target is Helvetica Now Display; the closest
 // available stack is used as a fallback until the licensed font is installed.
-// Images render from public/images/home-*.{jpg,png} at the frame's exact
-// dimensions -- each file is currently a labeled placeholder; drop in the
-// real asset at the same path/name to replace it, no code change needed.
-// CAPTURE CARVE-OUT: the pricing "Found + Capture bundle"
+// Images render from public/images/home-*.jpg at the frame's exact
+// dimensions. CAPTURE CARVE-OUT: the pricing "Found + Capture bundle"
 // line is kept verbatim as text; "See pricing" points to /pricing, and no
 // /capture link is created. All audit CTAs point to /start.
 
@@ -60,32 +58,32 @@ const BUILD_ROWS = [
   {
     build: 'Conversion website',
     does: 'Fast, clean, built to turn visits into bookings',
-    icon: '/images/home-build-website.png',
+    icon: '/images/home-build-website.jpg',
   },
   {
     build: 'Google Business Profile',
     does: 'Optimized so you show up in maps and local search',
-    icon: '/images/home-build-gbp.png',
+    icon: '/images/home-build-gbp.jpg',
   },
   {
     build: 'Directory listings',
     does: 'Consistent across the web so you rank and look trusted',
-    icon: '/images/home-build-directories.png',
+    icon: '/images/home-build-directories.jpg',
   },
   {
     build: 'AI search optimization',
     does: 'Found when customers ask AI, not just Google',
-    icon: '/images/home-build-ai-search.png',
+    icon: '/images/home-build-ai-search.jpg',
   },
   {
     build: 'Lead reactivation',
     does: 'A one-time sweep that re-books past inquiries',
-    icon: '/images/home-build-reactivation.png',
+    icon: '/images/home-build-reactivation.jpg',
   },
   {
     build: 'One dashboard',
     does: 'Every visit, lead, and call tracked in one place you own',
-    icon: '/images/home-build-dashboard.png',
+    icon: '/images/home-build-dashboard.jpg',
   },
 ]
 
