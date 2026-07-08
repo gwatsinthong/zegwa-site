@@ -384,7 +384,7 @@ export default function SearchOrbit() {
           whole composition scales with the column instead of overflowing a
           narrower desktop breakpoint); vertical placement is fixed px, since
           container height doesn't depend on viewport width. */}
-      <div className="relative hidden h-[820px] w-full md:block">
+      <div className="relative hidden h-[690px] w-full md:block">
         <GlowField scale={1.3} />
         <Orb size={234} />
         {PLATFORMS.map((p) => (
