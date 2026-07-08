@@ -21,7 +21,12 @@ type Platform = {
   logo: string
   monogram: string
   tint: string
-  pos: { left: string; top: string }
+  // Fixed px offset from the illustration's center, matching the ring
+  // geometry's own coordinate system (see GlowField) -- each card sits near
+  // the outermost ring (rx~290, ry~190), tuned per card so its own (taller or
+  // shorter) content still clears the orb, rather than out near the
+  // container edges.
+  pos: { dx: number; dy: number }
   // Per-card depth cue (desktop orbit only): a slight individual rotation and
   // scale so the arrangement reads as organic/layered rather than a rigid
   // grid -- "nearer" cards run larger (~1.05), "farther" ones smaller (~0.92).
@@ -37,8 +42,8 @@ const QUERY = 'best dentist near me'
 const STATUS = 'Closes 8 PM'
 const AI_ANSWER = `${BUSINESS} is one of the top-rated dental clinics nearby, known for same-day appointments and friendly service.`
 
-// Desktop orbit positions are percentages of the illustration box, anchored at
-// each card's own center (the wrapper applies -translate-x/y-1/2).
+// Desktop orbit positions: each card sits at a fixed px offset from the
+// illustration's center, on the outermost ring's ellipse path.
 const PLATFORMS: Platform[] = [
   {
     id: 'google-search',
@@ -47,7 +52,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/google-search.svg',
     monogram: 'G',
     tint: 'bg-[#4285f4]',
-    pos: { left: '15%', top: '9%' },
+    pos: { dx: -150, dy: -165 },
     tilt: -5,
     cardScale: 1.05,
   },
@@ -58,7 +63,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/chatgpt.svg',
     monogram: 'C',
     tint: 'bg-[#10a37f]',
-    pos: { left: '85%', top: '9%' },
+    pos: { dx: 150, dy: -172 },
     tilt: 4,
     cardScale: 0.95,
   },
@@ -69,7 +74,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/google-maps.svg',
     monogram: 'M',
     tint: 'bg-[#34a853]',
-    pos: { left: '5%', top: '50%' },
+    pos: { dx: -290, dy: -22 },
     tilt: 6,
     cardScale: 0.92,
   },
@@ -80,7 +85,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/google-business-profile.svg',
     monogram: 'B',
     tint: 'bg-[#4285f4]',
-    pos: { left: '95%', top: '50%' },
+    pos: { dx: 290, dy: -22 },
     tilt: -4,
     cardScale: 1,
   },
@@ -91,7 +96,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/yelp.svg',
     monogram: 'Y',
     tint: 'bg-[#d32323]',
-    pos: { left: '17%', top: '91%' },
+    pos: { dx: -150, dy: 168 },
     tilt: -3,
     cardScale: 0.95,
   },
@@ -102,7 +107,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/gemini.svg',
     monogram: 'G',
     tint: 'bg-gradient-to-br from-[#4285f4] to-[#9b72cb]',
-    pos: { left: '50%', top: '91%' },
+    pos: { dx: 0, dy: 198 },
     tilt: 3,
     cardScale: 1.05,
   },
@@ -113,7 +118,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/apple-maps.svg',
     monogram: 'A',
     tint: 'bg-[#202020]',
-    pos: { left: '83%', top: '91%' },
+    pos: { dx: 150, dy: 168 },
     tilt: 5,
     cardScale: 0.92,
   },
@@ -208,68 +213,81 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
   )
 }
 
-// Concentric faint rings + a soft purple/white radial glow + a few blurred
-// particle dots, centered on the orb. Pure CSS, no assets.
-// `scale` shrinks every ring/glow/particle together (proportionally to the
-// container it's placed in) so nothing gets clipped by the container edges --
-// the mobile fallback uses a much shorter box than the desktop orbit, so its
-// glow needs to shrink to match rather than reuse the desktop-sized rings.
+// Concentric TRUE ellipses (rounded-[50%] -- Tailwind's rounded-full is a
+// fixed 9999px radius, which on a non-square box clamps into a flat-sided
+// "stadium" shape, not an ellipse) hugging the orb, plus a focused violet
+// bloom right behind it and a handful of small glowing dots sitting on the
+// ring paths themselves. Pure CSS, no assets. `scale` shrinks every ring/
+// glow/dot together (proportionally to the container it's placed in) so
+// nothing gets clipped by the container edges -- the mobile fallback uses a
+// much shorter box than the desktop orbit, so its glow needs to shrink to
+// match rather than reuse the desktop-sized rings.
 function GlowField({ scale = 1 }: { scale?: number }) {
   const px = (n: number) => `${Math.round(n * scale)}px`
-  // Soft ambient dust, scattered generally.
+  // Innermost hugs the orb (180px); each ring after that grows by the same
+  // step, brightest nearest the orb and fading outward. The outermost ring
+  // (rx=290, ry=190) is roughly where the cards themselves sit.
+  const rings = [
+    { w: 240, h: 150, alpha: 0.55 },
+    { w: 320, h: 210, alpha: 0.42 },
+    { w: 400, h: 270, alpha: 0.3 },
+    { w: 480, h: 330, alpha: 0.2 },
+    { w: 580, h: 380, alpha: 0.13 },
+  ]
+  // A few soft ambient dust motes, kept close to the tightened cluster.
   const particles = [
-    { left: '22%', top: '18%' },
-    { left: '76%', top: '22%' },
-    { left: '30%', top: '78%' },
-    { left: '68%', top: '74%' },
-    { left: '50%', top: '12%' },
-    { left: '10%', top: '48%' },
+    { dx: -70, dy: -230 },
+    { dx: 230, dy: 210 },
+    { dx: -250, dy: 200 },
   ]
   // Brighter glow points sitting ON the ring paths themselves (fixed px
   // offset from center so they land exactly on a ring's ellipse regardless
   // of container width; `scale` shrinks them together with the rings).
   const ringGlows = [
-    { dx: 150, dy: -72 }, // on ring 1 (420x220)
-    { dx: -272, dy: 62 }, // on ring 2 (620x340)
-    { dx: 40, dy: -206 }, // on ring 3 (800x440), top
-    { dx: 352, dy: 92 }, // on ring 3, right
+    { dx: 84, dy: -54 }, // ring 1
+    { dx: 28, dy: -104 }, // ring 2
+    { dx: -151, dy: 36 }, // ring 2
+    { dx: -35, dy: -131 }, // ring 3
+    { dx: 156, dy: 86 }, // ring 3
+    { dx: 231, dy: -55 }, // ring 4
+    { dx: -85, dy: 151 }, // ring 4
+    { dx: -272, dy: -65 }, // ring 5
   ]
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      {/* Focused violet bloom, concentrated right behind the orb (not spread
+          across the whole box). */}
       <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
         style={{
-          width: px(760),
-          height: px(420),
+          width: px(480),
+          height: px(280),
           background:
-            'radial-gradient(ellipse at center, rgba(147,112,219,0.22) 0%, rgba(147,112,219,0.09) 40%, rgba(147,112,219,0) 70%)',
+            'radial-gradient(ellipse at center, rgba(147,112,219,0.28) 0%, rgba(147,112,219,0.12) 45%, rgba(147,112,219,0) 72%)',
         }}
       />
       <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
         style={{
-          width: px(340),
-          height: px(220),
-          background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 70%)',
+          width: px(200),
+          height: px(130),
+          background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%)',
         }}
       />
-      <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ width: px(420), height: px(220), border: '1px solid rgba(147,112,219,0.45)' }}
-      />
-      <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ width: px(620), height: px(340), border: '1px solid rgba(147,112,219,0.28)' }}
-      />
-      <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ width: px(800), height: px(440), border: '1px solid rgba(147,112,219,0.16)' }}
-      />
+
+      {rings.map((r, i) => (
+        <div
+          key={i}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
+          style={{ width: px(r.w), height: px(r.h), border: `1px solid rgba(147,112,219,${r.alpha})` }}
+        />
+      ))}
+
       {particles.map((p, i) => (
         <span
           key={i}
-          className="absolute rounded-full bg-white/60 blur-[1.5px]"
-          style={{ left: p.left, top: p.top, width: px(6), height: px(6) }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/50 blur-[1.5px]"
+          style={{ width: px(6), height: px(6), marginLeft: px(p.dx), marginTop: px(p.dy) }}
         />
       ))}
       {ringGlows.map((g, i) => (
@@ -359,21 +377,22 @@ export default function SearchOrbit() {
 
   return (
     <div className="w-full">
-      {/* Desktop orbit (>=768px): 7 cards positioned around the center orb. */}
-      <div className="relative hidden h-[640px] w-full md:block">
+      {/* Desktop orbit (>=768px): 7 cards clustered close around the center
+          orb, each positioned by a fixed px offset (see PLATFORMS) rather
+          than a percentage of the container, so they sit ON the outermost
+          ring instead of out near the container edges. */}
+      <div className="relative hidden h-[600px] w-full md:block">
         <GlowField />
         <Orb />
         {PLATFORMS.map((p) => (
           <div
             key={p.id}
-            className="absolute"
+            className="absolute left-1/2 top-1/2"
             style={{
-              left: p.pos.left,
-              top: p.pos.top,
-              transform: `translate(-50%, -50%) rotate(${p.tilt}deg) scale(${p.cardScale})`,
+              transform: `translate(calc(-50% + ${p.pos.dx}px), calc(-50% + ${p.pos.dy}px)) rotate(${p.tilt}deg) scale(${p.cardScale})`,
             }}
           >
-            <PlatformCard platform={p} className="w-[176px]" />
+            <PlatformCard platform={p} className="w-[172px]" />
           </div>
         ))}
       </div>
@@ -383,7 +402,7 @@ export default function SearchOrbit() {
           of each type: search, listing, AI answer) stacked below it. */}
       <div className="flex flex-col items-center gap-[24px] md:hidden">
         <div className="relative h-[220px] w-full">
-          <GlowField scale={0.4} />
+          <GlowField scale={0.6} />
           <Orb size={120} />
         </div>
         <div className="flex w-full max-w-[320px] flex-col gap-[12px]">
