@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { pageMeta } from '@/lib/seo'
 import Deliverables from '@/components/Deliverables'
+import SearchOrbit from '@/components/SearchOrbit'
 import {
   HELV,
   ArrowRight,
@@ -116,6 +117,44 @@ const FAQS = [
 
 
 export default function FoundPage() {
+  // HIDDEN (temporary, restore when the real video is ready): the VSL block is
+  // lifted out of the returned JSX and preserved verbatim here so it's a
+  // straight swap back in later. The search-orbit illustration below the hero
+  // copy renders in its place; the marker comment at the render site points
+  // back to this const.
+  const hiddenVslBlock = (
+    // VSL block (frame 321:1318 / 1319 / 1320): outer bezel rounded-[24px]
+    // border #fefefe + #e0e0e0 backing + inset ring; inner white card
+    // rounded-[15px]; 903x508 screen rounded-[15px]. Outer width 947 =
+    // 903 + 20 (inner pad) + 24 (outer pad). Image: public/images/
+    // home-vsl-poster.jpg (903x508) -- replace that file with the real
+    // poster/thumbnail.
+    <div className="relative w-full max-w-[947px] rounded-[24px] border border-[#fefefe] p-[12px]">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[24px] bg-[#e0e0e0]" />
+      <div className="relative rounded-[15px] bg-[#fefefe] p-[10px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]">
+        <div className={`relative aspect-[903/508] w-full overflow-hidden rounded-[15px] ${SOFT_DROP_SHADOW}`}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/home-vsl-poster.jpg"
+            alt="Video preview"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="rounded-[999px] border-[6px] border-[#cecece] p-[6px]">
+              <div className="flex items-center justify-center rounded-[999px] bg-gradient-to-b from-[#f91626] to-[#a80813] p-[12px]">
+                <svg viewBox="0 0 24 24" fill="#fefefe" className="h-[24px] w-[24px]" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-[-1px] rounded-[inherit] shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)]" />
+    </div>
+  )
+
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================ HERO (321:1286) ============================ */}
@@ -135,36 +174,10 @@ export default function FoundPage() {
             </p>
           </div>
 
-          {/* VSL block (frame 321:1318 / 1319 / 1320): outer bezel rounded-[24px]
-              border #fefefe + #e0e0e0 backing + inset ring; inner white card
-              rounded-[15px]; 903x508 screen rounded-[15px]. Outer width 947 =
-              903 + 20 (inner pad) + 24 (outer pad). Image: public/images/
-              home-vsl-poster.jpg (903x508) -- replace that file with the real
-              poster/thumbnail. */}
-          <div className="relative w-full max-w-[947px] rounded-[24px] border border-[#fefefe] p-[12px]">
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[24px] bg-[#e0e0e0]" />
-            <div className="relative rounded-[15px] bg-[#fefefe] p-[10px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]">
-            <div className={`relative aspect-[903/508] w-full overflow-hidden rounded-[15px] ${SOFT_DROP_SHADOW}`}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/home-vsl-poster.jpg"
-                alt="Video preview"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30" />
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="rounded-[999px] border-[6px] border-[#cecece] p-[6px]">
-                  <div className="flex items-center justify-center rounded-[999px] bg-gradient-to-b from-[#f91626] to-[#a80813] p-[12px]">
-                    <svg viewBox="0 0 24 24" fill="#fefefe" className="h-[24px] w-[24px]" aria-hidden="true">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-            <div aria-hidden="true" className="pointer-events-none absolute inset-[-1px] rounded-[inherit] shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)]" />
-          </div>
+          {/* HIDDEN (temporary, restore when video ready): the VSL block is
+              lifted into `hiddenVslBlock` above. To restore, move it back
+              here in place of <SearchOrbit />. */}
+          <SearchOrbit />
 
           <div className="flex flex-col items-center gap-[12px]">
             <PillCta />
