@@ -22,6 +22,12 @@ type Platform = {
   monogram: string
   tint: string
   pos: { left: string; top: string }
+  // Per-card depth cue (desktop orbit only): a slight individual rotation and
+  // scale so the arrangement reads as organic/layered rather than a rigid
+  // grid -- "nearer" cards run larger (~1.05), "farther" ones smaller (~0.92).
+  // Varied per card on purpose, not a uniform value.
+  tilt: number
+  cardScale: number
 }
 
 const BUSINESS = 'Smile Dental Clinic'
@@ -42,6 +48,8 @@ const PLATFORMS: Platform[] = [
     monogram: 'G',
     tint: 'bg-[#4285f4]',
     pos: { left: '15%', top: '9%' },
+    tilt: -5,
+    cardScale: 1.05,
   },
   {
     id: 'chatgpt',
@@ -51,6 +59,8 @@ const PLATFORMS: Platform[] = [
     monogram: 'C',
     tint: 'bg-[#10a37f]',
     pos: { left: '85%', top: '9%' },
+    tilt: 4,
+    cardScale: 0.95,
   },
   {
     id: 'google-maps',
@@ -60,6 +70,8 @@ const PLATFORMS: Platform[] = [
     monogram: 'M',
     tint: 'bg-[#34a853]',
     pos: { left: '5%', top: '50%' },
+    tilt: 6,
+    cardScale: 0.92,
   },
   {
     id: 'google-business-profile',
@@ -69,6 +81,8 @@ const PLATFORMS: Platform[] = [
     monogram: 'B',
     tint: 'bg-[#4285f4]',
     pos: { left: '95%', top: '50%' },
+    tilt: -4,
+    cardScale: 1,
   },
   {
     id: 'yelp',
@@ -78,6 +92,8 @@ const PLATFORMS: Platform[] = [
     monogram: 'Y',
     tint: 'bg-[#d32323]',
     pos: { left: '17%', top: '91%' },
+    tilt: -3,
+    cardScale: 0.95,
   },
   {
     id: 'gemini',
@@ -87,6 +103,8 @@ const PLATFORMS: Platform[] = [
     monogram: 'G',
     tint: 'bg-gradient-to-br from-[#4285f4] to-[#9b72cb]',
     pos: { left: '50%', top: '91%' },
+    tilt: 3,
+    cardScale: 1.05,
   },
   {
     id: 'apple-maps',
@@ -96,6 +114,8 @@ const PLATFORMS: Platform[] = [
     monogram: 'A',
     tint: 'bg-[#202020]',
     pos: { left: '83%', top: '91%' },
+    tilt: 5,
+    cardScale: 0.92,
   },
 ]
 
@@ -127,7 +147,7 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
       style={{ fontFamily: HELV }}
       className={`rounded-[12px] bg-[#fefefe] p-[12px] ${SOFT_DROP_SHADOW} ${className}`}
     >
-      <div className="flex items-center gap-[6px]">
+      <div className="flex items-center gap-[8px] border-b border-[#f0f0f0] pb-[9px]">
         {/* Swap: {platform.name} logo -> public{platform.logo} (official brand SVG) */}
         <span
           aria-hidden="true"
@@ -141,7 +161,7 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
         </span>
       </div>
 
-      <div className="mt-[10px]">
+      <div className="mt-[9px]">
         {platform.type === 'search' && (
           <>
             <div className="truncate rounded-[999px] border border-[#e0e0e0] px-[8px] py-[4px] text-[10px] text-[#5c5c5c]">
@@ -196,6 +216,7 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
 // glow needs to shrink to match rather than reuse the desktop-sized rings.
 function GlowField({ scale = 1 }: { scale?: number }) {
   const px = (n: number) => `${Math.round(n * scale)}px`
+  // Soft ambient dust, scattered generally.
   const particles = [
     { left: '22%', top: '18%' },
     { left: '76%', top: '22%' },
@@ -203,6 +224,15 @@ function GlowField({ scale = 1 }: { scale?: number }) {
     { left: '68%', top: '74%' },
     { left: '50%', top: '12%' },
     { left: '10%', top: '48%' },
+  ]
+  // Brighter glow points sitting ON the ring paths themselves (fixed px
+  // offset from center so they land exactly on a ring's ellipse regardless
+  // of container width; `scale` shrinks them together with the rings).
+  const ringGlows = [
+    { dx: 150, dy: -72 }, // on ring 1 (420x220)
+    { dx: -272, dy: 62 }, // on ring 2 (620x340)
+    { dx: 40, dy: -206 }, // on ring 3 (800x440), top
+    { dx: 352, dy: 92 }, // on ring 3, right
   ]
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -212,7 +242,7 @@ function GlowField({ scale = 1 }: { scale?: number }) {
           width: px(760),
           height: px(420),
           background:
-            'radial-gradient(ellipse at center, rgba(147,112,219,0.16) 0%, rgba(147,112,219,0.06) 40%, rgba(147,112,219,0) 70%)',
+            'radial-gradient(ellipse at center, rgba(147,112,219,0.22) 0%, rgba(147,112,219,0.09) 40%, rgba(147,112,219,0) 70%)',
         }}
       />
       <div
@@ -220,20 +250,20 @@ function GlowField({ scale = 1 }: { scale?: number }) {
         style={{
           width: px(340),
           height: px(220),
-          background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%)',
+          background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 70%)',
         }}
       />
       <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#cecece]/50"
-        style={{ width: px(420), height: px(220) }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ width: px(420), height: px(220), border: '1px solid rgba(147,112,219,0.45)' }}
       />
       <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#cecece]/30"
-        style={{ width: px(620), height: px(340) }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ width: px(620), height: px(340), border: '1px solid rgba(147,112,219,0.28)' }}
       />
       <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#cecece]/15"
-        style={{ width: px(800), height: px(440) }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ width: px(800), height: px(440), border: '1px solid rgba(147,112,219,0.16)' }}
       />
       {particles.map((p, i) => (
         <span
@@ -242,28 +272,84 @@ function GlowField({ scale = 1 }: { scale?: number }) {
           style={{ left: p.left, top: p.top, width: px(6), height: px(6) }}
         />
       ))}
+      {ringGlows.map((g, i) => (
+        <span
+          key={i}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{
+            width: px(7),
+            height: px(7),
+            marginLeft: px(g.dx),
+            marginTop: px(g.dy),
+            background: 'rgba(255,255,255,0.9)',
+            boxShadow: '0 0 6px 2px rgba(147,112,219,0.55)',
+          }}
+        />
+      ))}
     </div>
   )
 }
 
 // Swap: replaces this whole sphere with public/hero/orb.png (transparent bg)
 // once supplied. Sized via the `size` prop so mobile can render a smaller one.
+// Still a CSS placeholder, but reads as a sphere: a violet rim light around
+// the edge, a soft cast shadow grounding it on the glow field, a top gloss
+// highlight, and a small red "live" status dot near the bottom.
 function Orb({ size = 180 }: { size?: number }) {
+  const dot = Math.max(10, Math.round(size * 0.09))
   return (
     <div
-      className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-[0_20px_45px_rgba(0,0,0,0.28)]"
-      style={{
-        width: size,
-        height: size,
-        background: 'radial-gradient(circle at 35% 28%, #4a4a4a 0%, #1a1a1a 55%, #000 100%)',
-      }}
+      className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
+      style={{ width: size, height: size }}
     >
-      <span
-        style={{ fontFamily: HELV }}
-        className="px-[16px] text-center text-[12px] font-bold uppercase leading-[1.3] tracking-[0.08em] text-white"
+      {/* Cast shadow: grounds the orb above the glow field. */}
+      <div
+        className="absolute left-1/2 -translate-x-1/2 rounded-full blur-[8px]"
+        style={{
+          top: size * 0.86,
+          width: size * 0.82,
+          height: size * 0.22,
+          background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 72%)',
+        }}
+      />
+
+      {/* Sphere, with a violet rim light + inset glow around the edge. */}
+      <div
+        className="relative flex h-full w-full items-center justify-center rounded-full"
+        style={{
+          background: 'radial-gradient(circle at 32% 26%, #55525a 0%, #2a2830 42%, #111014 72%, #000 100%)',
+          boxShadow:
+            '0 18px 36px rgba(0,0,0,0.32), 0 0 0 1px rgba(155,114,203,0.28), 0 0 26px 3px rgba(147,112,219,0.4), inset 0 0 18px rgba(147,112,219,0.25), inset 2px 2px 10px rgba(255,255,255,0.12)',
+        }}
       >
-        Your Business
-      </span>
+        {/* Top gloss highlight. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[18%] top-[12%] h-[34%] w-[46%] rounded-full blur-[6px]"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 75%)',
+          }}
+        />
+
+        <span
+          style={{ fontFamily: HELV }}
+          className="relative z-10 px-[16px] text-center text-[12px] font-bold uppercase leading-[1.3] tracking-[0.08em] text-white"
+        >
+          Your Business
+        </span>
+
+        {/* Small red status dot, bottom-center. */}
+        <span
+          aria-hidden="true"
+          className="absolute left-1/2 -translate-x-1/2 rounded-full bg-[#f91626]"
+          style={{
+            width: dot,
+            height: dot,
+            bottom: size * 0.08,
+            boxShadow: '0 0 6px rgba(249,22,38,0.7), 0 0 0 2px rgba(0,0,0,0.4)',
+          }}
+        />
+      </div>
     </div>
   )
 }
@@ -280,8 +366,12 @@ export default function SearchOrbit() {
         {PLATFORMS.map((p) => (
           <div
             key={p.id}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ left: p.pos.left, top: p.pos.top }}
+            className="absolute"
+            style={{
+              left: p.pos.left,
+              top: p.pos.top,
+              transform: `translate(-50%, -50%) rotate(${p.tilt}deg) scale(${p.cardScale})`,
+            }}
           >
             <PlatformCard platform={p} className="w-[176px]" />
           </div>
