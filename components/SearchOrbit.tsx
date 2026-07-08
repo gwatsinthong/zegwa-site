@@ -21,12 +21,13 @@ type Platform = {
   logo: string
   monogram: string
   tint: string
-  // Fixed px offset from the illustration's center, matching the ring
-  // geometry's own coordinate system (see GlowField) -- each card sits near
-  // the outermost ring (rx~290, ry~190), tuned per card so its own (taller or
-  // shorter) content still clears the orb, rather than out near the
-  // container edges.
-  pos: { dx: number; dy: number }
+  // Horizontal offset as a % of the orbit container's own width (so the
+  // orbit's reach scales with the column at any desktop breakpoint instead
+  // of overflowing a narrower one), paired with a fixed px vertical offset
+  // (container height doesn't depend on viewport width, so px is safe there).
+  // Tuned per card so its own (taller or shorter) content still clears the
+  // orb, rather than out near the container edges.
+  pos: { dxPct: number; dy: number }
   // Per-card depth cue (desktop orbit only): a slight individual rotation and
   // scale so the arrangement reads as organic/layered rather than a rigid
   // grid -- "nearer" cards run larger (~1.05), "farther" ones smaller (~0.92).
@@ -42,8 +43,9 @@ const QUERY = 'best dentist near me'
 const STATUS = 'Closes 8 PM'
 const AI_ANSWER = `${BUSINESS} is one of the top-rated dental clinics nearby, known for same-day appointments and friendly service.`
 
-// Desktop orbit positions: each card sits at a fixed px offset from the
-// illustration's center, on the outermost ring's ellipse path.
+// Desktop orbit positions: each card sits at a %-of-container horizontal
+// offset (so it scales with the column width) and a fixed px vertical
+// offset, on the outermost ring's ellipse path.
 const PLATFORMS: Platform[] = [
   {
     id: 'google-search',
@@ -52,7 +54,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/google-search.svg',
     monogram: 'G',
     tint: 'bg-[#4285f4]',
-    pos: { dx: -150, dy: -165 },
+    pos: { dxPct: -18.75, dy: -215 },
     tilt: -5,
     cardScale: 1.05,
   },
@@ -63,7 +65,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/chatgpt.svg',
     monogram: 'C',
     tint: 'bg-[#10a37f]',
-    pos: { dx: 150, dy: -172 },
+    pos: { dxPct: 18.75, dy: -224 },
     tilt: 4,
     cardScale: 0.95,
   },
@@ -74,7 +76,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/google-maps.svg',
     monogram: 'M',
     tint: 'bg-[#34a853]',
-    pos: { dx: -290, dy: -22 },
+    pos: { dxPct: -32, dy: -29 },
     tilt: 6,
     cardScale: 0.92,
   },
@@ -85,7 +87,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/google-business-profile.svg',
     monogram: 'B',
     tint: 'bg-[#4285f4]',
-    pos: { dx: 290, dy: -22 },
+    pos: { dxPct: 32, dy: -29 },
     tilt: -4,
     cardScale: 1,
   },
@@ -96,7 +98,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/yelp.svg',
     monogram: 'Y',
     tint: 'bg-[#d32323]',
-    pos: { dx: -150, dy: 168 },
+    pos: { dxPct: -18.75, dy: 218 },
     tilt: -3,
     cardScale: 0.95,
   },
@@ -107,7 +109,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/gemini.svg',
     monogram: 'G',
     tint: 'bg-gradient-to-br from-[#4285f4] to-[#9b72cb]',
-    pos: { dx: 0, dy: 198 },
+    pos: { dxPct: 0, dy: 257 },
     tilt: 3,
     cardScale: 1.05,
   },
@@ -118,7 +120,7 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/apple-maps.svg',
     monogram: 'A',
     tint: 'bg-[#202020]',
-    pos: { dx: 150, dy: 168 },
+    pos: { dxPct: 18.75, dy: 218 },
     tilt: 5,
     cardScale: 0.92,
   },
@@ -377,22 +379,24 @@ export default function SearchOrbit() {
 
   return (
     <div className="w-full">
-      {/* Desktop orbit (>=768px): 7 cards clustered close around the center
-          orb, each positioned by a fixed px offset (see PLATFORMS) rather
-          than a percentage of the container, so they sit ON the outermost
-          ring instead of out near the container edges. */}
-      <div className="relative hidden h-[600px] w-full md:block">
-        <GlowField />
-        <Orb />
+      {/* Desktop orbit (>=768px): 7 cards clustered around the center orb.
+          Horizontal placement is a % of the container's own width (so the
+          whole composition scales with the column instead of overflowing a
+          narrower desktop breakpoint); vertical placement is fixed px, since
+          container height doesn't depend on viewport width. */}
+      <div className="relative hidden h-[820px] w-full md:block">
+        <GlowField scale={1.3} />
+        <Orb size={234} />
         {PLATFORMS.map((p) => (
           <div
             key={p.id}
-            className="absolute left-1/2 top-1/2"
+            className="absolute top-1/2"
             style={{
-              transform: `translate(calc(-50% + ${p.pos.dx}px), calc(-50% + ${p.pos.dy}px)) rotate(${p.tilt}deg) scale(${p.cardScale})`,
+              left: `calc(50% + ${p.pos.dxPct}%)`,
+              transform: `translate(-50%, calc(-50% + ${p.pos.dy}px)) rotate(${p.tilt}deg) scale(${p.cardScale})`,
             }}
           >
-            <PlatformCard platform={p} className="w-[172px]" />
+            <PlatformCard platform={p} className="w-[224px]" />
           </div>
         ))}
       </div>
