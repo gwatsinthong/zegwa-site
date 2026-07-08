@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import ZMark from './ZMark'
 
 // Red money figure. Reserved for loss-framing dollars in the sample report
 // (the leak, per-gap slices, the one-thing number, the do-nothing delta).
@@ -49,7 +48,8 @@ export function Kicker({
 }
 
 export function SectionMark({ onDark = false }: { onDark?: boolean }) {
-  return <ZMark className={`h-5 w-auto ${onDark ? 'text-[#9d9a9a]' : 'text-muted'}`} />
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={onDark ? '/small-logo-inverse.svg' : '/small-logo.svg'} alt="" className="h-5 w-auto" />
 }
 
 // Plus that becomes a minus when its parent <details className="group"> is open.
@@ -453,7 +453,16 @@ export function RuleRow({ children, onDark = false }: { children: React.ReactNod
 }
 
 export function Mark({ onDark = false }: { onDark?: boolean }) {
-  return <ZMark className={`h-[23px] w-[24px] ${onDark ? 'text-[#9d9a9a]' : 'text-[#202020]'}`} />
+  // eslint-disable-next-line @next/next/no-img-element
+  return (
+    <img
+      src={onDark ? '/small-logo-inverse.svg' : '/small-logo.svg'}
+      alt=""
+      width={24}
+      height={23}
+      className="h-[23px] w-[24px]"
+    />
+  )
 }
 
 // Shared soft-emboss bevel: two DROP_SHADOW effects authored together wherever
