@@ -155,6 +155,22 @@ export default function FoundPage() {
     </div>
   )
 
+  // HIDDEN (Found-only launch, restore later): the bundle up-sell line is
+  // lifted out of the returned JSX and preserved verbatim here. To restore,
+  // move it back into the Pricing section, after the ongoing-price Framed
+  // block and before the free-audit PillCta.
+  const hiddenBundleUpsell = (
+    <div className="flex flex-wrap items-end justify-center gap-[4px] text-center">
+      <p className="text-[16px] leading-[1.5] text-[#777]">
+        Want the calls handled too? The Found + Capture bundle saves on both.
+      </p>
+      <Link href="/pricing" className="inline-flex items-center gap-[4px] text-[16px] font-bold tracking-[0.16px] text-[#202020]">
+        See pricing
+        <ArrowRight className="h-[24px] w-[24px]" />
+      </Link>
+    </div>
+  )
+
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================ HERO (321:1286) ============================ */}
@@ -381,16 +397,9 @@ export default function FoundPage() {
               </Framed>
             </div>
 
-            {/* CAPTURE CARVE-OUT: verbatim bundle text kept; "See pricing" -> /pricing */}
-            <div className="flex flex-wrap items-end justify-center gap-[4px] text-center">
-              <p className="text-[16px] leading-[1.5] text-[#777]">
-                Want the calls handled too? The Found + Capture bundle saves on both.
-              </p>
-              <Link href="/pricing" className="inline-flex items-center gap-[4px] text-[16px] font-bold tracking-[0.16px] text-[#202020]">
-                See pricing
-                <ArrowRight className="h-[24px] w-[24px]" />
-              </Link>
-            </div>
+            {/* HIDDEN (Found-only launch, restore later): the bundle up-sell
+                line is lifted into `hiddenBundleUpsell` above. To restore,
+                move it back here. */}
 
             <div className="mt-[16px] flex flex-col items-center gap-[12px]">
               <PillCta />

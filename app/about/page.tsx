@@ -76,8 +76,8 @@ export default function AboutPage() {
               A studio built to deliver, not to bill hours.
             </h1>
             <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              Businesses hire us to get found and stop missing bookings. We build it, run it, and
-              hand you everything.
+              Businesses hire us to get found and turn searches into customers. We build it, run
+              it, and hand you everything.
             </p>
           </div>
           <div className="flex flex-col items-center gap-[12px]">
@@ -102,8 +102,8 @@ export default function AboutPage() {
           <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
             <p>The old way of hiring this out is broken.</p>
             <p className="mt-[1.32em]">
-              Getting found and answering every call used to mean an agency retainer, a full-time
-              front desk, or both. Most local businesses couldn&#39;t justify either.
+              Getting found used to mean an expensive agency retainer or an in-house marketing
+              hire. Most local businesses couldn&#39;t justify either.
             </p>
             <p className="mt-[1.32em] text-[#777]">
               New tools changed the math. We can now build and run the whole thing for a fraction of

@@ -54,6 +54,13 @@ const TIERS: Tier[] = [
     ],
     cta: { label: 'See the fix', href: '/start', tone: 'white' },
   },
+]
+
+// HIDDEN (Found-only launch, restore later): the Capture and Bundle tiers are
+// lifted out of TIERS and preserved verbatim here. To restore, move these two
+// entries back into the TIERS array above, in this order (Capture, then
+// Bundle), after the Found entry.
+const hiddenCaptureAndBundleTiers: Tier[] = [
   {
     // CAPTURE CARVE-OUT: Capture tier renders as designed; CTA -> /start.
     name: 'CAPTURE',
@@ -213,15 +220,24 @@ export default function PricingPage() {
               The price is on the page. Always.
             </h1>
             <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              No calls to book, no quotes to chase. Pick what fixes your problem, or fix both and
-              save.
+              No calls to book, no quotes to chase. See the price and get started.
             </p>
           </div>
 
           <div className="flex w-full flex-col items-center gap-[16px]">
-            {/* Tier cards (348:2770): three cards float on the grey counter backing */}
+            {/* Tier cards (348:2770): three cards float on the grey counter backing.
+                Found-only launch: TIERS currently holds one entry, so this
+                centers a single fixed-width card instead of stretching it
+                full-width; restoring the hidden tiers (TIERS.length > 1)
+                switches this back to the original flex-row layout automatically. */}
             <Framed outer="p-[16px]" bare className="w-full">
-              <div className="flex flex-col gap-[16px] lg:flex-row">
+              <div
+                className={
+                  TIERS.length > 1
+                    ? 'flex flex-col gap-[16px] lg:flex-row'
+                    : 'mx-auto flex max-w-[380px] flex-col gap-[16px]'
+                }
+              >
                 {TIERS.map((tier) => (
                   <TierCard key={tier.name} {...tier} />
                 ))}
