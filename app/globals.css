@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Helvetica Now Display -- licensed local files (public/fonts/), one
+   @font-face per weight under the same family name so the browser picks the
+   right file for font-weight: 400/500/700 automatically. This is the font
+   the HELV stack (components/sections.tsx) already asks for first; until
+   these files existed, every HELV-styled element silently fell back to
+   Helvetica Neue/Arial. font-display: swap avoids invisible text while the
+   file loads. */
+@font-face {
+  font-family: 'Helvetica Now Display';
+  src: url('/fonts/HelveticaNowDisplay-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica Now Display';
+  src: url('/fonts/HelveticaNowDisplay-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica Now Display';
+  src: url('/fonts/HelveticaNowDisplay-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Locked tokens. Light default. */
   /* Page surface: the cool light grey of Figma frame 321:1283 (root fill

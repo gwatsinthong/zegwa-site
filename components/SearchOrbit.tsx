@@ -8,9 +8,14 @@ import { HELV, SOFT_DROP_SHADOW } from './sections'
 //
 // Swap points (Gwatsin to supply):
 //   - public/hero/orb.png            -- replaces the CSS sphere placeholder below
-//   - public/hero/logos/<id>.svg     -- one official brand SVG per platform (see
-//                                        PLATFORMS below for each `logo` path)
 //   - each card's thumbnail / mini-map placeholder (labeled inline per card)
+//
+// Real brand logos are wired from public/logos/<id>.svg (see PLATFORMS below
+// for each `logo` path). Two of the seven -- yelp.svg and gemini.svg -- are
+// wide wordmark lockups (icon + text), not square icons like the other five;
+// at the card's fixed 27x27 badge size they render as a thin, hard-to-read
+// sliver rather than a clean mark. Flagging for Gwatsin: a square icon-only
+// crop of those two would look better in this slot.
 
 type CardType = 'search' | 'listing' | 'ai'
 
@@ -19,8 +24,6 @@ type Platform = {
   name: string
   type: CardType
   logo: string
-  monogram: string
-  tint: string
   // Horizontal offset as a % of the orbit container's own width (so the
   // orbit's reach scales with the column at any desktop breakpoint instead
   // of overflowing a narrower one), paired with a fixed px vertical offset
@@ -58,9 +61,7 @@ const PLATFORMS: Platform[] = [
     id: 'google-search',
     name: 'Google Search',
     type: 'search',
-    logo: '/hero/logos/google-search.svg',
-    monogram: 'G',
-    tint: 'bg-[#4285f4]',
+    logo: '/logos/google-search.svg',
     pos: { dxPct: -18.75, dy: -215 },
     tilt: -5,
     cardScale: 1.05,
@@ -69,9 +70,7 @@ const PLATFORMS: Platform[] = [
     id: 'chatgpt',
     name: 'ChatGPT',
     type: 'ai',
-    logo: '/hero/logos/chatgpt.svg',
-    monogram: 'C',
-    tint: 'bg-[#10a37f]',
+    logo: '/logos/chatgpt.svg',
     pos: { dxPct: 18.75, dy: -224 },
     tilt: 4,
     cardScale: 0.95,
@@ -80,9 +79,7 @@ const PLATFORMS: Platform[] = [
     id: 'google-maps',
     name: 'Google Maps',
     type: 'listing',
-    logo: '/hero/logos/google-maps.svg',
-    monogram: 'M',
-    tint: 'bg-[#34a853]',
+    logo: '/logos/google-maps.svg',
     pos: { dxPct: -32.75, dy: -50 },
     tilt: 6,
     cardScale: 0.92,
@@ -92,9 +89,7 @@ const PLATFORMS: Platform[] = [
     id: 'google-business-profile',
     name: 'Google Business Profile',
     type: 'listing',
-    logo: '/hero/logos/google-business-profile.svg',
-    monogram: 'B',
-    tint: 'bg-[#4285f4]',
+    logo: '/logos/google-business-profile.svg',
     pos: { dxPct: 32.75, dy: -50 },
     tilt: -4,
     cardScale: 1,
@@ -104,9 +99,7 @@ const PLATFORMS: Platform[] = [
     id: 'yelp',
     name: 'Yelp',
     type: 'listing',
-    logo: '/hero/logos/yelp.svg',
-    monogram: 'Y',
-    tint: 'bg-[#d32323]',
+    logo: '/logos/yelp.svg',
     pos: { dxPct: -18.75, dy: 218 },
     tilt: -3,
     cardScale: 0.95,
@@ -115,9 +108,7 @@ const PLATFORMS: Platform[] = [
     id: 'gemini',
     name: 'Gemini',
     type: 'ai',
-    logo: '/hero/logos/gemini.svg',
-    monogram: 'G',
-    tint: 'bg-gradient-to-br from-[#4285f4] to-[#9b72cb]',
+    logo: '/logos/gemini.svg',
     pos: { dxPct: 0, dy: 257 },
     tilt: 3,
     cardScale: 1.05,
@@ -126,9 +117,7 @@ const PLATFORMS: Platform[] = [
     id: 'apple-maps',
     name: 'Apple Maps',
     type: 'listing',
-    logo: '/hero/logos/apple-maps.svg',
-    monogram: 'A',
-    tint: 'bg-[#202020]',
+    logo: '/logos/apple-maps.svg',
     pos: { dxPct: 18.75, dy: 218 },
     tilt: 5,
     cardScale: 0.92,
@@ -164,13 +153,13 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
       className={`rounded-[13px] bg-[#fefefe] p-[13px] ${SOFT_DROP_SHADOW} ${className}`}
     >
       <div className="flex items-center gap-[9px] border-b border-[#f0f0f0] pb-[10px]">
-        {/* Swap: {platform.name} logo -> public{platform.logo} (official brand SVG) */}
-        <span
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={platform.logo}
+          alt=""
           aria-hidden="true"
-          className={`flex h-[27px] w-[27px] shrink-0 items-center justify-center rounded-[7px] text-[12px] font-bold text-white ${platform.tint}`}
-        >
-          {platform.monogram}
-        </span>
+          className="h-[27px] w-[27px] shrink-0 rounded-[7px] object-contain"
+        />
         <p className="flex-1 truncate text-[14px] font-bold leading-none text-[#202020]">{platform.name}</p>
         <span aria-hidden="true" className="text-[14px] leading-none text-[#9d9a9a]">
           ⋮
