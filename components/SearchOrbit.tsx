@@ -34,6 +34,13 @@ type Platform = {
   // Varied per card on purpose, not a uniform value.
   tilt: number
   cardScale: number
+  // Desktop card width in px. Defaults to 248 (the standard enlarged size);
+  // google-maps/gbp use a smaller value because they sit closest to the orb
+  // horizontally (near its widest point) -- at the full size the two would
+  // clip into the orb at the narrowest desktop width (768px), so they're
+  // tuned individually (measured, not guessed) to keep real clearance from
+  // both the orb and the page margin while still reading larger than before.
+  desktopWidth?: number
 }
 
 const BUSINESS = 'Smile Dental Clinic'
@@ -76,9 +83,10 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/google-maps.svg',
     monogram: 'M',
     tint: 'bg-[#34a853]',
-    pos: { dxPct: -32, dy: -29 },
+    pos: { dxPct: -32.75, dy: -50 },
     tilt: 6,
     cardScale: 0.92,
+    desktopWidth: 230,
   },
   {
     id: 'google-business-profile',
@@ -87,9 +95,10 @@ const PLATFORMS: Platform[] = [
     logo: '/hero/logos/google-business-profile.svg',
     monogram: 'B',
     tint: 'bg-[#4285f4]',
-    pos: { dxPct: 32, dy: -29 },
+    pos: { dxPct: 32.75, dy: -50 },
     tilt: -4,
     cardScale: 1,
+    desktopWidth: 230,
   },
   {
     id: 'yelp',
@@ -136,7 +145,7 @@ function Stars({ filled }: { filled: number }) {
         <svg
           key={i}
           viewBox="0 0 20 20"
-          className="h-[9px] w-[9px]"
+          className="h-[10px] w-[10px]"
           fill={i < filled ? '#f5b400' : 'none'}
           stroke="#f5b400"
           strokeWidth={i < filled ? 0 : 1.5}
@@ -152,62 +161,62 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
   return (
     <div
       style={{ fontFamily: HELV }}
-      className={`rounded-[12px] bg-[#fefefe] p-[12px] ${SOFT_DROP_SHADOW} ${className}`}
+      className={`rounded-[13px] bg-[#fefefe] p-[13px] ${SOFT_DROP_SHADOW} ${className}`}
     >
-      <div className="flex items-center gap-[8px] border-b border-[#f0f0f0] pb-[9px]">
+      <div className="flex items-center gap-[9px] border-b border-[#f0f0f0] pb-[10px]">
         {/* Swap: {platform.name} logo -> public{platform.logo} (official brand SVG) */}
         <span
           aria-hidden="true"
-          className={`flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[6px] text-[11px] font-bold text-white ${platform.tint}`}
+          className={`flex h-[27px] w-[27px] shrink-0 items-center justify-center rounded-[7px] text-[12px] font-bold text-white ${platform.tint}`}
         >
           {platform.monogram}
         </span>
-        <p className="flex-1 truncate text-[13px] font-bold leading-none text-[#202020]">{platform.name}</p>
-        <span aria-hidden="true" className="text-[13px] leading-none text-[#9d9a9a]">
+        <p className="flex-1 truncate text-[14px] font-bold leading-none text-[#202020]">{platform.name}</p>
+        <span aria-hidden="true" className="text-[14px] leading-none text-[#9d9a9a]">
           ⋮
         </span>
       </div>
 
-      <div className="mt-[9px]">
+      <div className="mt-[10px]">
         {platform.type === 'search' && (
           <>
-            <div className="truncate rounded-[999px] border border-[#e0e0e0] px-[8px] py-[4px] text-[10px] text-[#5c5c5c]">
+            <div className="truncate rounded-[999px] border border-[#e0e0e0] px-[9px] py-[4px] text-[11px] text-[#5c5c5c]">
               {QUERY}
             </div>
-            <div className="mt-[8px] flex items-center gap-[8px]">
+            <div className="mt-[9px] flex items-center gap-[9px]">
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[11px] font-bold leading-[1.3] text-[#1a0dab]">{BUSINESS}</p>
-                <p className="mt-[2px] flex items-center gap-[3px] text-[10px] leading-none text-[#5c5c5c]">
+                <p className="truncate text-[12px] font-bold leading-[1.3] text-[#1a0dab]">{BUSINESS}</p>
+                <p className="mt-[2px] flex items-center gap-[3px] text-[11px] leading-none text-[#5c5c5c]">
                   {RATING} <Stars filled={5} /> {REVIEWS}
                 </p>
               </div>
               {/* Swap: search-result thumbnail for "{BUSINESS}" */}
-              <div className="h-[32px] w-[32px] shrink-0 rounded-[6px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
+              <div className="h-[35px] w-[35px] shrink-0 rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
             </div>
           </>
         )}
 
         {platform.type === 'listing' && (
-          <div className="flex items-center gap-[8px]">
+          <div className="flex items-center gap-[9px]">
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[11px] font-bold leading-[1.3] text-[#202020]">{BUSINESS}</p>
-              <p className="mt-[2px] flex items-center gap-[3px] text-[10px] leading-none text-[#5c5c5c]">
+              <p className="truncate text-[12px] font-bold leading-[1.3] text-[#202020]">{BUSINESS}</p>
+              <p className="mt-[2px] flex items-center gap-[3px] text-[11px] leading-none text-[#5c5c5c]">
                 {RATING} <Stars filled={4} /> {REVIEWS}
               </p>
-              <p className="mt-[2px] text-[10px] leading-none text-[#5c5c5c]">
+              <p className="mt-[2px] text-[11px] leading-none text-[#5c5c5c]">
                 <span className="font-bold text-[#188038]">Open</span> · {STATUS}
               </p>
             </div>
             {/* Swap: mini-map/thumbnail for {platform.name} listing */}
-            <div className="h-[36px] w-[36px] shrink-0 rounded-[6px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
+            <div className="h-[40px] w-[40px] shrink-0 rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
           </div>
         )}
 
         {platform.type === 'ai' && (
-          <div className="flex items-center gap-[8px]">
-            <p className="min-w-0 flex-1 text-[10px] leading-[1.4] text-[#5c5c5c]">{AI_ANSWER}</p>
+          <div className="flex items-center gap-[9px]">
+            <p className="min-w-0 flex-1 text-[11px] leading-[1.4] text-[#5c5c5c]">{AI_ANSWER}</p>
             {/* Swap: AI-answer thumbnail for {platform.name} */}
-            <div className="h-[28px] w-[28px] shrink-0 rounded-[6px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
+            <div className="h-[31px] w-[31px] shrink-0 rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
           </div>
         )}
       </div>
@@ -230,11 +239,11 @@ function GlowField({ scale = 1 }: { scale?: number }) {
   // step, brightest nearest the orb and fading outward. The outermost ring
   // (rx=290, ry=190) is roughly where the cards themselves sit.
   const rings = [
-    { w: 240, h: 150, alpha: 0.55 },
-    { w: 320, h: 210, alpha: 0.42 },
-    { w: 400, h: 270, alpha: 0.3 },
-    { w: 480, h: 330, alpha: 0.2 },
-    { w: 580, h: 380, alpha: 0.13 },
+    { w: 240, h: 150, alpha: 0.64 },
+    { w: 320, h: 210, alpha: 0.5 },
+    { w: 400, h: 270, alpha: 0.37 },
+    { w: 480, h: 330, alpha: 0.26 },
+    { w: 580, h: 380, alpha: 0.17 },
   ]
   // A few soft ambient dust motes, kept close to the tightened cluster.
   const particles = [
@@ -265,7 +274,7 @@ function GlowField({ scale = 1 }: { scale?: number }) {
           width: px(480),
           height: px(280),
           background:
-            'radial-gradient(ellipse at center, rgba(147,112,219,0.28) 0%, rgba(147,112,219,0.12) 45%, rgba(147,112,219,0) 72%)',
+            'radial-gradient(ellipse at center, rgba(139,92,246,0.36) 0%, rgba(139,92,246,0.17) 45%, rgba(139,92,246,0) 72%)',
         }}
       />
       <div
@@ -281,7 +290,7 @@ function GlowField({ scale = 1 }: { scale?: number }) {
         <div
           key={i}
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
-          style={{ width: px(r.w), height: px(r.h), border: `1px solid rgba(147,112,219,${r.alpha})` }}
+          style={{ width: px(r.w), height: px(r.h), border: `1px solid rgba(139,92,246,${r.alpha})` }}
         />
       ))}
 
@@ -302,7 +311,7 @@ function GlowField({ scale = 1 }: { scale?: number }) {
             marginLeft: px(g.dx),
             marginTop: px(g.dy),
             background: 'rgba(255,255,255,0.9)',
-            boxShadow: '0 0 6px 2px rgba(147,112,219,0.55)',
+            boxShadow: '0 0 8px 3px rgba(139,92,246,0.65)',
           }}
         />
       ))}
@@ -396,7 +405,7 @@ export default function SearchOrbit() {
               transform: `translate(-50%, calc(-50% + ${p.pos.dy}px)) rotate(${p.tilt}deg) scale(${p.cardScale})`,
             }}
           >
-            <PlatformCard platform={p} className="w-[224px]" />
+            <PlatformCard platform={p} className={p.desktopWidth === 230 ? 'w-[230px]' : 'w-[248px]'} />
           </div>
         ))}
       </div>
