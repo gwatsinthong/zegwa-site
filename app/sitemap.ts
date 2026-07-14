@@ -3,7 +3,17 @@ import { SITE_URL } from '@/lib/seo'
 
 // Only real, indexable routes. Excludes /sample-report (noindex) and the
 // non-existent /capture and /hvac.
-const ROUTES = ['/', '/pricing', '/about', '/contact', '/start', '/privacy', '/terms', '/cookies']
+const ROUTES = [
+  '/',
+  '/work',
+  '/pricing',
+  '/about',
+  '/contact',
+  '/start',
+  '/privacy',
+  '/terms',
+  '/cookies',
+]
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return ROUTES.map((path) => ({
