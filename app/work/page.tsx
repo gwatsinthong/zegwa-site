@@ -14,114 +14,110 @@ export const metadata: Metadata = pageMeta({
 // same Framed/PillCta/RuleRow/Mark primitives and Helvetica stack as every
 // other page. Data-driven: swap a `url` below and that card goes live.
 //
-// FLAG for Gwatsin: all 15 `url` fields are still empty. Each card renders a
-// non-clickable "Coming soon" badge until its real name.zegwastudio.com
-// subdomain is filled in (see the // TODO comment on each entry).
-
 const SAMPLES: WorkSample[] = [
   {
     trade: 'HVAC',
     label: 'Sample site',
-    businessName: 'Ridgeline Heating & Air',
-    url: '', // TODO: real subdomain, e.g. https://ridgeline-hvac.zegwastudio.com
+    businessName: 'Summit Air Co.',
+    url: 'https://hvac.zegwastudio.com',
     thumb: '/images/work/hvac.jpg',
   },
   {
     trade: 'Plumbing',
     label: 'Sample site',
-    businessName: 'Blue Valley Plumbing',
-    url: '', // TODO: real subdomain, e.g. https://blue-valley-plumbing.zegwastudio.com
+    businessName: 'Rivercity Plumbing',
+    url: 'https://plumbing.zegwastudio.com',
     thumb: '/images/work/plumbing.jpg',
   },
   {
     trade: 'Roofing',
     label: 'Sample site',
-    businessName: 'Ironclad Roofing Co.',
-    url: '', // TODO: real subdomain, e.g. https://ironclad-roofing.zegwastudio.com
+    businessName: 'Ironclad Roofing',
+    url: 'https://roofing.zegwastudio.com',
     thumb: '/images/work/roofing.jpg',
   },
   {
     trade: 'Electrical',
     label: 'Sample site',
-    businessName: 'Brightline Electric',
-    url: '', // TODO: real subdomain, e.g. https://brightline-electric.zegwastudio.com
+    businessName: 'Bright Path Electric',
+    url: 'https://electrical.zegwastudio.com',
     thumb: '/images/work/electrical.jpg',
   },
   {
     trade: 'Med spa',
     label: 'Sample site',
-    businessName: 'Lumina Med Spa',
-    url: '', // TODO: real subdomain, e.g. https://lumina-medspa.zegwastudio.com
+    businessName: 'Lumière Aesthetics',
+    url: 'https://med-spa.zegwastudio.com',
     thumb: '/images/work/med-spa.jpg',
   },
   {
     trade: 'Dental',
     label: 'Sample site',
-    businessName: 'Willow Creek Dental',
-    url: '', // TODO: real subdomain, e.g. https://willowcreek-dental.zegwastudio.com
+    businessName: 'Cedar Ridge Dental',
+    url: 'https://dental.zegwastudio.com',
     thumb: '/images/work/dental.jpg',
   },
   {
     trade: 'Auto mechanic',
     label: 'Sample site',
-    businessName: 'Redline Auto Repair',
-    url: '', // TODO: real subdomain, e.g. https://redline-auto.zegwastudio.com
+    businessName: 'Redline Auto Care',
+    url: 'https://auto.zegwastudio.com',
     thumb: '/images/work/auto-mechanic.jpg',
   },
   {
     trade: 'Injury law',
     label: 'Sample site',
-    businessName: 'Hartwell Injury Law',
-    url: '', // TODO: real subdomain, e.g. https://hartwell-law.zegwastudio.com
+    businessName: 'Marek & Stone Injury Law',
+    url: 'https://injury-law.zegwastudio.com',
     thumb: '/images/work/injury-law.jpg',
   },
   {
     trade: 'Weight loss',
     label: 'Sample site',
-    businessName: 'Clearpath Weight Loss',
-    url: '', // TODO: real subdomain, e.g. https://clearpath-weightloss.zegwastudio.com
+    businessName: 'Meridian Weight',
+    url: 'https://weight-loss.zegwastudio.com',
     thumb: '/images/work/weight-loss.jpg',
   },
   {
     trade: 'Gym',
     label: 'Sample site',
-    businessName: 'Ironworks Fitness',
-    url: '', // TODO: real subdomain, e.g. https://ironworks-fitness.zegwastudio.com
+    businessName: 'Ironline Strength',
+    url: 'https://gym.zegwastudio.com',
     thumb: '/images/work/gym.jpg',
   },
   {
     trade: 'Real estate',
     label: 'Sample site',
-    businessName: 'Meridian Realty Group',
-    url: '', // TODO: real subdomain, e.g. https://meridian-realty.zegwastudio.com
+    businessName: 'North & Oak Realty',
+    url: 'https://real-estate.zegwastudio.com',
     thumb: '/images/work/real-estate.jpg',
   },
   {
     trade: 'Vet',
     label: 'Sample site',
-    businessName: 'Pinecrest Animal Hospital',
-    url: '', // TODO: real subdomain, e.g. https://pinecrest-vet.zegwastudio.com
+    businessName: 'Cottonwood Animal Hospital',
+    url: 'https://vet.zegwastudio.com',
     thumb: '/images/work/vet.jpg',
   },
   {
     trade: 'Cleaning',
     label: 'Sample site',
-    businessName: 'Spotless Home Cleaning',
-    url: '', // TODO: real subdomain, e.g. https://spotless-cleaning.zegwastudio.com
+    businessName: 'Tidewell Home Cleaning',
+    url: 'https://cleaning.zegwastudio.com',
     thumb: '/images/work/cleaning.jpg',
   },
   {
     trade: 'Accounting',
     label: 'Sample site',
-    businessName: 'Ledger & Co. Accounting',
-    url: '', // TODO: real subdomain, e.g. https://ledger-accounting.zegwastudio.com
+    businessName: 'Ledgerline CPA',
+    url: 'https://accounting.zegwastudio.com',
     thumb: '/images/work/accounting.jpg',
   },
   {
     trade: 'Landscaping',
     label: 'Sample site',
-    businessName: 'Evergreen Landscaping',
-    url: '', // TODO: real subdomain, e.g. https://evergreen-landscaping.zegwastudio.com
+    businessName: 'Cedar & Stone Landscapes',
+    url: 'https://landscaping.zegwastudio.com',
     thumb: '/images/work/landscaping.jpg',
   },
 ]
