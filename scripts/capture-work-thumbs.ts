@@ -61,6 +61,60 @@ async function dismissDemoModal(page: Page, subdomain: string) {
   await gotIt.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {})
 }
 
+// Same dismiss flow, but for after the reload below: the modal may or may
+// not reappear depending on whether the site persists the dismissal across
+// navigations, and either case is fine.
+async function dismissDemoModalIfPresent(page: Page) {
+  const gotIt = page
+    .getByRole('button', { name: /^got it$/i })
+    .or(page.locator('button, [role="button"], a').filter({ hasText: /^\s*got it\s*$/i }))
+    .first()
+
+  const appeared = await gotIt
+    .waitFor({ state: 'visible', timeout: 5000 })
+    .then(() => true)
+    .catch(() => false)
+
+  if (appeared) {
+    await gotIt.click()
+    await gotIt.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {})
+  }
+}
+
+// Confirms the page is truly scrolled to the top, including any lenis smooth
+// -scroll instance the site may run (which keeps its own scroll state
+// separate from window.scrollY). If not, forces it and re-checks once before
+// giving up.
+async function assertScrollAtTop(page: Page) {
+  const readScrollState = () =>
+    page.evaluate(() => {
+      const lenis = (window as unknown as { lenis?: { scroll?: number } }).lenis
+      return {
+        scrollY: window.scrollY,
+        lenisScroll: lenis && typeof lenis.scroll === 'number' ? lenis.scroll : 0,
+      }
+    })
+
+  let state = await readScrollState()
+
+  if (state.scrollY !== 0 || state.lenisScroll !== 0) {
+    await page.evaluate(() => {
+      window.scrollTo(0, 0)
+      const lenis = (window as unknown as { lenis?: { scrollTo: (target: number, opts?: unknown) => void } })
+        .lenis
+      if (lenis && typeof lenis.scrollTo === 'function') lenis.scrollTo(0, { immediate: true })
+    })
+    await page.waitForTimeout(300)
+    state = await readScrollState()
+  }
+
+  if (state.scrollY !== 0 || state.lenisScroll !== 0) {
+    throw new Error(
+      `Page did not settle at scroll top after reload (scrollY=${state.scrollY}, lenisScroll=${state.lenisScroll}) -- shot skipped, not captured.`,
+    )
+  }
+}
+
 async function assertNoDemoText(page: Page) {
   const matches = page.getByText(/this is a demo site/i)
   const count = await matches.count()
@@ -117,9 +171,22 @@ async function main() {
       await page.evaluate(() => document.fonts.ready)
 
       await triggerLazyLoad(page)
-      await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => {})
+
+      // Reload with the now-warm cache: previously lazy-loaded images render
+      // immediately, and the page returns to a genuinely pristine top-of-page
+      // scroll state instead of whatever scroll-aware header/lenis state the
+      // lazy-load pass above left behind.
+      await page.reload({ waitUntil: 'networkidle', timeout: 45000 })
+
+      await dismissDemoModalIfPresent(page)
+
+      await page.evaluate(() => document.fonts.ready)
+
+      await assertScrollAtTop(page)
 
       await assertNoDemoText(page)
+
+      await page.waitForTimeout(500)
 
       const rawPath = path.join(rawDir, `${subdomain}.png`)
       await page.screenshot({ path: rawPath, fullPage: true })
