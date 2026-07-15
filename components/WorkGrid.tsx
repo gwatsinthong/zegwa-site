@@ -7,17 +7,24 @@ import thumbs from '@/public/work/thumbs.json'
 type ThumbDims = { width: number; height: number }
 const THUMBS: Record<string, ThumbDims> = thumbs
 
-// The thumbnail window is a fixed aspect-[3/2] box (height/width = 2/3); see
-// the window's own className below, not duplicated here as a literal.
-const WINDOW_RATIO = 2 / 3
+// The thumbnail window's fixed height (px); see the window's own className
+// below (h-[340px]), not duplicated here as a literal string.
+const FIXED_WINDOW_HEIGHT = 340
 
-// Reference card image width used only for the hover-scroll TRANSITION
-// DURATION (seconds can't be expressed as a scale-invariant CSS percentage
-// the way the transform distance can -- see travelPercent below). Derived
-// from this page's own desktop (>=1024px) 3-col grid math, not guessed:
-// content column maxes at 1040px -> Framed's own p-[16px] outer padding
-// (1040 - 32 = 1008) -> 3 columns with two 24px gaps (1008 - 48 = 960, /3 =
-// 320 per card) -> the card's own p-[16px] padding (320 - 32 = 288).
+// Flat hover-scroll transition duration (seconds). Was previously computed
+// per card from the image's rendered height; now a flat value per spec.
+const HOVER_DURATION_S = 8
+
+// Reference card image width used to compute the hover-scroll travel
+// percentage (see travelPercent below): the window's height is now fixed
+// (FIXED_WINDOW_HEIGHT) rather than scaling with the card's rendered width
+// the way the image's height still does, so the percentage can only be
+// exact at one reference width -- this is that width, and it's also where
+// hover exists (the effect is hover-only, i.e. desktop). Derived from this
+// page's own desktop (>=1024px) 3-col grid math, not guessed: content
+// column maxes at 1040px -> Framed's own p-[16px] outer padding (1040 - 32
+// = 1008) -> 3 columns with two 24px gaps (1008 - 48 = 960, /3 = 320 per
+// card) -> the card's own p-[16px] padding (320 - 32 = 288).
 const REFERENCE_CARD_WIDTH = 288
 
 export type WorkSample = {
@@ -51,22 +58,19 @@ function WorkCard({ item }: { item: WorkSample }) {
   const dims = subdomain ? THUMBS[subdomain] : undefined
 
   // Percentage of the IMAGE'S OWN rendered height to translate it up by, so
-  // it ends flush with the window's bottom edge -- expressed as a percentage
-  // (not px) so it's correct at any rendered width with no JS measurement:
-  // both the window and the image scale together with the card's width, so
-  // their ratio (and thus this percentage) is constant regardless of the
-  // actual breakpoint-dependent pixel width.
+  // it ends flush with the window's bottom edge. Computed against
+  // REFERENCE_CARD_WIDTH -- see that constant's comment for why this can't
+  // be a purely scale-invariant ratio anymore now that the window has a
+  // fixed height instead of an aspect-ratio that scaled with card width.
   let travelPercent = 0
-  let duration = 3
   if (dims) {
     const ratio = dims.height / dims.width
-    travelPercent = Math.max(0, (1 - WINDOW_RATIO / ratio) * 100)
     const renderedHeight = ratio * REFERENCE_CARD_WIDTH
-    duration = Math.min(12, Math.max(3, renderedHeight / 1200))
+    travelPercent = Math.max(0, (1 - FIXED_WINDOW_HEIGHT / renderedHeight) * 100)
   }
 
   const imgStyle: React.CSSProperties & Record<string, string> = {
-    transitionDuration: `${duration}s`,
+    transitionDuration: `${HOVER_DURATION_S}s`,
     '--work-travel': `${-travelPercent}%`,
   }
 
@@ -76,7 +80,7 @@ function WorkCard({ item }: { item: WorkSample }) {
         isLive ? 'group-hover:-translate-y-[2px]' : ''
       }`}
     >
-      <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[8px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]">
+      <div className="relative h-[340px] w-full overflow-hidden rounded-[8px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]">
         {dims && subdomain ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
