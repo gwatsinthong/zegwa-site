@@ -182,18 +182,13 @@ export default function FoundPage() {
               style={{ fontFamily: HELV }}
               className="max-w-[704px] text-center text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]"
             >
-              Show up when they search, before your competitor.
+              Your competitor is getting the calls you can&#39;t see.
             </h1>
             <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              A website and online presence that puts you on Google, maps, directories, and AI
-              search. Live in days.
+              We build the website and the online presence that make the phone ring. Google,
+              maps, directories, AI search. Live in days.
             </p>
           </div>
-
-          {/* HIDDEN (temporary, restore when video ready): the VSL block is
-              lifted into `hiddenVslBlock` above. To restore, move it back
-              here in place of <SearchOrbit />. */}
-          <SearchOrbit />
 
           <div className="flex flex-col items-center gap-[12px]">
             <PillCta />
@@ -201,6 +196,11 @@ export default function FoundPage() {
               Your audit in 24 hours. No strings.
             </p>
           </div>
+
+          {/* HIDDEN (temporary, restore when video ready): the VSL block is
+              lifted into `hiddenVslBlock` above. To restore, move it back
+              here in place of <SearchOrbit />. */}
+          <SearchOrbit />
         </div>
       </section>
 
