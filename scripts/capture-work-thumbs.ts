@@ -3,6 +3,8 @@
 // mapping subdomain -> { width, height } of the final encoded image.
 //
 // Run: pnpm capture:work-thumbs
+// Or, to capture only specific sites: tsx scripts/capture-work-thumbs.ts gym dental
+// (thumbs.json is merged, not overwritten, so untouched entries survive.)
 //
 // Each demo site shows a "this is a demo" gate on load (DemoBanner). There is
 // no cookie/localStorage flag to pre-suppress it (confirmed: no such
@@ -146,7 +148,23 @@ async function triggerLazyLoad(page: Page) {
 
 type Result = { width: number; height: number }
 
+function resolveTargetSubdomains(argv: string[]): string[] {
+  if (argv.length === 0) return SUBDOMAINS
+
+  const invalid = argv.filter((arg) => !SUBDOMAINS.includes(arg))
+  if (invalid.length > 0) {
+    console.error(
+      `Unknown subdomain(s): ${invalid.join(', ')}\nValid subdomains: ${SUBDOMAINS.join(', ')}`,
+    )
+    process.exit(1)
+  }
+
+  return argv
+}
+
 async function main() {
+  const targetSubdomains = resolveTargetSubdomains(process.argv.slice(2))
+
   await fs.mkdir(OUT_DIR, { recursive: true })
   const rawDir = await fs.mkdtemp(path.join(os.tmpdir(), 'work-thumbs-'))
 
@@ -154,7 +172,7 @@ async function main() {
   const results: Record<string, Result> = {}
   const failures: string[] = []
 
-  for (const subdomain of SUBDOMAINS) {
+  for (const subdomain of targetSubdomains) {
     const url = `https://${subdomain}.zegwastudio.com`
     process.stdout.write(`\n=== ${subdomain} (${url}) ===\n`)
 
@@ -224,10 +242,19 @@ async function main() {
   await browser.close()
   await fs.rm(rawDir, { recursive: true, force: true })
 
-  await fs.writeFile(
-    path.join(OUT_DIR, 'thumbs.json'),
-    JSON.stringify(results, null, 2) + '\n',
-  )
+  // Merge into the existing thumbs.json rather than overwriting it, so a
+  // filtered run (a subset of subdomains) doesn't wipe out entries for the
+  // sites it didn't touch.
+  const thumbsPath = path.join(OUT_DIR, 'thumbs.json')
+  let existing: Record<string, Result> = {}
+  try {
+    existing = JSON.parse(await fs.readFile(thumbsPath, 'utf8'))
+  } catch {
+    // No existing thumbs.json yet -- start from an empty map.
+  }
+  const merged = { ...existing, ...results }
+
+  await fs.writeFile(thumbsPath, JSON.stringify(merged, null, 2) + '\n')
 
   console.log('\n=== SUMMARY ===')
   console.table(results)

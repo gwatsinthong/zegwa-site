@@ -12,7 +12,7 @@ const THUMBS: Record<string, ThumbDims> = thumbs
 const WINDOW_RATIO = 2 / 3
 
 // Flat hover-scroll transition duration (seconds).
-const HOVER_DURATION_S = 8
+const HOVER_DURATION_S = 10
 
 export type WorkSample = {
   trade: string
