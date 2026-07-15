@@ -130,7 +130,10 @@ export default function WorkPage() {
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
           <div className="flex flex-col items-center gap-[26px]">
             <RuleRow>See it first</RuleRow>
-            <h1 className={`max-w-[704px] text-center text-[#202020] ${FRAME_TYPE.display}`}>
+            <h1
+              style={{ fontFamily: HELV }}
+              className={`max-w-[704px] text-center text-[#202020] ${FRAME_TYPE.display}`}
+            >
               See your new site before you pay for it.
             </h1>
             <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
