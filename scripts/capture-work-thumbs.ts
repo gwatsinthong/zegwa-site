@@ -99,10 +99,11 @@ async function assertScrollAtTop(page: Page) {
 
   if (state.scrollY !== 0 || state.lenisScroll !== 0) {
     await page.evaluate(() => {
-      window.scrollTo(0, 0)
       const lenis = (window as unknown as { lenis?: { scrollTo: (target: number, opts?: unknown) => void } })
         .lenis
       if (lenis && typeof lenis.scrollTo === 'function') lenis.scrollTo(0, { immediate: true })
+      document.documentElement.scrollTop = 0
+      window.scrollTo(0, 0)
     })
     await page.waitForTimeout(300)
     state = await readScrollState()
@@ -162,6 +163,13 @@ async function main() {
       deviceScaleFactor: 2,
     })
     const page = await context.newPage()
+
+    // Without this, the browser restores the scroll position from the
+    // previous load on reload -- so the reload below (meant to return to a
+    // pristine top-of-page state) instead lands back at the bottom.
+    await page.addInitScript(() => {
+      history.scrollRestoration = 'manual'
+    })
 
     try {
       await page.goto(url, { waitUntil: 'networkidle', timeout: 45000 })
