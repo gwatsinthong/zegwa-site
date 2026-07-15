@@ -2,6 +2,23 @@
 
 import { useMemo, useState } from 'react'
 import { HELV, SOFT_DROP_SHADOW } from './sections'
+import thumbs from '@/public/work/thumbs.json'
+
+type ThumbDims = { width: number; height: number }
+const THUMBS: Record<string, ThumbDims> = thumbs
+
+// The thumbnail window is a fixed aspect-[3/2] box (height/width = 2/3); see
+// the window's own className below, not duplicated here as a literal.
+const WINDOW_RATIO = 2 / 3
+
+// Reference card image width used only for the hover-scroll TRANSITION
+// DURATION (seconds can't be expressed as a scale-invariant CSS percentage
+// the way the transform distance can -- see travelPercent below). Derived
+// from this page's own desktop (>=1024px) 3-col grid math, not guessed:
+// content column maxes at 1040px -> Framed's own p-[16px] outer padding
+// (1040 - 32 = 1008) -> 3 columns with two 24px gaps (1008 - 48 = 960, /3 =
+// 320 per card) -> the card's own p-[16px] padding (320 - 32 = 288).
+const REFERENCE_CARD_WIDTH = 288
 
 export type WorkSample = {
   trade: string
@@ -11,10 +28,10 @@ export type WorkSample = {
   // until Gwatsin supplies the real one -- the card renders as a
   // non-clickable "Coming soon" state instead of a dead link.
   url: string
-  // Future real screenshot path (not created yet -- Gwatsin's call per the
-  // brief). The card always renders the labeled gradient placeholder below
-  // regardless of this value; swap the placeholder for an <img src={thumb}>
-  // once real screenshots exist.
+  // Superseded by the captured public/work/<subdomain>.webp thumbnails
+  // (keyed by the subdomain parsed from `url`, see WorkCard) -- this field
+  // is no longer read for rendering, kept only so existing data literals
+  // don't need to drop it.
   thumb: string
 }
 
@@ -26,6 +43,33 @@ const CHIP_INACTIVE = 'border-[#e0e0e0] bg-[#fefefe] text-[#5c5c5c] hover:border
 function WorkCard({ item }: { item: WorkSample }) {
   const isLive = item.url !== ''
 
+  // The captured thumbnail is keyed by subdomain (e.g. "med-spa"), which only
+  // reliably lives in the url ("https://med-spa.zegwastudio.com") -- item.thumb
+  // is a stale placeholder-era path that doesn't always match (e.g. "auto"
+  // vs. "auto-mechanic"), and item.trade has different casing/spacing.
+  const subdomain = isLive ? new URL(item.url).hostname.split('.')[0] : null
+  const dims = subdomain ? THUMBS[subdomain] : undefined
+
+  // Percentage of the IMAGE'S OWN rendered height to translate it up by, so
+  // it ends flush with the window's bottom edge -- expressed as a percentage
+  // (not px) so it's correct at any rendered width with no JS measurement:
+  // both the window and the image scale together with the card's width, so
+  // their ratio (and thus this percentage) is constant regardless of the
+  // actual breakpoint-dependent pixel width.
+  let travelPercent = 0
+  let duration = 3
+  if (dims) {
+    const ratio = dims.height / dims.width
+    travelPercent = Math.max(0, (1 - WINDOW_RATIO / ratio) * 100)
+    const renderedHeight = ratio * REFERENCE_CARD_WIDTH
+    duration = Math.min(12, Math.max(3, renderedHeight / 1200))
+  }
+
+  const imgStyle: React.CSSProperties & Record<string, string> = {
+    transitionDuration: `${duration}s`,
+    '--work-travel': `${-travelPercent}%`,
+  }
+
   const card = (
     <div
       className={`flex h-full flex-col gap-[16px] rounded-[16px] bg-[#fefefe] p-[16px] transition-transform ${SOFT_DROP_SHADOW} ${
@@ -33,12 +77,24 @@ function WorkCard({ item }: { item: WorkSample }) {
       }`}
     >
       <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[8px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]">
-        {/* Swap: real screenshot of {item.businessName} -> public{item.thumb} */}
-        <span className="absolute inset-0 flex items-center justify-center text-center text-[12px] uppercase leading-[1.5] tracking-wide text-[#9d9a9a]">
-          Site screenshot
-        </span>
+        {dims && subdomain ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={`/work/${subdomain}.webp`}
+            alt=""
+            loading="lazy"
+            className="absolute left-0 top-0 block h-auto w-full [@media(hover:hover)]:group-hover:translate-y-[var(--work-travel)] transition-transform ease-linear"
+            style={imgStyle}
+          />
+        ) : (
+          // Swap: real screenshot of {item.businessName} -- no captured
+          // thumbnail for this card yet (thumbs.json has no matching entry).
+          <span className="absolute inset-0 flex items-center justify-center text-center text-[12px] uppercase leading-[1.5] tracking-wide text-[#9d9a9a]">
+            Site screenshot
+          </span>
+        )}
         <span
-          className={`absolute left-[12px] top-[12px] rounded-[999px] px-[10px] py-[4px] text-[11px] font-bold uppercase tracking-wide ${
+          className={`absolute left-[12px] top-[12px] z-10 rounded-[999px] px-[10px] py-[4px] text-[11px] font-bold uppercase tracking-wide ${
             isLive ? 'bg-[#fefefe] text-[#202020]' : 'bg-[#fefefe]/80 text-[#9d9a9a]'
           }`}
         >
