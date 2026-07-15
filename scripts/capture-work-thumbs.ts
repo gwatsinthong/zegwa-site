@@ -242,64 +242,21 @@ async function main() {
     const context = await browser.newContext({
       viewport: { width: 1440, height: 1000 },
       deviceScaleFactor: 2,
+      // These demo sites hand-roll their own scroll-reveal (components/
+      // Reveal.tsx): content is visible by default and only gets hidden/
+      // animated by JS via IntersectionObserver -- but that JS early-returns,
+      // leaving content visible and never touching it, when
+      // prefers-reduced-motion is set. This makes Reveal never engage, so
+      // everything paints immediately with no scrolling required.
+      reducedMotion: 'reduce',
     })
     const page = await context.newPage()
 
     // Without this, the browser restores the scroll position from the
     // previous load on reload -- so the reload below (meant to return to a
     // pristine top-of-page state) instead lands back at the bottom.
-    //
-    // Also shims IntersectionObserver: these demo sites gate content behind
-    // scroll-triggered reveal animations (opacity/transform driven by a real
-    // observer). Nothing scrolls after the reload, so those observers would
-    // never fire and the content would stay unpainted -- this replaces
-    // IntersectionObserver globally so every observed target is reported as
-    // fully intersecting on the next tick, no scrolling required. Registered
-    // before the first goto so it's in place for both the initial load and
-    // the reload.
     await page.addInitScript(() => {
       history.scrollRestoration = 'manual'
-
-      class EagerIntersectionObserver {
-        private callback: IntersectionObserverCallback
-        private targets = new Set<Element>()
-
-        constructor(callback: IntersectionObserverCallback) {
-          this.callback = callback
-        }
-
-        observe(target: Element) {
-          this.targets.add(target)
-          queueMicrotask(() => {
-            if (!this.targets.has(target)) return
-            const rect = target.getBoundingClientRect()
-            const entry: IntersectionObserverEntry = {
-              target,
-              isIntersecting: true,
-              intersectionRatio: 1,
-              boundingClientRect: rect,
-              intersectionRect: rect,
-              rootBounds: rect,
-              time: performance.now(),
-            }
-            this.callback([entry], this as unknown as IntersectionObserver)
-          })
-        }
-
-        unobserve(target: Element) {
-          this.targets.delete(target)
-        }
-
-        disconnect() {
-          this.targets.clear()
-        }
-
-        takeRecords(): IntersectionObserverEntry[] {
-          return []
-        }
-      }
-
-      ;(window as unknown as { IntersectionObserver: unknown }).IntersectionObserver = EagerIntersectionObserver
     })
 
     try {
