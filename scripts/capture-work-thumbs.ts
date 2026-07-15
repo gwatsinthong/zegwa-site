@@ -118,6 +118,51 @@ async function assertScrollAtTop(page: Page) {
   }
 }
 
+// The reload that fixes the header-state bug also re-arms native
+// lazy-loading, and since nothing scrolls after the reload, below-fold
+// images never enter the viewport and never load. Forces every <img> to load
+// immediately instead: flips it to eager/high-priority, promotes any
+// data-src/data-srcset placeholder to the real src/srcset, then polls until
+// every image has settled (loaded or failed) rather than assuming a fixed
+// delay is enough.
+async function forceEagerImageLoad(page: Page): Promise<{ found: number; loaded: number }> {
+  await page.evaluate(() => {
+    document.querySelectorAll('img').forEach((img) => {
+      img.loading = 'eager'
+      img.fetchPriority = 'high'
+      img.removeAttribute('loading')
+
+      const dataSrc = img.getAttribute('data-src')
+      const dataSrcset = img.getAttribute('data-srcset')
+      const src = img.getAttribute('src')
+      const hasRealSrc = !!src && !src.startsWith('data:')
+
+      if (dataSrc && !hasRealSrc) img.src = dataSrc
+      if (dataSrcset) img.srcset = dataSrcset
+    })
+  })
+
+  // Promoting to eager kicks off a fresh wave of requests.
+  await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => {})
+
+  const deadline = Date.now() + 30000
+  let state = { found: 0, loaded: 0, pending: 0 }
+  do {
+    state = await page.evaluate(() => {
+      const imgs = Array.from(document.querySelectorAll('img'))
+      return {
+        found: imgs.length,
+        loaded: imgs.filter((img) => img.complete && img.naturalWidth > 0).length,
+        pending: imgs.filter((img) => !img.complete).length,
+      }
+    })
+    if (state.pending === 0) break
+    await page.waitForTimeout(200)
+  } while (Date.now() < deadline)
+
+  return { found: state.found, loaded: state.loaded }
+}
+
 async function assertNoDemoText(page: Page) {
   const matches = page.getByText(/this is a demo site/i)
   const count = await matches.count()
@@ -170,6 +215,7 @@ async function main() {
 
   const browser = await chromium.launch(CHROMIUM_PATH ? { executablePath: CHROMIUM_PATH } : {})
   const results: Record<string, Result> = {}
+  const summary: Record<string, Result & { images: string }> = {}
   const failures: string[] = []
 
   for (const subdomain of targetSubdomains) {
@@ -210,6 +256,12 @@ async function main() {
 
       await assertScrollAtTop(page)
 
+      const images = await forceEagerImageLoad(page)
+
+      // Forcing loads can shift layout (e.g. images with no reserved
+      // aspect-ratio box), so re-confirm we're still at true top.
+      await assertScrollAtTop(page)
+
       await assertNoDemoText(page)
 
       await page.waitForTimeout(500)
@@ -229,7 +281,10 @@ async function main() {
       const stat = await fs.stat(outPath)
 
       results[subdomain] = { width, height }
-      console.log(`OK    ${subdomain}: ${width}x${height}  ${(stat.size / 1024).toFixed(1)} KB`)
+      summary[subdomain] = { width, height, images: `${images.loaded}/${images.found}` }
+      console.log(
+        `OK    ${subdomain}: ${width}x${height}  ${(stat.size / 1024).toFixed(1)} KB  images ${images.loaded}/${images.found} loaded`,
+      )
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       failures.push(`${subdomain}: ${msg}`)
@@ -257,7 +312,7 @@ async function main() {
   await fs.writeFile(thumbsPath, JSON.stringify(merged, null, 2) + '\n')
 
   console.log('\n=== SUMMARY ===')
-  console.table(results)
+  console.table(summary)
 
   if (failures.length) {
     console.error(`\n=== ${failures.length} SITE(S) FAILED -- NOT CAPTURED ===`)
