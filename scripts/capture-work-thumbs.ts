@@ -39,7 +39,7 @@ const SUBDOMAINS = [
 ]
 
 const OUT_DIR = path.join(process.cwd(), 'public', 'work')
-const CHROMIUM_PATH = '/opt/pw-browsers/chromium'
+const CHROMIUM_PATH = process.env.CHROMIUM_PATH || undefined
 const TARGET_WIDTH = 720
 const WEBP_QUALITY = 80
 
@@ -95,7 +95,7 @@ async function main() {
   await fs.mkdir(OUT_DIR, { recursive: true })
   const rawDir = await fs.mkdtemp(path.join(os.tmpdir(), 'work-thumbs-'))
 
-  const browser = await chromium.launch({ executablePath: CHROMIUM_PATH })
+  const browser = await chromium.launch(CHROMIUM_PATH ? { executablePath: CHROMIUM_PATH } : {})
   const results: Record<string, Result> = {}
   const failures: string[] = []
 

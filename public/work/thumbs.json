@@ -1,0 +1,62 @@
+{
+  "roofing": {
+    "width": 720,
+    "height": 3421
+  },
+  "plumbing": {
+    "width": 720,
+    "height": 3337
+  },
+  "hvac": {
+    "width": 720,
+    "height": 4110
+  },
+  "weight-loss": {
+    "width": 720,
+    "height": 3220
+  },
+  "electrical": {
+    "width": 720,
+    "height": 3400
+  },
+  "accounting": {
+    "width": 720,
+    "height": 3267
+  },
+  "med-spa": {
+    "width": 720,
+    "height": 3953
+  },
+  "auto": {
+    "width": 720,
+    "height": 3294
+  },
+  "cleaning": {
+    "width": 720,
+    "height": 3704
+  },
+  "vet": {
+    "width": 720,
+    "height": 3277
+  },
+  "gym": {
+    "width": 720,
+    "height": 3346
+  },
+  "dental": {
+    "width": 720,
+    "height": 3720
+  },
+  "injury-law": {
+    "width": 720,
+    "height": 3359
+  },
+  "real-estate": {
+    "width": 720,
+    "height": 3453
+  },
+  "landscaping": {
+    "width": 720,
+    "height": 3894
+  }
+}
