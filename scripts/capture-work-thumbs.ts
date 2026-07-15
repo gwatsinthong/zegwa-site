@@ -163,6 +163,23 @@ async function forceEagerImageLoad(page: Page): Promise<{ found: number; loaded:
   return { found: state.found, loaded: state.loaded }
 }
 
+// Diagnostic for whether scroll-triggered reveal animations actually fired:
+// counts elements still sitting at opacity < 0.99 or with a non-none
+// transform. Low after the IntersectionObserver shim above means it worked;
+// staying high means some reveal library isn't going through
+// IntersectionObserver (or is animating on something else) and needs a
+// different fix.
+async function countUnrevealedElements(page: Page): Promise<number> {
+  return page.evaluate(() => {
+    let count = 0
+    document.querySelectorAll('body *').forEach((el) => {
+      const style = getComputedStyle(el)
+      if (parseFloat(style.opacity) < 0.99 || style.transform !== 'none') count++
+    })
+    return count
+  })
+}
+
 async function assertNoDemoText(page: Page) {
   const matches = page.getByText(/this is a demo site/i)
   const count = await matches.count()
@@ -215,7 +232,7 @@ async function main() {
 
   const browser = await chromium.launch(CHROMIUM_PATH ? { executablePath: CHROMIUM_PATH } : {})
   const results: Record<string, Result> = {}
-  const summary: Record<string, Result & { images: string }> = {}
+  const summary: Record<string, Result & { images: string; unrevealed: number }> = {}
   const failures: string[] = []
 
   for (const subdomain of targetSubdomains) {
@@ -231,8 +248,58 @@ async function main() {
     // Without this, the browser restores the scroll position from the
     // previous load on reload -- so the reload below (meant to return to a
     // pristine top-of-page state) instead lands back at the bottom.
+    //
+    // Also shims IntersectionObserver: these demo sites gate content behind
+    // scroll-triggered reveal animations (opacity/transform driven by a real
+    // observer). Nothing scrolls after the reload, so those observers would
+    // never fire and the content would stay unpainted -- this replaces
+    // IntersectionObserver globally so every observed target is reported as
+    // fully intersecting on the next tick, no scrolling required. Registered
+    // before the first goto so it's in place for both the initial load and
+    // the reload.
     await page.addInitScript(() => {
       history.scrollRestoration = 'manual'
+
+      class EagerIntersectionObserver {
+        private callback: IntersectionObserverCallback
+        private targets = new Set<Element>()
+
+        constructor(callback: IntersectionObserverCallback) {
+          this.callback = callback
+        }
+
+        observe(target: Element) {
+          this.targets.add(target)
+          queueMicrotask(() => {
+            if (!this.targets.has(target)) return
+            const rect = target.getBoundingClientRect()
+            const entry: IntersectionObserverEntry = {
+              target,
+              isIntersecting: true,
+              intersectionRatio: 1,
+              boundingClientRect: rect,
+              intersectionRect: rect,
+              rootBounds: rect,
+              time: performance.now(),
+            }
+            this.callback([entry], this as unknown as IntersectionObserver)
+          })
+        }
+
+        unobserve(target: Element) {
+          this.targets.delete(target)
+        }
+
+        disconnect() {
+          this.targets.clear()
+        }
+
+        takeRecords(): IntersectionObserverEntry[] {
+          return []
+        }
+      }
+
+      ;(window as unknown as { IntersectionObserver: unknown }).IntersectionObserver = EagerIntersectionObserver
     })
 
     try {
@@ -262,6 +329,8 @@ async function main() {
       // aspect-ratio box), so re-confirm we're still at true top.
       await assertScrollAtTop(page)
 
+      const unrevealed = await countUnrevealedElements(page)
+
       await assertNoDemoText(page)
 
       await page.waitForTimeout(500)
@@ -281,9 +350,9 @@ async function main() {
       const stat = await fs.stat(outPath)
 
       results[subdomain] = { width, height }
-      summary[subdomain] = { width, height, images: `${images.loaded}/${images.found}` }
+      summary[subdomain] = { width, height, images: `${images.loaded}/${images.found}`, unrevealed }
       console.log(
-        `OK    ${subdomain}: ${width}x${height}  ${(stat.size / 1024).toFixed(1)} KB  images ${images.loaded}/${images.found} loaded`,
+        `OK    ${subdomain}: ${width}x${height}  ${(stat.size / 1024).toFixed(1)} KB  images ${images.loaded}/${images.found} loaded  unrevealed ${unrevealed}`,
       )
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
