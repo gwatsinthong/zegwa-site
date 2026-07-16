@@ -35,76 +35,99 @@ export const metadata: Metadata = pageMeta({
 const FEATURES = [
   {
     title: 'Show up in search',
-    desc: 'On Google, maps, and even when they ask AI search.',
+    desc: 'On Google, on maps, and when they ask ChatGPT.',
     image: '/images/home-feature-search.jpg',
   },
   {
-    title: 'A site that converts',
-    desc: 'Fast, clean, and built to turn a visit into a booking.',
+    title: 'A site built to book',
+    desc: 'Fast on a phone, easy to read, and built to get you called.',
     image: '/images/home-feature-converts.jpg',
   },
   {
     title: 'Listed everywhere',
-    desc: 'Consistent across directories, so you rank and look trusted.',
+    desc: 'Directories, maps, review sites. Wherever they look you up, they find you.',
     image: '/images/home-feature-listed.jpg',
   },
   {
-    title: 'Win back old leads',
-    desc: 'A one-time sweep of past inquiries who never booked you.',
+    title: 'You can see all of it',
+    desc: 'Every search, visit, and review, in one place you can open any time.',
     image: '/images/home-feature-winback.jpg',
   },
 ]
 
+// Rows 3, 6, and 9 reuse the closest existing icon (no dedicated image
+// exists yet for "Photos and posts", "Reviews answered", or "Monthly
+// report") -- swap in a real icon for each when one's available.
 const BUILD_ROWS = [
   {
-    build: 'Conversion website',
-    does: 'Fast, clean, built to turn visits into bookings',
+    build: 'Your website',
+    does: 'Fast on a phone, built to get you called',
     icon: '/images/home-build-website.jpg',
   },
   {
     build: 'Google Business Profile',
-    does: 'Optimized so you show up in maps and local search',
+    does: 'You show up in maps when they search nearby',
+    icon: '/images/home-build-gbp.jpg',
+  },
+  {
+    build: 'Photos and posts',
+    does: 'Updated regularly, because Google rewards it',
     icon: '/images/home-build-gbp.jpg',
   },
   {
     build: 'Directory listings',
-    does: 'Consistent across the web so you rank and look trusted',
+    does: 'Your details right everywhere they look you up',
     icon: '/images/home-build-directories.jpg',
   },
   {
-    build: 'AI search optimization',
-    does: 'Found when customers ask AI, not just Google',
+    build: 'AI search setup',
+    does: 'You come up when they ask ChatGPT, not just Google',
     icon: '/images/home-build-ai-search.jpg',
   },
   {
-    build: 'Lead reactivation',
-    does: 'A one-time sweep that re-books past inquiries',
+    build: 'Reviews answered',
+    does: 'Every one, in your voice, without you lifting a finger',
+    icon: '/images/home-build-gbp.jpg',
+  },
+  {
+    build: 'Old leads worked',
+    does: 'One sweep of everyone who asked and never booked',
     icon: '/images/home-build-reactivation.jpg',
   },
   {
-    build: 'One dashboard',
-    does: 'Every visit, lead, and call tracked in one place you own',
+    build: 'Your dashboard',
+    does: 'Every search, visit, and review in one place',
+    icon: '/images/home-build-dashboard.jpg',
+  },
+  {
+    build: 'Monthly report',
+    does: "What it's doing, in plain English, every month",
     icon: '/images/home-build-dashboard.jpg',
   },
 ]
 
 const SETUP_ITEMS = [
-  'The whole site and presence, built for you',
-  'Google, maps, directories, and AI search',
-  'Reviews, photos, and social handled',
-  'Monthly upkeep and reporting',
-  'No minimum. Cancel anytime.',
+  'Your website, built and live in days',
+  'Google Business Profile set up right',
+  'Your details fixed across every directory',
+  'Set up to be found in AI search',
+  'One sweep of your old leads',
 ]
 
 const PRICING_ONGOING_ITEMS = [
-  'Your listings and citations kept accurate everywhere',
-  'New reviews answered for you, in your voice',
-  'Your AI and local presence maintained as things shift',
-  'A monthly report showing calls, clicks, and bookings',
+  'Listings kept accurate as things change',
+  'New reviews answered in your voice',
+  'Photos and posts kept current',
+  'Your AI and local presence maintained',
+  'A monthly report, plus the dashboard any time',
 ]
 
 const FAQS = [
   { q: 'Is there a contract?', a: "No minimum on Found. It's month to month. Cancel anytime." },
+  {
+    q: 'What do you need from me?',
+    a: "An hour at the start, and your photos if you have them. After that, nothing. We don't need you on calls.",
+  },
   {
     q: 'I already have a website. Do I need a new one?',
     a: "Not always. The audit shows what's working and what's costing you bookings. Sometimes we improve what you have, sometimes a rebuild pays for itself.",
@@ -182,11 +205,10 @@ export default function FoundPage() {
               style={{ fontFamily: HELV }}
               className="max-w-[704px] text-center text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]"
             >
-              Your competitor is getting the calls you can&#39;t see.
+              Anyone can build you a website. Making people find it is the job.
             </h1>
             <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              We build the website and the online presence that make the phone ring. Google,
-              maps, directories, AI search. Live in days.
+              We do both. The site, and everything that brings people to it. Live in days.
             </p>
           </div>
 
@@ -209,10 +231,13 @@ export default function FoundPage() {
         <div className="mx-auto flex max-w-[550px] flex-col items-center gap-[64px]">
           <div className="h-[2px] w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)' }} />
           <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
+            {/* Reversible removal: redundant against the new hero H1. Keep
+                recoverable, do not delete.
             <p>
-              Most businesses are invisible online. They don&#39;t show up in search, and the site
+              Most businesses are invisible online. They don't show up in search, and the site
               they have just sits there. The customers looking right now are finding someone else.
             </p>
+            */}
             <p className="mt-[1.32em] text-[#777]">
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you exactly where you&#39;re losing customers first. Then you decide.
@@ -230,10 +255,11 @@ export default function FoundPage() {
             <RuleRow>What you get</RuleRow>
             <div className="flex max-w-[500px] flex-col items-center gap-[24px] text-center">
               <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
-                A website alone won&#39;t get you found.
+                We handle every part of getting you found.
               </h2>
               <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
-                Being found takes search, maps, directories, and reviews. We handle all of it.
+                Set up once, then kept running as things change. You just watch the results come
+                in.
               </p>
             </div>
           </div>
@@ -266,7 +292,7 @@ export default function FoundPage() {
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px] text-center">
           <div className="flex flex-col items-center gap-[24px]">
             <Mark onDark />
-            <RuleRow onDark>The cost of waiting</RuleRow>
+            <RuleRow onDark>The missing number</RuleRow>
             <h2 style={{ fontFamily: HELV }} className="max-w-[522px] text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
               Right now, someone&#39;s searching. They&#39;re not finding you.
             </h2>
@@ -277,12 +303,10 @@ export default function FoundPage() {
           </p>
 
           <p className="max-w-[828px] text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#fefefe] sm:text-[56px] sm:tracking-[-2.24px]">
-            Recover 10 bookings. That&#39;s about <span className="text-[#f91626]">$10,000</span> you
-            almost lost.
+            How many a month? You&#39;d probably like to know.
           </p>
 
           <div className="max-w-[416px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
-            <p>And that&#39;s just the first month.</p>
             <p className="mt-[1.26em]">
               Being found isn&#39;t luck. It&#39;s the setup most businesses never get around to. We
               do it in a few days.
@@ -306,10 +330,10 @@ export default function FoundPage() {
             <RuleRow>What&#39;s included</RuleRow>
             <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
               <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
-                Everything we build and run for you.
+                Here&#39;s the whole list.
               </h2>
               <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
-                Set up, optimized, and yours to keep. You don&#39;t touch any of it.
+                All of it set up, then kept running. Nothing for you to do.
               </p>
             </div>
           </div>
@@ -319,11 +343,11 @@ export default function FoundPage() {
             <div className="flex flex-col gap-[24px]">
               <div className="hidden items-start justify-between sm:flex">
                 <div className="flex w-[400px] flex-col gap-[8px]">
-                  <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">What we build</p>
+                  <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">What we do</p>
                   <div className="h-[2px] w-[178px] bg-gradient-to-r from-[#cecece] to-[#f0f0f0]" />
                 </div>
                 <div className="flex w-[400px] flex-col gap-[8px]">
-                  <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">What it does</p>
+                  <p className="text-[24px] font-bold leading-[1.26] tracking-[-0.72px] text-[#777]">What you get</p>
                   <div className="h-[2px] w-[155px] bg-gradient-to-r from-[#cecece] to-[#f0f0f0]" />
                 </div>
               </div>
@@ -361,8 +385,7 @@ export default function FoundPage() {
                 The price is on the page. Always.
               </h2>
               <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
-                Everything built once, then a small monthly to keep you found. No minimum, cancel
-                anytime.
+                Everything built once, then a small monthly to keep you found.
               </p>
             </div>
           </div>
@@ -397,6 +420,10 @@ export default function FoundPage() {
               </Framed>
             </div>
 
+            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+              No minimum. Cancel anytime.
+            </p>
+
             {/* HIDDEN (Found-only launch, restore later): the bundle up-sell
                 line is lifted into `hiddenBundleUpsell` above. To restore,
                 move it back here. */}
@@ -419,11 +446,10 @@ export default function FoundPage() {
               <Mark />
               <RuleRow>Let&#39;s get started</RuleRow>
               <h2 style={{ fontFamily: HELV }} className="max-w-[897px] text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]">
-                The customers are searching. Let&#39;s make sure they find you.
+                Let&#39;s find out what you&#39;re missing.
               </h2>
               <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-                Get your free audit in 24 hours. See exactly where you&#39;re losing customers
-                before you decide anything.
+                See exactly where you&#39;re losing customers, before you decide anything.
               </p>
             </div>
             <div className="flex flex-col items-center gap-[12px]">
