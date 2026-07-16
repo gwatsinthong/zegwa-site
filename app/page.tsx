@@ -207,7 +207,7 @@ export default function FoundPage() {
             >
               Anyone can build you a website. Making people find it is the job.
             </h1>
-            <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+            <p className="max-w-[503px] text-balance text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
               We do both. The site, and everything that brings people to it. Live in days.
             </p>
           </div>
@@ -238,7 +238,7 @@ export default function FoundPage() {
               they have just sits there. The customers looking right now are finding someone else.
             </p>
             */}
-            <p className="text-[#777]">
+            <p className="text-balance text-[#777]">
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you exactly where you&#39;re losing customers first. Then you decide.
             </p>
@@ -257,7 +257,7 @@ export default function FoundPage() {
               <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
                 We handle every part of getting you found.
               </h2>
-              <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
+              <p className="max-w-[441px] text-balance text-[16px] leading-[1.5] text-[#5c5c5c]">
                 Set up once, then kept running as things change. You just watch the results come
                 in.
               </p>
@@ -298,7 +298,7 @@ export default function FoundPage() {
             </h2>
           </div>
 
-          <p className="max-w-[800px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
+          <p className="max-w-[500px] text-balance text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
             Every day you&#39;re invisible is a customer who found your competitor instead.
           </p>
 
@@ -307,7 +307,7 @@ export default function FoundPage() {
           </p>
 
           <div className="max-w-[580px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
-            <p>
+            <p className="text-balance">
               Being found isn&#39;t luck. It&#39;s the setup most businesses never get around to. We
               do it in a few days.
             </p>
@@ -380,7 +380,7 @@ export default function FoundPage() {
           <div className="flex flex-col items-center gap-[24px]">
             <Mark />
             <RuleRow>Pricing</RuleRow>
-            <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
+            <div className="flex max-w-[680px] flex-col items-center gap-[16px] text-center">
               <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
                 The price is on the page. Always.
               </h2>
@@ -448,7 +448,7 @@ export default function FoundPage() {
               <h2 style={{ fontFamily: HELV }} className="max-w-[897px] text-balance text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]">
                 Let&#39;s find out what you&#39;re missing.
               </h2>
-              <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+              <p className="max-w-[503px] text-balance text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
                 See exactly where you&#39;re losing customers, before you decide anything.
               </p>
             </div>
