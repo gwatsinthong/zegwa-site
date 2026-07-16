@@ -203,7 +203,7 @@ export default function FoundPage() {
             <RuleRow>Found</RuleRow>
             <h1
               style={{ fontFamily: HELV }}
-              className="max-w-[704px] text-center text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]"
+              className="max-w-[750px] text-balance text-center text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]"
             >
               Anyone can build you a website. Making people find it is the job.
             </h1>
@@ -228,7 +228,7 @@ export default function FoundPage() {
 
       {/* ========================= STATEMENT (321:1331) ========================= */}
       <section className="px-6 py-[80px] sm:py-[100px]">
-        <div className="mx-auto flex max-w-[550px] flex-col items-center gap-[64px]">
+        <div className="mx-auto flex max-w-[800px] flex-col items-center gap-[64px]">
           <div className="h-[2px] w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)' }} />
           <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
             {/* Reversible removal: redundant against the new hero H1. Keep
@@ -238,7 +238,7 @@ export default function FoundPage() {
               they have just sits there. The customers looking right now are finding someone else.
             </p>
             */}
-            <p className="mt-[1.32em] text-[#777]">
+            <p className="text-[#777]">
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you exactly where you&#39;re losing customers first. Then you decide.
             </p>
@@ -254,7 +254,7 @@ export default function FoundPage() {
             <Mark />
             <RuleRow>What you get</RuleRow>
             <div className="flex max-w-[500px] flex-col items-center gap-[24px] text-center">
-              <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
+              <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
                 We handle every part of getting you found.
               </h2>
               <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
@@ -293,21 +293,21 @@ export default function FoundPage() {
           <div className="flex flex-col items-center gap-[24px]">
             <Mark onDark />
             <RuleRow onDark>The missing number</RuleRow>
-            <h2 style={{ fontFamily: HELV }} className="max-w-[522px] text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
+            <h2 style={{ fontFamily: HELV }} className="max-w-[700px] text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
               Right now, someone&#39;s searching. They&#39;re not finding you.
             </h2>
           </div>
 
-          <p className="max-w-[416px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
+          <p className="max-w-[800px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
             Every day you&#39;re invisible is a customer who found your competitor instead.
           </p>
 
-          <p className="max-w-[828px] text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#fefefe] sm:text-[56px] sm:tracking-[-2.24px]">
+          <p className="max-w-[828px] text-balance text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#fefefe] sm:text-[56px] sm:tracking-[-2.24px]">
             How many a month? You&#39;d probably like to know.
           </p>
 
-          <div className="max-w-[416px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
-            <p className="mt-[1.26em]">
+          <div className="max-w-[580px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
+            <p>
               Being found isn&#39;t luck. It&#39;s the setup most businesses never get around to. We
               do it in a few days.
             </p>
@@ -329,7 +329,7 @@ export default function FoundPage() {
             <Mark />
             <RuleRow>What&#39;s included</RuleRow>
             <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
-              <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
+              <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
                 Here&#39;s the whole list.
               </h2>
               <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
@@ -445,7 +445,7 @@ export default function FoundPage() {
             <div className="flex flex-col items-center gap-[24px] text-center">
               <Mark />
               <RuleRow>Let&#39;s get started</RuleRow>
-              <h2 style={{ fontFamily: HELV }} className="max-w-[897px] text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]">
+              <h2 style={{ fontFamily: HELV }} className="max-w-[897px] text-balance text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]">
                 Let&#39;s find out what you&#39;re missing.
               </h2>
               <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
