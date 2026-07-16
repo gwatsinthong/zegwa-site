@@ -228,7 +228,7 @@ export default function FoundPage() {
 
       {/* ========================= STATEMENT (321:1331) ========================= */}
       <section className="px-6 py-[80px] sm:py-[100px]">
-        <div className="mx-auto flex max-w-[800px] flex-col items-center gap-[64px]">
+        <div className="mx-auto flex max-w-[590px] flex-col items-center gap-[64px]">
           <div className="h-[2px] w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)' }} />
           <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
             {/* Reversible removal: redundant against the new hero H1. Keep
@@ -380,9 +380,9 @@ export default function FoundPage() {
           <div className="flex flex-col items-center gap-[24px]">
             <Mark />
             <RuleRow>Pricing</RuleRow>
-            <div className="flex max-w-[680px] flex-col items-center gap-[16px] text-center">
+            <div className="flex max-w-[620px] flex-col items-center gap-[16px] text-center">
               <h2 style={{ fontFamily: HELV }} className="text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
-                The price is on the page. Always.
+                No quote call. Here&#39;s the price.
               </h2>
               <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
                 Everything built once, then a small monthly to keep you found.
