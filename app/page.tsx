@@ -207,7 +207,7 @@ export default function FoundPage() {
             >
               Anyone can build you a website. Making people find it is the job.
             </h1>
-            <p className="max-w-[503px] text-balance text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+            <p className="max-w-[527px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
               We do both. The site, and everything that brings people to it. Live in days.
             </p>
           </div>
@@ -257,7 +257,7 @@ export default function FoundPage() {
               <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
                 We handle every part of getting you found.
               </h2>
-              <p className="max-w-[441px] text-balance text-[16px] leading-[1.5] text-[#5c5c5c]">
+              <p className="max-w-[344px] text-[16px] leading-[1.5] text-[#5c5c5c]">
                 Set up once, then kept running as things change. You just watch the results come
                 in.
               </p>
@@ -448,7 +448,7 @@ export default function FoundPage() {
               <h2 style={{ fontFamily: HELV }} className="max-w-[897px] text-balance text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#202020] sm:text-[56px] sm:tracking-[-2.24px]">
                 Let&#39;s find out what you&#39;re missing.
               </h2>
-              <p className="max-w-[503px] text-balance text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+              <p className="max-w-[395px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
                 See exactly where you&#39;re losing customers, before you decide anything.
               </p>
             </div>
