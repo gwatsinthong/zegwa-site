@@ -303,7 +303,7 @@ export default function FoundPage() {
           </p>
 
           <p className="max-w-[828px] text-balance text-[40px] font-bold leading-[1.24] tracking-[-1.6px] text-[#fefefe] sm:text-[56px] sm:tracking-[-2.24px]">
-            How many a month? You&#39;d probably like to know.
+            How many a month? You&#39;d like to know.
           </p>
 
           <div className="max-w-[580px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
