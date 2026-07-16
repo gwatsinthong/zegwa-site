@@ -1,17 +1,18 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { pageMeta } from '@/lib/seo'
 import {
   HELV,
   FRAME_TYPE,
-  ArrowRight,
   Framed,
   RuleRow,
   Mark,
   PillCta,
+  FaqList,
   TierCard,
   type Price,
 } from '@/components/sections'
+import PricingCards from '@/components/PricingCards'
+import IncludedTable from '@/components/IncludedTable'
 
 export const metadata: Metadata = pageMeta({
   title: 'Pricing',
@@ -122,9 +123,48 @@ const PROBLEMS: Problem[] = [
   },
 ]
 
+const FAQS = [
+  {
+    q: "What's the setup fee for?",
+    a: "The build. Site, Google profile, directories, AI search, and a sweep of your old leads. It's the work that happens before anything runs.",
+  },
+  {
+    q: 'What does the $500 actually cover?',
+    a: 'Keeping it all working. Listings drift, reviews come in, Google changes. That\'s the monthly.',
+  },
+  {
+    q: 'Are there other costs?',
+    a: "Domain and hosting if you don't have them. We'll tell you before you pay anything.",
+  },
+  {
+    q: 'What if I cancel?',
+    a: 'You keep everything. The site, the domain, the content, the data. No minimum, no exit fee.',
+  },
+]
+
 export default function PricingPage() {
+  // HIDDEN (Found-only launch, restore later): the Found tier card is lifted
+  // out of the returned JSX and preserved verbatim here, superseded by the
+  // setup/ongoing PricingCards block (shared with home) below. To restore,
+  // move this back in place of <PricingCards /> below.
+  const hiddenFoundTierCard = (
+    <Framed outer="p-[16px]" bare className="w-full">
+      <div
+        className={
+          TIERS.length > 1
+            ? 'flex flex-col gap-[16px] lg:flex-row'
+            : 'mx-auto flex max-w-[380px] flex-col gap-[16px]'
+        }
+      >
+        {TIERS.map((tier) => (
+          <TierCard key={tier.name} {...tier} />
+        ))}
+      </div>
+    </Framed>
+  )
+
   // HIDDEN (Found-only launch, restore later): these two sections are lifted out
-  // of the returned JSX so the Pricing page ends after the tier cards. Their
+  // of the returned JSX so the Pricing page ends after the FAQ + CTA. Their
   // markup is preserved verbatim in the unused consts below; the render site
   // keeps a marker comment for each. Shared components (Framed, PillCta, Mark,
   // RuleRow) and the PROBLEMS data stay imported/defined because these consts —
@@ -210,58 +250,40 @@ export default function PricingPage() {
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================= HERO (348:1726) ========================= */}
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
-        <div className="mx-auto flex max-w-[1188px] flex-col items-center gap-[64px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
           <div className="flex flex-col items-center gap-[26px]">
             <RuleRow>Pricing</RuleRow>
             <h1
               style={{ fontFamily: HELV }}
               className={`max-w-[704px] text-center text-[#202020] ${FRAME_TYPE.display}`}
             >
-              The price is on the page. Always.
+              No quote call. Here&#39;s the price.
             </h1>
-            <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+            <p className="max-w-[329px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
               No calls to book, no quotes to chase. See the price and get started.
             </p>
           </div>
 
-          <div className="flex w-full flex-col items-center gap-[16px]">
-            {/* Tier cards (348:2770): three cards float on the grey counter backing.
-                Found-only launch: TIERS currently holds one entry, so this
-                centers a single fixed-width card instead of stretching it
-                full-width; restoring the hidden tiers (TIERS.length > 1)
-                switches this back to the original flex-row layout automatically. */}
-            <Framed outer="p-[16px]" bare className="w-full">
-              <div
-                className={
-                  TIERS.length > 1
-                    ? 'flex flex-col gap-[16px] lg:flex-row'
-                    : 'mx-auto flex max-w-[380px] flex-col gap-[16px]'
-                }
-              >
-                {TIERS.map((tier) => (
-                  <TierCard key={tier.name} {...tier} />
-                ))}
-              </div>
-            </Framed>
+          {/* HIDDEN (Found-only launch, restore later): the Found tier card is
+              lifted into `hiddenFoundTierCard` above, superseded by the
+              setup/ongoing block shared with home. To restore, swap it back
+              in place of <PricingCards /> below. */}
+          <PricingCards />
+        </div>
+      </section>
 
-            {/* Contact line (348:2807) -> /contact */}
-            <p className="text-center text-[16px] leading-[1.5] text-[#777]">
-              Not sure which fits? We&#39;ll help you decide.{' '}
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-[4px] align-middle text-[16px] font-bold tracking-[0.16px] text-[#202020]"
-              >
-                Contact us
-                <ArrowRight className="h-[24px] w-[24px]" />
-              </Link>
+      <IncludedTable />
+
+      {/* ================================ FAQ =================================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <FaqList items={FAQS} />
+
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta />
+            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+              Your audit in 24 hours. No strings.
             </p>
-
-            <div className="mt-[16px] flex flex-col items-center gap-[12px]">
-              <PillCta />
-              <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
-                Your audit in 24 hours. No strings.
-              </p>
-            </div>
           </div>
         </div>
       </section>

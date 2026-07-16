@@ -14,6 +14,13 @@ const OFFERS = [
   { label: 'Pricing', href: '/pricing' },
 ]
 
+// HIDDEN (reversible, restore when these pages exist): the Verticals column
+// linked to /hvac, /plumbing, /roofing, /electrical, /weight-loss-clinics,
+// /med-spa, and /dental -- none of those routes exist yet. Lifted out of the
+// rendered columns and preserved verbatim here rather than deleted; every
+// other footer link was checked and does resolve to a real route (including
+// Offers' "Found" -> "/", which is the home page, not a 404). To restore,
+// move this back into the LinkColumn grid below.
 const VERTICALS = [
   { label: 'HVAC', href: '/hvac' },
   { label: 'Plumbing', href: '/plumbing' },
@@ -89,9 +96,11 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3">
             <LinkColumn title="Offers" links={OFFERS} />
-            <LinkColumn title="Verticals" links={VERTICALS} />
+            {/* HIDDEN: Verticals column lifted into the unused `VERTICALS`
+                const above -- none of its routes exist yet. Restore this
+                column (and grid-cols-3 -> grid-cols-4 above) when they do. */}
             <LinkColumn title="Explore" links={EXPLORE} />
             <LinkColumn
               title="Legal"
