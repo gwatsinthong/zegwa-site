@@ -180,12 +180,13 @@ const CONTENT: LegalContent = {
         { k: 'p', text: 'We share your information only in the following circumstances:' },
         {
           k: 'p',
-          text: 'Service providers. We use third-party providers to operate our services. >>>PENDING — confirm final sub-processor list before publishing<<<',
+          text: 'Service providers. We use third-party providers to operate our services.',
         },
         { k: 'p', text: 'These currently include:' },
         {
           k: 'ul',
           items: [
+            'Website hosting and delivery (Vercel Inc., United States)',
             // HIDDEN: two bullets lifted into `hiddenServiceProviderItems`
             // above.
             'Database and application hosting (Supabase, hosted on AWS in the United States)',
