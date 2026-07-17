@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { display, body, serif } from './fonts'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import SmoothScroll from '@/components/SmoothScroll'
+import CookieConsent from '@/components/CookieConsent'
 import { SITE_URL, SITE_NAME, OG_IMAGE, organizationJsonLd } from '@/lib/seo'
+import { GA_ID, CONSENT_BOOTSTRAP } from '@/lib/analytics'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -43,6 +46,23 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
+        {/* GA4 with Consent Mode v2. The beforeInteractive Script below must
+            stay authored directly in this file -- Next.js only honours that
+            strategy's before-hydration ordering guarantee when it's
+            literally in app/layout.tsx, not in a nested component. If
+            NEXT_PUBLIC_GA_ID is unset, none of this renders: no gtag, no
+            requests, no console errors. */}
+        {GA_ID && (
+          <>
+            <Script id="ga-consent-default" strategy="beforeInteractive">
+              {CONSENT_BOOTSTRAP}
+            </Script>
+            <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`gtag('js', new Date()); gtag('config', '${GA_ID}');`}
+            </Script>
+          </>
+        )}
         <SmoothScroll />
         {/* Header/main/Footer + the margin rules share this wrapper so the rules'
             height tracks real content instead of a hardcoded number: the
@@ -74,6 +94,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
+        <CookieConsent />
       </body>
     </html>
   )

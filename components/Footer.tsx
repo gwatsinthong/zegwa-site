@@ -1,6 +1,9 @@
+'use client'
+
 import Link from 'next/link'
 import { SocialLinks } from './Social'
 import { HELV } from './sections'
+import { REOPEN_EVENT } from './CookieConsent'
 
 // Figma-faithful footer (frame 321:1659) in the Helvetica stack, matching the
 // body. Dark band: gradient #272729 to #0c0c0d, #cecece top rule, #9d9a9a
@@ -113,7 +116,11 @@ export default function Footer() {
               links={LEGAL}
               extra={
                 <li>
-                  <button type="button" className={`text-left ${LINK}`}>
+                  <button
+                    type="button"
+                    onClick={() => window.dispatchEvent(new Event(REOPEN_EVENT))}
+                    className={`text-left ${LINK}`}
+                  >
                     Cookie settings
                   </button>
                 </li>
