@@ -44,7 +44,6 @@ const CONTENT: LegalContent = {
           k: 'table',
           head: ['Cookie', 'Purpose', 'Duration'],
           rows: [
-            ['Session cookie', 'Maintains your session as you navigate the site', 'Session (deleted when browser closes)'],
             ['Cookie consent', 'Stores your cookie preference so we do not ask again', '12 months'],
           ],
         },
@@ -105,7 +104,7 @@ const CONTENT: LegalContent = {
         },
         {
           k: 'p',
-          text: 'Links to cookie settings for common browsers: Google Chrome, Mozilla Firefox, Safari, Microsoft Edge.',
+          text: 'Google Chrome, Mozilla Firefox, Safari, and Microsoft Edge each document their own cookie settings in their help centers.',
         },
         { k: 'p', text: 'Disabling essential cookies may affect the functionality of the site.' },
       ],
