@@ -73,7 +73,7 @@ const CONTENT: LegalContent = {
         },
         {
           k: 'p',
-          text: 'If we add analytics in the future, we will update this policy, add the relevant cookie details here, and request your consent through the cookie banner where required by law.',
+          text: 'We now use analytics cookies as described above, gated behind your consent through the cookie banner, and will update this policy if we add anything further.',
         },
       ],
     },
