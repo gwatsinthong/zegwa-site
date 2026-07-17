@@ -43,9 +43,9 @@ export default function StartPage() {
 
           {/* Trust line (399:2430): 3 items, justified, single row on desktop. */}
           <div className="flex w-full flex-col items-start gap-[16px] text-[14px] font-bold leading-[1.5] text-[#5c5c5c] sm:flex-row sm:items-center sm:justify-between sm:gap-0">
-            <p className="sm:whitespace-nowrap">You&#39;ll see the actual gaps, not a sales pitch</p>
+            <p className="sm:whitespace-nowrap">You&#39;ll see the actual gaps in your presence.</p>
             <p className="sm:whitespace-nowrap">
-              A real person reviews your business, not just a report
+              A real person reviews your business before it sends.
             </p>
             <p className="sm:whitespace-nowrap">Nothing to buy. Decide after you&#39;ve seen it.</p>
           </div>
