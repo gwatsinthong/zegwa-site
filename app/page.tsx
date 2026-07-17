@@ -27,8 +27,8 @@ export const metadata: Metadata = pageMeta({
 // sizes are read per node. Font target is Helvetica Now Display; the closest
 // available stack is used as a fallback until the licensed font is installed.
 // Images render from public/images/home-*.jpg at the frame's exact
-// dimensions. CAPTURE CARVE-OUT: the pricing "Found + Capture bundle"
-// line is kept verbatim as text; "See pricing" points to /pricing, and no
+// dimensions. CAPTURE CARVE-OUT: the pricing "Found + Capture bundle" line
+// is hidden for the Found-only launch (see hiddenBundleUpsell below); no
 // /capture link is created. All audit CTAs point to /start.
 
 
@@ -130,7 +130,7 @@ const FAQS = [
   },
   {
     q: 'I already have a website. Do I need a new one?',
-    a: "Not always. The audit shows what's working and what's costing you bookings. Sometimes we improve what you have, sometimes a rebuild pays for itself.",
+    a: "Not always. The audit shows what's working and what's costing you customers. Sometimes we improve what you have, sometimes a rebuild pays for itself.",
   },
   {
     q: 'Do I own everything?',

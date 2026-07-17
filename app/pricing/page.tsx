@@ -25,9 +25,10 @@ export const metadata: Metadata = pageMeta({
 // supplies Header + Footer). Exact radii, colors, gradients, shadows, and type
 // sizes are read per node. Font target is Helvetica Now Display. Images are
 // labeled placeholders at the frame's dimensions; swap points are commented.
-// CAPTURE CARVE-OUT: the Capture tier and the Capture problem row render as
-// designed, but every CTA points to /start and no /capture route is linked.
-// Each Capture touchpoint is flagged inline.
+// CAPTURE CARVE-OUT: the Capture tier and the Capture problem row are hidden
+// for the Found-only launch (see hiddenCaptureAndBundleTiers and
+// hiddenProblemSpotter below). Their CTAs point to /start and no /capture
+// route is linked. Each touchpoint is flagged inline.
 
 type Tier = {
   name: string
@@ -63,7 +64,7 @@ const TIERS: Tier[] = [
 // Bundle), after the Found entry.
 const hiddenCaptureAndBundleTiers: Tier[] = [
   {
-    // CAPTURE CARVE-OUT: Capture tier renders as designed; CTA -> /start.
+    // CAPTURE CARVE-OUT: hidden for the Found-only launch; CTA -> /start.
     name: 'CAPTURE',
     tagline: 'Never miss a call or a booking.',
     setup: { now: '$3,000', suffix: 'setup' },
@@ -109,7 +110,7 @@ const PROBLEMS: Problem[] = [
     cta: { label: 'Start with Found', tone: 'light' },
   },
   {
-    // CAPTURE CARVE-OUT: Capture problem row renders as designed; CTA -> /start.
+    // CAPTURE CARVE-OUT: hidden with the rest of hiddenProblemSpotter; CTA -> /start.
     name: 'CAPTURE',
     heading: 'Getting calls but missing them?',
     body: 'Every call answered, every booking kept. Nothing slips.',
@@ -166,9 +167,10 @@ export default function PricingPage() {
   // HIDDEN (Found-only launch, restore later): these two sections are lifted out
   // of the returned JSX so the Pricing page ends after the FAQ + CTA. Their
   // markup is preserved verbatim in the unused consts below; the render site
-  // keeps a marker comment for each. Shared components (Framed, PillCta, Mark,
-  // RuleRow) and the PROBLEMS data stay imported/defined because these consts —
-  // and other pages — still reference them.
+  // keeps a marker comment for each. RuleRow and PillCta stay imported because
+  // they are also used in the live sections above; Framed and Mark are
+  // imported only for these hidden consts. The PROBLEMS data is defined only
+  // for hiddenProblemSpotter and is not referenced anywhere else.
   const hiddenProblemSpotter = (
     <>
       {/* ===================== NOT SURE WHICH ONE? (348:4043) ================== */}
@@ -205,7 +207,7 @@ export default function PricingPage() {
                       </h3>
                       <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{p.body}</p>
                     </div>
-                    {/* CAPTURE CARVE-OUT applies to the Capture row; all rows -> /start */}
+                    {/* CAPTURE CARVE-OUT: this whole section is hidden (see hiddenProblemSpotter above); every row's CTA -> /start */}
                     <PillCta label={p.cta.label} href="/start" tone={p.cta.tone} />
                   </div>
                 </div>
