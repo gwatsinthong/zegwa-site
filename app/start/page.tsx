@@ -6,7 +6,7 @@ import { pageMeta } from '@/lib/seo'
 export const metadata: Metadata = pageMeta({
   title: 'Get your free audit',
   description:
-    'Tell us about your business and we show you where bookings are slipping, in 24 hours, free. No calls and no commitment.',
+    'Tell us about your business and we show you where customers are slipping, in 24 hours, free. No calls and no commitment.',
   path: '/start',
 })
 
@@ -30,7 +30,7 @@ export default function StartPage() {
             Let&#39;s see what you&#39;re missing.
           </h1>
           <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-            Tell us your business. We&#39;ll show you where the bookings are slipping, in 24 hours,
+            Tell us your business. We&#39;ll show you where the customers are slipping, in 24 hours,
             free.
           </p>
         </div>
