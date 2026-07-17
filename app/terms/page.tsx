@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { LegalPage, type LegalContent } from '@/components/sections'
+import { LegalPage, type LegalBlock, type LegalContent, type LegalSection } from '@/components/sections'
 import { pageMeta } from '@/lib/seo'
 
 export const metadata: Metadata = pageMeta({
@@ -10,6 +10,129 @@ export const metadata: Metadata = pageMeta({
 })
 
 // Copy is verbatim from Figma frame 387:1819. Legal text is authoritative.
+
+// HIDDEN (Found-only launch, restore later): the Capture, Bundle, and
+// Managed service entries are lifted out of the "Our services" section and
+// preserved verbatim here. To restore, move these three blocks back into
+// that section's blocks array, after the Found entry, and change "a
+// productized service" back to "two productized services" in that
+// section's lead-in sentence.
+const hiddenServiceEntries: LegalBlock[] = [
+  {
+    k: 'p',
+    label: 'Capture',
+    text: ': An AI front desk service that answers inbound calls, texts, and web chat inquiries, qualifies leads, and books appointments directly into your existing booking or practice management software. Includes reminders and no-show recovery.',
+  },
+  {
+    k: 'p',
+    label: 'Bundle',
+    text: ': Found and Capture delivered together as a combined package.',
+  },
+  {
+    k: 'p',
+    label: 'Managed',
+    text: ': A higher-engagement service tier for clients requiring broader operational support. Scoped and priced individually by request.',
+  },
+]
+
+// HIDDEN (Found-only launch, restore later): the Capture, Bundle, and
+// Managed fee lines are lifted out of "Engagement and payment" > Fees and
+// preserved verbatim here. To restore, move these three items back into
+// that ul's items array, after the Found item.
+const hiddenFeeItems: { label: string; text: string }[] = [
+  {
+    label: 'Capture',
+    text: ': $3,000 setup fee plus $1,000 per month per location. Minimum term of three months from the date the service goes live.',
+  },
+  {
+    label: 'Bundle',
+    text: ': $4,000 setup fee plus $1,300 per month. Minimum term of three months from the date the service goes live.',
+  },
+  { label: 'Managed', text: ': Priced individually per Order.' },
+]
+
+// HIDDEN (reversible, not deleted): this section duplicated Privacy's
+// "Legal basis for processing (GDPR and DPDP Act)" section word-for-word,
+// and Terms already defers to Privacy for this via the "Data and privacy"
+// section below. Preserved verbatim here rather than deleted. To restore,
+// move this back into CONTENT.sections, in its original position (right
+// after "Engagement and payment", before "Minimum terms and
+// cancellation"). Privacy's own copy of this section is untouched.
+const hiddenLegalBasisSection: LegalSection = {
+  heading: 'Legal basis for processing (GDPR and DPDP Act)',
+  blocks: [
+    {
+      k: 'p',
+      text: 'Where applicable, we process your personal data on the following legal bases:',
+    },
+    {
+      k: 'ul',
+      items: [
+        { label: 'Contract', text: ': Processing necessary to deliver the services you requested' },
+        {
+          label: 'Legitimate interests',
+          text: ': Improving our services, preventing fraud, securing our systems',
+        },
+        { label: 'Consent', text: ': Where you have explicitly opted in (e.g. marketing communications)' },
+        { label: 'Legal obligation', text: ': Where required by applicable law' },
+      ],
+    },
+  ],
+}
+
+// HIDDEN (Found-only launch, restore later): the "Capture and Bundle"
+// minimum-term item is lifted out of "Minimum terms and cancellation" and
+// preserved verbatim here. To restore, move it back into that ul's items
+// array, after the Found item.
+const hiddenCancellationTerm: { label: string; text: string } = {
+  label: 'Capture and Bundle',
+  text: ': Three-month minimum term from the date the service goes live. After the minimum term, month-to-month with 30 days written notice to cancel.',
+}
+
+// HIDDEN (Found-only launch, restore later): these three ownership bullets
+// are lifted out of "Ownership of work product" and preserved verbatim
+// here. To restore, move them back into that ul's items array, in this
+// order, after "Google Business Profile and directory listings (under your
+// accounts)" and before "All reporting and performance data".
+const hiddenOwnershipItems: string[] = [
+  'The AI agent knowledge base, scripts, and qualification logic',
+  'Your business phone number provisioned for Capture',
+  'All call recordings, transcripts, and conversation logs',
+]
+
+// HIDDEN (Found-only launch, restore later): the entire "AI and accuracy"
+// section is lifted out of CONTENT.sections and preserved verbatim here,
+// including the >>>LAWYER<<< marker. To restore, move this back into
+// CONTENT.sections, in its original position (right after "Acceptable
+// use", before "Confidentiality").
+const hiddenAiAccuracySection: LegalSection = {
+  heading: 'AI and accuracy',
+  blocks: [
+    {
+      k: 'p',
+      text: 'Our Capture service uses artificial intelligence to handle inbound calls, qualify leads, and book appointments. While we configure, tune, and maintain the AI for your specific business, AI systems can make errors. We do not guarantee that the AI will handle every interaction perfectly.',
+    },
+    { k: 'p', text: 'We do guarantee that:' },
+    {
+      k: 'ul',
+      items: [
+        'The agent will be configured with your specific business information before going live',
+        'You will have access to every conversation the agent has',
+        'We will correct errors promptly when you flag them',
+        'The agent is configured to escalate to a human when it is uncertain rather than guess',
+        'The agent discloses that a call may be recorded where required.',
+      ],
+    },
+    {
+      k: 'p',
+      text: '>>>LAWYER — confirm call-recording disclosure language and two-party-consent handling for US states that require it<<<',
+    },
+    {
+      k: 'p',
+      text: 'For legal verticals, the agent handles intake only and does not provide legal advice or create an attorney-client relationship.',
+    },
+  ],
+}
 
 const CONTENT: LegalContent = {
   kicker: 'Terms',
@@ -38,28 +161,15 @@ const CONTENT: LegalContent = {
       blocks: [
         {
           k: 'p',
-          text: 'Zegwa Studio provides two productized services to local appointment businesses:',
+          text: 'Zegwa Studio provides a productized service to local appointment businesses:',
         },
         {
           k: 'p',
           label: 'Found',
           text: ': A done-for-you web presence package including website development, Google Business Profile optimization, local directory listings, on-page SEO, and answer engine optimization (AEO). Includes a one-time dormant lead reactivation sweep.',
         },
-        {
-          k: 'p',
-          label: 'Capture',
-          text: ': An AI front desk service that answers inbound calls, texts, and web chat inquiries, qualifies leads, and books appointments directly into your existing booking or practice management software. Includes reminders and no-show recovery.',
-        },
-        {
-          k: 'p',
-          label: 'Bundle',
-          text: ': Found and Capture delivered together as a combined package.',
-        },
-        {
-          k: 'p',
-          label: 'Managed',
-          text: ': A higher-engagement service tier for clients requiring broader operational support. Scoped and priced individually by request.',
-        },
+        // HIDDEN: Capture, Bundle, and Managed entries lifted into
+        // `hiddenServiceEntries` above.
       ],
     },
     {
@@ -75,15 +185,8 @@ const CONTENT: LegalContent = {
           k: 'ul',
           items: [
             { label: 'Found', text: ': $1,500 setup fee plus $500 per month. No minimum term.' },
-            {
-              label: 'Capture',
-              text: ': $3,000 setup fee plus $1,000 per month per location. Minimum term of three months from the date the service goes live.',
-            },
-            {
-              label: 'Bundle',
-              text: ': $4,000 setup fee plus $1,300 per month. Minimum term of three months from the date the service goes live.',
-            },
-            { label: 'Managed', text: ': Priced individually per Order.' },
+            // HIDDEN: Capture, Bundle, and Managed fee items lifted into
+            // `hiddenFeeItems` above.
           ],
         },
         { k: 'p', text: 'Fees are stated in US dollars unless otherwise agreed.' },
@@ -99,27 +202,8 @@ const CONTENT: LegalContent = {
         },
       ],
     },
-    {
-      heading: 'Legal basis for processing (GDPR and DPDP Act)',
-      blocks: [
-        {
-          k: 'p',
-          text: 'Where applicable, we process your personal data on the following legal bases:',
-        },
-        {
-          k: 'ul',
-          items: [
-            { label: 'Contract', text: ': Processing necessary to deliver the services you requested' },
-            {
-              label: 'Legitimate interests',
-              text: ': Improving our services, preventing fraud, securing our systems',
-            },
-            { label: 'Consent', text: ': Where you have explicitly opted in (e.g. marketing communications)' },
-            { label: 'Legal obligation', text: ': Where required by applicable law' },
-          ],
-        },
-      ],
-    },
+    // HIDDEN: "Legal basis for processing (GDPR and DPDP Act)" section
+    // lifted into `hiddenLegalBasisSection` above.
     {
       heading: 'Minimum terms and cancellation',
       blocks: [
@@ -130,10 +214,8 @@ const CONTENT: LegalContent = {
               label: 'Found',
               text: ': No minimum term. Cancel with 30 days written notice. Monthly fee is charged through the end of the notice period.',
             },
-            {
-              label: 'Capture and Bundle',
-              text: ': Three-month minimum term from the date the service goes live. After the minimum term, month-to-month with 30 days written notice to cancel.',
-            },
+            // HIDDEN: "Capture and Bundle" minimum-term item lifted into
+            // `hiddenCancellationTerm` above.
           ],
         },
         {
@@ -152,9 +234,8 @@ const CONTENT: LegalContent = {
             'The website and all its content',
             'Domain configurations (where you own the domain)',
             'Google Business Profile and directory listings (under your accounts)',
-            'The AI agent knowledge base, scripts, and qualification logic',
-            'Your business phone number provisioned for Capture',
-            'All call recordings, transcripts, and conversation logs',
+            // HIDDEN: three ownership bullets lifted into
+            // `hiddenOwnershipItems` above.
             'All reporting and performance data',
           ],
         },
@@ -176,7 +257,7 @@ const CONTENT: LegalContent = {
             'Respond to setup and onboarding requests within a reasonable timeframe',
             'Ensure you have the right to grant us access to any systems, data, or accounts you share with us',
             'Comply with all applicable laws in your jurisdiction, including consumer protection and data privacy laws',
-            'Obtain any necessary consents from your customers before their data is processed through our services, including any consent required to record calls',
+            'Obtain any necessary consents from your customers before their data is processed through our services',
           ],
         },
       ],
@@ -197,34 +278,8 @@ const CONTENT: LegalContent = {
         },
       ],
     },
-    {
-      heading: 'AI and accuracy',
-      blocks: [
-        {
-          k: 'p',
-          text: 'Our Capture service uses artificial intelligence to handle inbound calls, qualify leads, and book appointments. While we configure, tune, and maintain the AI for your specific business, AI systems can make errors. We do not guarantee that the AI will handle every interaction perfectly.',
-        },
-        { k: 'p', text: 'We do guarantee that:' },
-        {
-          k: 'ul',
-          items: [
-            'The agent will be configured with your specific business information before going live',
-            'You will have access to every conversation the agent has',
-            'We will correct errors promptly when you flag them',
-            'The agent is configured to escalate to a human when it is uncertain rather than guess',
-            'The agent discloses that a call may be recorded where required.',
-          ],
-        },
-        {
-          k: 'p',
-          text: '>>>LAWYER — confirm call-recording disclosure language and two-party-consent handling for US states that require it<<<',
-        },
-        {
-          k: 'p',
-          text: 'For legal verticals, the agent handles intake only and does not provide legal advice or create an attorney-client relationship.',
-        },
-      ],
-    },
+    // HIDDEN: entire "AI and accuracy" section (including the >>>LAWYER<<<
+    // marker) lifted into `hiddenAiAccuracySection` above.
     {
       heading: 'Confidentiality',
       blocks: [
@@ -259,7 +314,7 @@ const CONTENT: LegalContent = {
         {
           k: 'ul',
           items: [
-            'The services will produce specific revenue outcomes or booking volumes',
+            'The services will produce specific revenue or customer outcomes',
             'The services will be error-free or uninterrupted',
             'Search rankings or AI search visibility will achieve specific positions or timeframes',
           ],

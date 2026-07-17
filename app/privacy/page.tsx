@@ -11,6 +11,45 @@ export const metadata: Metadata = pageMeta({
 
 // Copy is verbatim from Figma frame 364:5158. Legal text is authoritative.
 
+// HIDDEN (Found-only launch, restore later): these two bullets are lifted
+// out of "What information we collect" > "Information collected through
+// our services" and preserved verbatim here. To restore, move them back
+// into that ul's items array, in this order, at the start of the list
+// (before "Lead and contact data from your existing systems"), and change
+// the lead-in "When we deliver Found to your business" back to "When we
+// deliver Found or Capture to your business".
+const hiddenCollectionItems: string[] = [
+  'Call recordings and transcripts handled by the AI front desk',
+  'Appointment and booking data from your calendar system',
+]
+
+// HIDDEN (Found-only launch, restore later): lifted out of "How we use
+// your information" and preserved verbatim here. To restore, move it back
+// into that ul's items array, after "Provide and operate the Found
+// service" (which should also revert to "Provide and operate Found and
+// Capture services").
+const hiddenUsePurpose = 'Configure and tune the AI front desk for your business'
+
+// HIDDEN (Found-only launch, restore later): these two service-provider
+// bullets, including the Voice/SMS line's own >>>PENDING<<< marker, are
+// lifted out of "How we share your information" and preserved verbatim
+// here. To restore, move them back into that ul's items array, in this
+// order, at the start of the list (before "Database and application
+// hosting").
+const hiddenServiceProviderItems: string[] = [
+  'Voice and SMS platforms (Twilio; Vapi or Retell for voice) >>>PENDING — depends on final Capture voice-backend decision<<<',
+  'Calendar and booking integrations',
+]
+
+// HIDDEN (Found-only launch, restore later): lifted out of "Data
+// retention" and preserved verbatim here. To restore, move it back into
+// that ul's items array, after "Client data" and before "Website
+// analytics (Google Analytics)".
+const hiddenRetentionItem: { label: string; text: string } = {
+  label: 'Call recordings and transcripts',
+  text: ': Retained for 12 months unless a longer period is required by law or agreed with the client',
+}
+
 const CONTENT: LegalContent = {
   kicker: 'Privacy',
   title: 'Privacy Policy',
@@ -35,7 +74,7 @@ const CONTENT: LegalContent = {
         { k: 'p', label: 'Phone', text: ': (+91) 7026949689' },
         {
           k: 'p',
-          text: 'We operate the website zegwastudio.com and deliver AI-native web presence and front desk services to local appointment businesses, primarily in the United States, India and other English-speaking markets.',
+          text: 'We operate the website zegwastudio.com and deliver AI-native web presence services to local appointment businesses, primarily in the United States, India and other English-speaking markets.',
         },
       ],
     },
@@ -71,15 +110,14 @@ const CONTENT: LegalContent = {
         { k: 'sub', text: 'Information collected through our services' },
         {
           k: 'p',
-          text: 'When we deliver Found or Capture to your business, we may process:',
+          text: 'When we deliver Found to your business, we may process:',
         },
         {
           k: 'ul',
           items: [
-            'Call recordings and transcripts handled by the AI front desk',
-            'Appointment and booking data from your calendar system',
+            // HIDDEN: two bullets lifted into `hiddenCollectionItems` above.
             'Lead and contact data from your existing systems',
-            'Business performance data (calls answered, bookings made, revenue recovered)',
+            'Business performance data (search impressions, website visits, reviews)',
           ],
         },
       ],
@@ -92,8 +130,8 @@ const CONTENT: LegalContent = {
           k: 'ul',
           items: [
             'Deliver the free audit you requested',
-            'Provide and operate Found and Capture services',
-            'Configure and tune the AI front desk for your business',
+            'Provide and operate the Found service',
+            // HIDDEN: `hiddenUsePurpose` above.
             'Send service communications (confirmations, reports, updates)',
             'Respond to your questions and support requests',
             'Improve our services and develop new features',
@@ -148,11 +186,11 @@ const CONTENT: LegalContent = {
         {
           k: 'ul',
           items: [
-            'Voice and SMS platforms (Twilio; Vapi or Retell for voice) >>>PENDING — depends on final Capture voice-backend decision<<<',
+            // HIDDEN: two bullets lifted into `hiddenServiceProviderItems`
+            // above.
             'Database and application hosting (Supabase, hosted on AWS in the United States)',
             'Email delivery (AWS SES)',
             'Website analytics (Google Analytics 4, provided by Google LLC, United States)',
-            'Calendar and booking integrations',
           ],
         },
         {
@@ -190,10 +228,8 @@ const CONTENT: LegalContent = {
               label: 'Client data',
               text: ': Retained for the duration of the engagement plus 3 years',
             },
-            {
-              label: 'Call recordings and transcripts',
-              text: ': Retained for 12 months unless a longer period is required by law or agreed with the client',
-            },
+            // HIDDEN: "Call recordings and transcripts" item lifted into
+            // `hiddenRetentionItem` above.
             { label: 'Website analytics (Google Analytics)', text: ': Retained for 14 months' },
           ],
         },
