@@ -39,7 +39,7 @@ const WORK = [
     kicker: 'No lock-in',
     heading: 'Everything we build is yours to keep.',
     body: [
-      'The website, the content, the phone number, the agent, the data. Every piece we build is yours. If you ever leave, you take it all with you.',
+      'The website, the content, the listings, the data. Every piece we build is yours. If you ever leave, you take it all with you.',
       "No lock-in, no assets held hostage, no proprietary formats you can't export. We don't trap you into staying. We earn it every month, or you walk with everything.",
     ],
     image: '/images/about-no-lockin.jpg',
@@ -53,11 +53,11 @@ const FAQS = [
   },
   {
     q: 'How long have you been doing this?',
-    a: "Zegwa is new, and we're honest about that. What we have instead of a logo wall is a live product, real math, and a free audit with nothing attached.",
+    a: "Zegwa is new, and we're honest about that. What we have instead of a logo wall is a live product and a free audit with nothing attached.",
   },
   {
     q: 'What makes you different from other AI agencies?',
-    a: 'We do two things and do them well. We charge for the outcome, not the hours. And you own everything we build.',
+    a: 'We do one thing: get you found. We charge for the outcome, not the hours. And you own everything we build.',
   },
 ]
 
@@ -154,7 +154,7 @@ export default function AboutPage() {
                 You know who we are. One step left.
               </h2>
               <p className="max-w-[503px] text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-                Get your free audit in 24 hours. See exactly where you&#39;re losing bookings before
+                Get your free audit in 24 hours. See exactly where you&#39;re losing customers before
                 you decide anything.
               </p>
             </div>
