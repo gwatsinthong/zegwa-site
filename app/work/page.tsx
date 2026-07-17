@@ -134,11 +134,10 @@ export default function WorkPage() {
               style={{ fontFamily: HELV }}
               className={`max-w-[704px] text-center text-[#202020] ${FRAME_TYPE.display}`}
             >
-              See your new site before you pay for it.
+              See what we&#39;d build for you.
             </h1>
-            <p className="max-w-[503px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              Fifteen real, live sites across the trades. Click into any of them. This is the kind
-              of site we&#39;d build for you.
+            <p className="max-w-[418px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+              Fifteen sample sites we built to show the work. Click into any of them.
             </p>
           </div>
 
