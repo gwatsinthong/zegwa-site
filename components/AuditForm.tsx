@@ -39,7 +39,7 @@ const COPY = {
   none: 'None of these',
   successHeading: 'Your audit is on the way.',
   successBody:
-    "We're building it now. It will arrive by email in a few minutes.",
+    "We're building it now. It lands in your inbox within 24 hours, usually sooner.",
   successNote: 'You can close this page.',
   rateHeading: 'Just a moment.',
   rateBody: 'You have sent this a few times. Please wait a little, then try again.',
