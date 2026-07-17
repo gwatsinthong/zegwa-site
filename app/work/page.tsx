@@ -6,7 +6,7 @@ import { HELV, FRAME_TYPE, Framed, RuleRow, PillCta } from '@/components/section
 export const metadata: Metadata = pageMeta({
   title: 'Our work',
   description:
-    'Fifteen real, live sites across the trades. See the kind of site we build before you pay for one.',
+    "Fifteen sample sites we built to show the work. Click into any of them to see what we'd build for you.",
   path: '/work',
 })
 
