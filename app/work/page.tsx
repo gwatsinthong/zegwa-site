@@ -6,7 +6,7 @@ import { HELV, FRAME_TYPE, Framed, RuleRow, PillCta } from '@/components/section
 export const metadata: Metadata = pageMeta({
   title: 'Our work',
   description:
-    "Fifteen sample sites we built to show the work. Click into any of them to see what we'd build for you.",
+    "Sample sites we built to show the work. Click into any of them to see what we'd build for you.",
   path: '/work',
 })
 
@@ -136,8 +136,8 @@ export default function WorkPage() {
             >
               See what we&#39;d build for you.
             </h1>
-            <p className="max-w-[418px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              Fifteen sample sites we built to show the work. Click into any of them.
+            <p className="max-w-[357px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+              Sample sites we built to show the work. Click into any of them.
             </p>
           </div>
 
