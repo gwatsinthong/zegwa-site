@@ -10,17 +10,22 @@ import { HELV } from './sections'
 // omitted (not repointed) so the footer offers only real routes.
 const OFFERS = [
   { label: 'Get free audit', href: '/start' },
-  { label: 'Found', href: '/' },
   { label: 'Pricing', href: '/pricing' },
 ]
+
+// HIDDEN (reversible): the "Found" link pointed at "/", which is already
+// reachable via the Home nav item and reads oddly grouped under Offers (it's
+// the product name, not something you can click through to buy separately
+// from the home page itself). Lifted out rather than deleted. To restore,
+// move this back into the OFFERS array above.
+const hiddenFoundOffer = { label: 'Found', href: '/' }
 
 // HIDDEN (reversible, restore when these pages exist): the Verticals column
 // linked to /hvac, /plumbing, /roofing, /electrical, /weight-loss-clinics,
 // /med-spa, and /dental -- none of those routes exist yet. Lifted out of the
 // rendered columns and preserved verbatim here rather than deleted; every
-// other footer link was checked and does resolve to a real route (including
-// Offers' "Found" -> "/", which is the home page, not a 404). To restore,
-// move this back into the LinkColumn grid below.
+// other footer link was checked and does resolve to a real route. To
+// restore, move this back into the LinkColumn grid below.
 const VERTICALS = [
   { label: 'HVAC', href: '/hvac' },
   { label: 'Plumbing', href: '/plumbing' },
@@ -32,6 +37,7 @@ const VERTICALS = [
 ]
 
 const EXPLORE = [
+  { label: 'Work', href: '/work' },
   { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'Contact', href: '/contact' },
