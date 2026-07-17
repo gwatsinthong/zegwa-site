@@ -17,7 +17,7 @@ import IncludedTable from '@/components/IncludedTable'
 export const metadata: Metadata = pageMeta({
   title: 'Pricing',
   description:
-    'See the price on the page. Get found with Found, answer every call with Capture, or bundle both and save. No quotes to chase.',
+    'See the price on the page. $1,500 setup, $500 a month, no minimum. No quotes to chase.',
   path: '/pricing',
 })
 

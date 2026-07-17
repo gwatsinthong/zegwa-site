@@ -12,11 +12,11 @@ import './globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Zegwa Studio: get found and never miss a booking',
+    default: 'Zegwa Studio: get found where your customers are looking',
     template: '%s · Zegwa Studio',
   },
   description:
-    'We build your web presence and an AI front desk so local businesses show up in search and answer every call. Get a free audit in 24 hours.',
+    'We build your web presence and everything that brings people to it. Google, maps, directories, AI search. Get a free audit in 24 hours.',
   openGraph: {
     siteName: SITE_NAME,
     type: 'website',

@@ -13,7 +13,7 @@ import {
 export const metadata: Metadata = pageMeta({
   title: 'About',
   description:
-    'A small studio that builds and runs your web presence and AI front desk, then hands you everything you own. New, and honest about it.',
+    'A small studio that builds and runs your web presence, then hands you everything you own. New, and honest about it.',
   path: '/about',
 })
 
