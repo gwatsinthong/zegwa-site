@@ -10,6 +10,7 @@ const ROUTES = [
   '/local-seo',
   '/roofing',
   '/plumbing',
+  '/law-firm-seo',
   '/about',
   '/contact',
   '/start',
