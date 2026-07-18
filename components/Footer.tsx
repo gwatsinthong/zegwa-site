@@ -23,20 +23,11 @@ const OFFERS = [
 // move this back into the OFFERS array above.
 const hiddenFoundOffer = { label: 'Found', href: '/' }
 
-// HIDDEN (reversible, restore when these pages exist): the Verticals column
-// linked to /hvac, /plumbing, /roofing, /electrical, /weight-loss-clinics,
-// /med-spa, and /dental -- none of those routes exist yet. Lifted out of the
-// rendered columns and preserved verbatim here rather than deleted; every
-// other footer link was checked and does resolve to a real route. To
-// restore, move this back into the LinkColumn grid below.
-const VERTICALS = [
-  { label: 'HVAC', href: '/hvac' },
-  { label: 'Plumbing', href: '/plumbing' },
+const SERVICES = [
+  { label: 'Local SEO', href: '/local-seo' },
   { label: 'Roofing', href: '/roofing' },
-  { label: 'Electrical', href: '/electrical' },
-  { label: 'Weight-loss clinics', href: '/weight-loss-clinics' },
-  { label: 'Med spa', href: '/med-spa' },
-  { label: 'Dental', href: '/dental' },
+  { label: 'Plumbing', href: '/plumbing' },
+  { label: 'Law firms', href: '/law-firm-seo' },
 ]
 
 const EXPLORE = [
@@ -105,11 +96,9 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
             <LinkColumn title="Offers" links={OFFERS} />
-            {/* HIDDEN: Verticals column lifted into the unused `VERTICALS`
-                const above -- none of its routes exist yet. Restore this
-                column (and grid-cols-3 -> grid-cols-4 above) when they do. */}
+            <LinkColumn title="Services" links={SERVICES} />
             <LinkColumn title="Explore" links={EXPLORE} />
             <LinkColumn
               title="Legal"
