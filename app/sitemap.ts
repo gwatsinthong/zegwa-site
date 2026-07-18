@@ -14,6 +14,7 @@ const ROUTES = [
   '/hvac',
   '/dental',
   '/chiropractic',
+  '/electrical',
   '/about',
   '/contact',
   '/start',
