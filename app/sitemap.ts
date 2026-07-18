@@ -7,6 +7,7 @@ const ROUTES = [
   '/',
   '/work',
   '/pricing',
+  '/local-seo',
   '/about',
   '/contact',
   '/start',
