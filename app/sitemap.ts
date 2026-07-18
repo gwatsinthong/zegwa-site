@@ -13,6 +13,7 @@ const ROUTES = [
   '/law-firm-seo',
   '/hvac',
   '/dental',
+  '/chiropractic',
   '/about',
   '/contact',
   '/start',
