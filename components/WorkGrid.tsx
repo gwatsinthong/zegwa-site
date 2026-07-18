@@ -89,11 +89,7 @@ function WorkCard({ item }: { item: WorkSample }) {
       <div className="flex flex-col gap-[2px]">
         <div className="flex items-center justify-between gap-[8px]">
           <p className="truncate text-[18px] font-bold leading-[1.3] text-[#202020]">{item.businessName}</p>
-          <span
-            className={`shrink-0 rounded-[999px] px-[10px] py-[4px] text-[11px] font-bold uppercase tracking-wide ${
-              isLive ? 'bg-[#fefefe] text-[#202020]' : 'bg-[#fefefe]/80 text-[#9d9a9a]'
-            }`}
-          >
+          <span className="shrink-0 text-[12px] uppercase leading-[1.5] tracking-wide text-[#5c5c5c]">
             {isLive ? 'Sample site' : 'Coming soon'}
           </span>
         </div>
