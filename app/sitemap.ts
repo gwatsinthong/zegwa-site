@@ -12,6 +12,7 @@ const ROUTES = [
   '/plumbing',
   '/law-firm-seo',
   '/hvac',
+  '/dental',
   '/about',
   '/contact',
   '/start',
