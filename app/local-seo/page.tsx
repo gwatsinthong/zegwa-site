@@ -132,10 +132,7 @@ export default function LocalSeoPage() {
         </div>
       </section>
 
-      {/* ========================= LOCAL SEO BY INDUSTRY ========================
-          Un-comment each link as the vertical page ships. Pages not built yet:
-          /roofing, /plumbing, /law-firm-seo
-
+      {/* ========================= LOCAL SEO BY INDUSTRY ========================= */}
       <section className="px-6 pb-[80px] sm:pb-[100px]">
         <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[24px] text-center">
           <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h3}`}>
@@ -151,7 +148,6 @@ export default function LocalSeoPage() {
           </ul>
         </div>
       </section>
-      */}
 
       {/* ================================ PRICING =============================== */}
       <section className="px-6 pb-[80px] sm:pb-[100px]">
