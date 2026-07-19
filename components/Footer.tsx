@@ -25,9 +25,9 @@ const hiddenFoundOffer = { label: 'Found', href: '/' }
 
 const SERVICES = [
   { label: 'Local SEO', href: '/local-seo' },
-  { label: 'Roofing', href: '/roofing' },
-  { label: 'Plumbing', href: '/plumbing' },
-  { label: 'Law firms', href: '/law-firm-seo' },
+  { label: 'Google Business Profile', href: '/google-business-profile' },
+  { label: 'AI search', href: '/ai-search-optimization' },
+  { label: 'Reviews', href: '/review-management' },
 ]
 
 const EXPLORE = [

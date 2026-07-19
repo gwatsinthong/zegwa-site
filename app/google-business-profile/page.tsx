@@ -164,10 +164,13 @@ export default function GoogleBusinessProfilePage() {
             <li><Link href="/plumbing">Plumbing</Link></li>
             <li><Link href="/hvac">HVAC</Link></li>
             <li><Link href="/electrical">Electrical</Link></li>
+            <li><Link href="/auto-repair">Auto repair</Link></li>
+            <li><Link href="/landscaping">Landscaping</Link></li>
             <li><Link href="/law-firm-seo">Law firms</Link></li>
             <li><Link href="/dental">Dental</Link></li>
             <li><Link href="/chiropractic">Chiropractic</Link></li>
             <li><Link href="/med-spa">Med spa</Link></li>
+            <li><Link href="/veterinary">Veterinary</Link></li>
           </ul>
         </div>
       </section>
