@@ -9,6 +9,7 @@ const ROUTES = [
   '/pricing',
   '/local-seo',
   '/google-business-profile',
+  '/ai-search-optimization',
   '/roofing',
   '/plumbing',
   '/law-firm-seo',
