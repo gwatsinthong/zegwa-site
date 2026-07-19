@@ -19,6 +19,7 @@ const ROUTES = [
   '/chiropractic',
   '/electrical',
   '/med-spa',
+  '/auto-repair',
   '/about',
   '/contact',
   '/start',
