@@ -23,6 +23,7 @@ const ROUTES = [
   '/veterinary',
   '/landscaping',
   '/weight-loss',
+  '/accounting',
   '/about',
   '/contact',
   '/start',
