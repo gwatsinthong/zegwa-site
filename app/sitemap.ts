@@ -26,6 +26,7 @@ const ROUTES = [
   '/accounting',
   '/gym',
   '/real-estate',
+  '/cleaning',
   '/about',
   '/contact',
   '/start',
