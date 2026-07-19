@@ -22,6 +22,7 @@ const ROUTES = [
   '/auto-repair',
   '/veterinary',
   '/landscaping',
+  '/weight-loss',
   '/about',
   '/contact',
   '/start',
