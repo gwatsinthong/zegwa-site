@@ -21,6 +21,7 @@ const ROUTES = [
   '/med-spa',
   '/auto-repair',
   '/veterinary',
+  '/landscaping',
   '/about',
   '/contact',
   '/start',
