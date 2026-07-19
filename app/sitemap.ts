@@ -24,6 +24,7 @@ const ROUTES = [
   '/landscaping',
   '/weight-loss',
   '/accounting',
+  '/gym',
   '/about',
   '/contact',
   '/start',
