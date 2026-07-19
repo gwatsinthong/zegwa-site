@@ -20,6 +20,7 @@ const ROUTES = [
   '/electrical',
   '/med-spa',
   '/auto-repair',
+  '/veterinary',
   '/about',
   '/contact',
   '/start',
