@@ -28,6 +28,7 @@ const ROUTES = [
   '/real-estate',
   '/cleaning',
   '/web-design-bangalore',
+  '/seo-bangalore',
   '/about',
   '/contact',
   '/start',
