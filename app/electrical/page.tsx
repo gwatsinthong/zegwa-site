@@ -7,10 +7,10 @@ import {
   RuleRow,
   Mark,
   PillCta,
-  Callout,
-  CheckList,
+  Framed,
   FaqList,
 } from '@/components/sections'
+import { BrowserFrame, CheckListDark } from '@/components/vertical-sections'
 import PricingCards from '@/components/PricingCards'
 
 export const metadata: Metadata = pageMeta({
@@ -20,18 +20,30 @@ export const metadata: Metadata = pageMeta({
   path: '/electrical',
 })
 
-// Vertical service page, built in the same shape as app/roofing/page.tsx (and
-// the app/local-seo/page.tsx pillar): same primitives, same section rhythm,
-// same FAQS-array-shared-with-pageJsonLd approach. Marketing-site page
-// selling the service to electrical companies; no NAP, no LocalBusiness
-// schema.
+// Vertical service page, built in the same shape as app/roofing/page.tsx
+// (the pillar): same primitives, same section rhythm, same
+// FAQS-array-shared-with-pageJsonLd approach. Marketing-site page selling
+// the service to electrical companies; no NAP, no LocalBusiness schema.
+//
+// PROPAGATION: structure copied from the redesigned app/roofing/page.tsx
+// (split hero with BrowserFrame, gradient statement, bento WHAT_WE_DO, dark
+// how-it-works band with CheckListDark, pricing, you-own-everything+link,
+// FAQ, final CTA). Copy is electrical's own -- carried over from the
+// previous version of this page. FAQS and jsonLd are unchanged.
 
 const WHAT_WE_DO = [
-  'Get your Google Business Profile ranking in the map pack for electrical searches near you',
-  'Fix and build your listings across the directories homeowners check when the power goes out',
-  "Get you found in AI search, when someone asks ChatGPT or Google's AI for an electrician",
-  'Set up review generation so new job reviews keep coming in',
-  'Give you one dashboard to see every search, visit, and review',
+  { title: 'Map pack ranking', desc: 'Rank in the map pack near you' },
+  { title: 'Directory listings', desc: 'Fixed everywhere people look you up' },
+  { title: 'AI search', desc: 'Found when they ask ChatGPT' },
+  { title: 'Reviews', desc: 'New reviews, always answered' },
+  { title: 'One dashboard', desc: 'Every search and visit in one place' },
+]
+
+const HOW_IT_WORKS = [
+  'A fully set-up Google Business Profile',
+  'Map pack ranking and accurate directory listings',
+  'A steady flow of new reviews',
+  "Found in AI search, when someone asks ChatGPT or Google's AI for an electrician",
 ]
 
 const FAQS = [
@@ -69,91 +81,163 @@ export default function ElectricalPage() {
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ================================ HERO ================================= */}
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
-          <div className="flex flex-col items-center gap-[26px]">
-            <RuleRow>Electrician SEO</RuleRow>
-            <h1
-              style={{ fontFamily: HELV }}
-              className={`max-w-[704px] text-center text-[#202020] ${FRAME_TYPE.display}`}
-            >
-              Electrician SEO
-            </h1>
-            <p className="max-w-[560px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              We get your electrical company found on Google, on maps, and in AI search, so when
-              someone nearby loses power or needs a panel upgrade, you&#39;re the electrician
-              they find first. Set up in days, then kept running.
+        <div className="mx-auto flex max-w-[1140px] flex-col items-start gap-[48px] md:flex-row md:gap-[64px]">
+          <div className="flex w-full flex-col items-start gap-[32px] md:max-w-[480px]">
+            <div className="flex flex-col items-start gap-[20px]">
+              <span className="whitespace-nowrap text-[14px] font-medium uppercase leading-none text-[#777]">
+                Local SEO
+              </span>
+              <h1
+                style={{ fontFamily: HELV }}
+                className={`text-balance text-left text-[#202020] ${FRAME_TYPE.display}`}
+              >
+                Electrician SEO
+              </h1>
+              <p className="text-left text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+                We get your electrical company found on Google, on maps, and in AI search, so when
+                someone nearby loses power or needs a panel upgrade, you&#39;re the electrician
+                they find first. Set up in days, then kept running.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-start gap-[12px]">
+              <PillCta />
+              <p className="max-w-[448px] text-left text-[16px] leading-[1.5] text-[#777]">
+                Your audit in 24 hours. No strings.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex w-full flex-1 flex-col items-center gap-[12px]">
+            <BrowserFrame
+              src="/work/electrical.webp"
+              url="electrical.zegwastudio.com"
+              alt="Sample electrical site"
+              className="w-full max-w-[520px]"
+            />
+            <div className="flex w-full max-w-[520px] items-center justify-between text-[14px] text-[#777]">
+              <span>A real site we built.</span>
+              <a
+                href="https://electrical.zegwastudio.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-[#202020] underline underline-offset-4"
+              >
+                See it live →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================= STATEMENT (home 321:1331 pattern) ============ */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[590px] flex-col items-center gap-[64px]">
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)',
+            }}
+          />
+          <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
+            <p className="text-balance text-[#777]">
+              We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
+              audit shows you exactly where other electricians are outranking you first. Then you
+              decide.
             </p>
           </div>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+            }}
+          />
+        </div>
+      </section>
+
+      {/* ===================== WHAT WE DO (home WHAT YOU GET pattern) =========== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark />
+            <RuleRow>What we do</RuleRow>
+            <h2
+              style={{ fontFamily: HELV }}
+              className={`max-w-[500px] text-balance text-center text-[#202020] ${FRAME_TYPE.h2}`}
+            >
+              Everything that gets you found.
+            </h2>
+          </div>
+
+          <Framed outer="p-[16px]" bare className="w-full">
+            {/* Bento: row 1 is two half-width tiles, row 2 is three third-width
+                tiles, so all 5 items get a home. */}
+            <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-6">
+              {WHAT_WE_DO.map((item, i) => (
+                <div
+                  key={item.title}
+                  className={`flex flex-col gap-[24px] rounded-[16px] bg-[#fefefe] p-[32px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] ${
+                    i < 2 ? 'sm:col-span-3' : 'sm:col-span-2'
+                  }`}
+                >
+                  <div className="flex flex-col gap-[8px]">
+                    <h3
+                      style={{ fontFamily: HELV }}
+                      className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className={`w-full rounded-[8px] bg-[#e8e8e8] ${i < 2 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </Framed>
+        </div>
+      </section>
+
+      {/* ============ WHAT DOES ELECTRICIAN SEO DO (home dark-band pattern) ===== */}
+      <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[64px] text-[#fefefe] sm:py-[80px]">
+        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[40px] text-center">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark onDark />
+            <RuleRow onDark>How it works</RuleRow>
+            <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
+              What does electrician SEO actually do?
+            </h2>
+            <p className="text-balance text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#fefefe] sm:text-[28px]">
+              Electrician SEO makes your company show up when someone nearby searches for an
+              electrician.
+            </p>
+          </div>
+
+          <div className="flex w-full flex-col items-center gap-[24px]">
+            <div className="inline-flex flex-col items-start gap-[16px]">
+              <CheckListDark items={HOW_IT_WORKS} />
+            </div>
+            <p className="text-[16px] leading-[1.5] text-[#9d9a9a]">
+              All of it kept running together, not a one-time setup.
+            </p>
+          </div>
+
           <div className="flex flex-col items-center gap-[12px]">
-            <PillCta />
-            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+            <PillCta tone="red" />
+            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
               Your audit in 24 hours. No strings.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ========================== DAMAGING ADMISSION ========================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center">
-          <Callout className="text-center">
-            <p className="text-[18px] leading-[1.5] text-[#202020] sm:text-[20px]">
-              We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
-              audit shows you exactly where other electricians are outranking you first. Then
-              you decide.
-            </p>
-          </Callout>
-        </div>
-      </section>
-
-      {/* ================== WHAT DOES ELECTRICIAN SEO DO (AEO explainer) ======= */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[24px] text-center">
-          <h2 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h2}`}>
-            What does electrician SEO actually do?
-          </h2>
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c] sm:text-[18px]">
-            Electrician SEO makes your company show up when someone nearby searches for an
-            electrician. It comes from a fully set-up Google Business Profile, the map pack,
-            accurate directory listings, a steady flow of reviews, and being found in AI search
-            when someone asks ChatGPT or Google&#39;s AI for an electrician. That&#39;s what
-            electrician search engine optimization actually covers, and it&#39;s the same core
-            work behind local seo for electricians everywhere: all of it, kept running together.
-          </p>
-        </div>
-      </section>
-
-      {/* ================================ WHAT WE DO ============================ */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[40px]">
-          <div className="flex flex-col items-center gap-[24px] text-center">
-            <Mark />
-            <RuleRow>What we do</RuleRow>
-          </div>
-          <CheckList items={WHAT_WE_DO} gap="gap-[16px]" />
-        </div>
-      </section>
-
-      {/* ============================ SAMPLE SITE =============================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[8px] text-center">
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
-            Want to see the kind of site we build? Here&#39;s a sample electrical site.
-          </p>
-          <a
-            href="https://electrical.zegwastudio.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[16px] font-bold tracking-[0.16px] text-[#202020] underline underline-offset-4"
-          >
-            See the sample site
-          </a>
-        </div>
-      </section>
-
       {/* ================================ PRICING =============================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
+      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[32px]">
           <div className="flex flex-col items-center gap-[24px] text-center">
             <RuleRow>Pricing</RuleRow>
             <h2 style={{ fontFamily: HELV }} className={`max-w-[572px] text-[#202020] ${FRAME_TYPE.h2}`}>
@@ -164,26 +248,26 @@ export default function ElectricalPage() {
         </div>
       </section>
 
-      {/* ========================== YOU OWN EVERYTHING ========================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[500px] flex-col items-center text-center">
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
+      {/* ==================== YOU OWN EVERYTHING + LOCAL SEO LINK-UP ============ */}
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
+        <div className="mx-auto flex max-w-[500px] flex-col items-center gap-[16px]">
+          <p className="text-balance text-center text-[20px] font-bold leading-[1.4] tracking-[-0.4px] text-[#202020] sm:text-[24px]">
             You own everything. The website, the profile, the listings, the reviews, all of it
             stays yours. If you ever leave, you keep it.
           </p>
-        </div>
-      </section>
-
-      {/* ============================ LOCAL SEO LINK-UP ========================= */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center text-center">
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
-            Electrician SEO is local SEO built for one trade. See how the whole system works:{' '}
-            <Link href="/local-seo" className="font-bold text-[#202020] underline underline-offset-4">
-              Local SEO
+          <p className="text-center text-[14px] leading-[1.5] text-[#777]">
+            Electrician SEO is local SEO built for one trade.{' '}
+            <Link href="/local-seo" className="underline underline-offset-2 hover:text-[#202020]">
+              See how the whole system works.
             </Link>
-            .
           </p>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+            }}
+          />
         </div>
       </section>
 
@@ -194,7 +278,7 @@ export default function ElectricalPage() {
         </div>
       </section>
 
-      {/* ============================== FINAL CTA ================================ */}
+      {/* ================== LET'S GET STARTED (home 321:1623 pattern) =========== */}
       <section className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[40px]">
           <div className="flex flex-col items-center gap-[24px] text-center">
@@ -202,7 +286,7 @@ export default function ElectricalPage() {
             <RuleRow>Let&#39;s get started</RuleRow>
             <h2
               style={{ fontFamily: HELV }}
-              className={`max-w-[897px] text-[#202020] ${FRAME_TYPE.display}`}
+              className={`max-w-[897px] text-balance text-[#202020] ${FRAME_TYPE.display}`}
             >
               See where you&#39;re losing electrical jobs.
             </h2>
