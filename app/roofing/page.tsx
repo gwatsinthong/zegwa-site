@@ -82,8 +82,8 @@ export default function RoofingPage() {
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ================================ HERO ================================= */}
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
-        <div className="mx-auto flex max-w-[1140px] flex-col items-start gap-[48px] lg:flex-row lg:gap-[64px]">
-          <div className="flex w-full flex-col items-start gap-[32px] lg:max-w-[480px]">
+        <div className="mx-auto flex max-w-[1140px] flex-col items-start gap-[48px] md:flex-row md:gap-[64px]">
+          <div className="flex w-full flex-col items-start gap-[32px] md:max-w-[480px]">
             <div className="flex flex-col items-start gap-[20px]">
               <RuleRow>Local SEO</RuleRow>
               <h1
