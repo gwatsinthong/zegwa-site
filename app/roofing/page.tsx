@@ -7,21 +7,10 @@ import {
   RuleRow,
   Mark,
   PillCta,
-  Callout,
+  Framed,
   FaqList,
 } from '@/components/sections'
-import {
-  BrowserFrame,
-  FeatureCard,
-  CardGrid,
-  AccentBand,
-  DiagramPlaceholder,
-  MapPinIcon,
-  ListingsIcon,
-  AiSparkleIcon,
-  ReviewStarIcon,
-  DashboardIcon,
-} from '@/components/vertical-sections'
+import { BrowserFrame } from '@/components/vertical-sections'
 import PricingCards from '@/components/PricingCards'
 
 export const metadata: Metadata = pageMeta({
@@ -36,13 +25,14 @@ export const metadata: Metadata = pageMeta({
 // FAQS-array-shared-with-pageJsonLd approach. Marketing-site page selling the
 // service to roofing companies; no NAP, no LocalBusiness schema.
 //
-// DESIGN PROTOTYPE: this page is the first to use the richer layout from
-// components/vertical-sections.tsx (split hero, browser-frame demo, card
-// grid). Monochrome throughout, matching the rest of the site -- no accent
-// color beyond the site's existing black (CTAs) and red (money, unchanged).
-// Copy, FAQS, and jsonLd are unchanged from the previous version -- only the
-// layout/visual treatment changed. Not yet propagated to the other vertical
-// pages.
+// DESIGN PROTOTYPE: rebuilt to reuse app/page.tsx's exact section patterns
+// (gradient-bracketed statement block, Framed card grid, the dark
+// "cost of waiting"-style band) instead of new one-off primitives, so the
+// page reads as native to the site. Only components/vertical-sections.tsx's
+// BrowserFrame (a plain monochrome browser chrome around the demo
+// screenshot) is new. Copy, FAQS, and jsonLd are unchanged from the previous
+// version -- only the layout/visual treatment changed. Not yet propagated to
+// the other vertical pages.
 
 const WHAT_WE_DO = [
   'Get your Google Business Profile ranking in the map pack for roof searches near you',
@@ -52,15 +42,15 @@ const WHAT_WE_DO = [
   'Give you one dashboard to see every search, visit, and review',
 ]
 
-// Pairs each WHAT_WE_DO string (copy, unchanged) with the icon and short
-// label used only by the new card-grid layout below. Not a copy change: the
-// full original sentence still renders in each card, verbatim.
-const WHAT_WE_DO_CARDS = [
-  { icon: <MapPinIcon />, label: 'Map pack ranking' },
-  { icon: <ListingsIcon />, label: 'Directory listings' },
-  { icon: <AiSparkleIcon />, label: 'AI search' },
-  { icon: <ReviewStarIcon />, label: 'Reviews' },
-  { icon: <DashboardIcon />, label: 'One dashboard' },
+// Pairs each WHAT_WE_DO string (copy, unchanged) with the short card title
+// used only by the new Framed-card-grid layout below. Not a copy change: the
+// full original sentence still renders in each card, verbatim, as the desc.
+const WHAT_WE_DO_TITLES = [
+  'Map pack ranking',
+  'Directory listings',
+  'AI search',
+  'Reviews',
+  'One dashboard',
 ]
 
 const FAQS = [
@@ -96,40 +86,40 @@ const jsonLd = pageJsonLd({
 export default function RoofingPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
-      {/* ================================ HERO ================================= */}
-      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
-        <div className="mx-auto flex max-w-[1140px] flex-col items-center gap-[48px] lg:flex-row lg:items-start lg:gap-[64px]">
-          <div className="flex w-full flex-col items-start gap-[32px] lg:flex-1">
-            <div className="flex flex-col items-start gap-[26px]">
-              <RuleRow>Roofing SEO</RuleRow>
-              <h1
-                style={{ fontFamily: HELV }}
-                className={`max-w-[560px] text-left text-[#202020] ${FRAME_TYPE.display}`}
-              >
-                Roofing SEO
-              </h1>
-              <p className="max-w-[480px] text-left text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-                We get your roofing company found on Google, on maps, and in AI search, so the
-                storm-season leads land with you instead of the contractor who ranks above you.
-                Set up in days, then kept running.
-              </p>
-            </div>
-            <div className="flex flex-col items-start gap-[12px]">
-              <PillCta />
-              <p className="max-w-[448px] text-left text-[16px] leading-[1.5] text-[#777]">
-                Your audit in 24 hours. No strings.
-              </p>
-            </div>
+      {/* ============================ HERO (home 321:1286 pattern) ============== */}
+      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[32px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[24px]">
+          <div className="flex flex-col items-center gap-[20px]">
+            <RuleRow>Roofing SEO</RuleRow>
+            <h1
+              style={{ fontFamily: HELV }}
+              className={`max-w-[750px] text-balance text-center text-[#202020] ${FRAME_TYPE.display}`}
+            >
+              Roofing SEO
+            </h1>
+            <p className="max-w-[527px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
+              We get your roofing company found on Google, on maps, and in AI search, so the
+              storm-season leads land with you instead of the contractor who ranks above you. Set
+              up in days, then kept running.
+            </p>
           </div>
 
-          <div className="flex w-full flex-col items-center gap-[12px] lg:flex-1">
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta />
+            <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
+              Your audit in 24 hours. No strings.
+            </p>
+          </div>
+
+          {/* Demo frame in place of home's SearchOrbit slot. */}
+          <div className="flex w-full flex-col items-center gap-[12px]">
             <BrowserFrame
               src="/work/roofing.webp"
               url="roofing.zegwastudio.com"
               alt="Sample roofing site"
-              className="max-w-[520px]"
+              className="max-w-[600px]"
             />
-            <div className="flex w-full max-w-[520px] items-center justify-between text-[14px] text-[#777]">
+            <div className="flex w-full max-w-[600px] items-center justify-between text-[14px] text-[#777]">
               <span>A real site we built.</span>
               <a
                 href="https://roofing.zegwastudio.com"
@@ -144,63 +134,104 @@ export default function RoofingPage() {
         </div>
       </section>
 
-      {/* ========================== DAMAGING ADMISSION ========================== */}
-      <section className="px-6 pb-[64px] sm:pb-[80px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center">
-          <Callout className="text-center">
-            <p className="text-[18px] leading-[1.5] text-[#202020] sm:text-[20px]">
+      {/* ========================= STATEMENT (home 321:1331 pattern) ============ */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[590px] flex-col items-center gap-[64px]">
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)',
+            }}
+          />
+          <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
+            <p className="text-balance text-[#777]">
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you exactly where other roofers are outranking you first. Then you
               decide.
             </p>
-          </Callout>
+          </div>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+            }}
+          />
         </div>
       </section>
 
-      {/* ================ WHAT DOES ROOFING SEO DO (AEO explainer) ============= */}
-      <section className="px-6 pb-[64px] sm:pb-[80px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px] lg:flex-row lg:items-center lg:gap-[64px]">
-          <div className="flex w-full flex-col items-start gap-[16px] text-left lg:flex-1">
-            <h2 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h2}`}>
+      {/* ===================== WHAT WE DO (home WHAT YOU GET pattern) =========== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark />
+            <RuleRow>What we do</RuleRow>
+            <h2
+              style={{ fontFamily: HELV }}
+              className={`max-w-[500px] text-balance text-center text-[#202020] ${FRAME_TYPE.h2}`}
+            >
+              Everything that gets you found.
+            </h2>
+          </div>
+
+          <Framed outer="p-[16px]" bare className="w-full">
+            <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-2">
+              {WHAT_WE_DO.map((text, i) => (
+                <div
+                  key={text}
+                  className="flex flex-col gap-[24px] rounded-[16px] bg-[#fefefe] p-[32px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)]"
+                >
+                  <div className="flex flex-col gap-[8px]">
+                    <h3
+                      style={{ fontFamily: HELV }}
+                      className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}
+                    >
+                      {WHAT_WE_DO_TITLES[i]}
+                    </h3>
+                    <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{text}</p>
+                  </div>
+                  <div aria-hidden="true" className="aspect-[160/90] w-full rounded-[8px] bg-[#e8e8e8]" />
+                </div>
+              ))}
+            </div>
+          </Framed>
+        </div>
+      </section>
+
+      {/* ============ WHAT DOES ROOFING SEO DO (home dark-band pattern) ========= */}
+      <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[80px] text-[#fefefe] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px] text-center">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark onDark />
+            <RuleRow onDark>How it works</RuleRow>
+            <h2 style={{ fontFamily: HELV }} className="max-w-[700px] text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
               What does roofing SEO actually do?
             </h2>
-            <p className="text-[16px] leading-[1.5] text-[#5c5c5c] sm:text-[18px]">
+          </div>
+
+          <div className="max-w-[700px] text-[20px] font-bold leading-[1.26] tracking-[-0.72px] text-[#9d9a9a] sm:text-[24px]">
+            <p className="text-balance">
               Roofing SEO makes your company show up when a homeowner nearby searches for a
               roofer or a roof repair. It comes from a fully set-up Google Business Profile, the
               map pack, accurate directory listings, a steady flow of reviews, and being found in
-              AI search when someone asks ChatGPT or Google&#39;s AI for a roofer. That&#39;s
-              what search engine optimization for roofing companies actually covers: all of it,
-              kept running together.
+              AI search when someone asks ChatGPT or Google&#39;s AI for a roofer. That&#39;s what
+              search engine optimization for roofing companies actually covers: all of it, kept
+              running together.
             </p>
           </div>
-          <div className="flex w-full items-center justify-center lg:flex-1">
-            <DiagramPlaceholder className="max-w-[400px]" />
-          </div>
-        </div>
-      </section>
 
-      {/* ================================ WHAT WE DO ============================ */}
-      <section className="px-6 pb-[64px] sm:pb-[80px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[40px]">
-          <div className="flex flex-col items-center gap-[24px] text-center">
-            <Mark />
-            <RuleRow>What we do</RuleRow>
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta tone="red" />
+            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
+              Your audit in 24 hours. No strings.
+            </p>
           </div>
-          <CardGrid>
-            {WHAT_WE_DO.map((text, i) => (
-              <FeatureCard
-                key={text}
-                icon={WHAT_WE_DO_CARDS[i].icon}
-                label={WHAT_WE_DO_CARDS[i].label}
-                text={text}
-              />
-            ))}
-          </CardGrid>
         </div>
       </section>
 
       {/* ============================ SAMPLE SITE =============================== */}
-      <section className="px-6 pb-[64px] sm:pb-[80px]">
+      <section className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[16px] text-center">
           <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
             Want to see the kind of site we build? Here&#39;s a sample roofing site.
@@ -232,17 +263,17 @@ export default function RoofingPage() {
       </section>
 
       {/* ========================== YOU OWN EVERYTHING ========================== */}
-      <AccentBand className="px-6 py-[48px]">
-        <div className="mx-auto max-w-[600px] text-center">
-          <p className="text-[20px] leading-[1.5] text-[#202020] sm:text-[24px]">
+      <section className="px-6 pb-[80px] sm:pb-[100px]">
+        <div className="mx-auto max-w-[500px] text-center">
+          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
             You own everything. The website, the profile, the listings, the reviews, all of it
             stays yours. If you ever leave, you keep it.
           </p>
         </div>
-      </AccentBand>
+      </section>
 
       {/* ============================ LOCAL SEO LINK-UP ========================= */}
-      <section className="px-6 py-[64px] sm:py-[80px]">
+      <section className="px-6 pb-[80px] sm:pb-[100px]">
         <div className="mx-auto flex max-w-[700px] flex-col items-center text-center">
           <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
             Roofing SEO is local SEO built for one trade. See how the whole system works:{' '}
@@ -261,15 +292,15 @@ export default function RoofingPage() {
         </div>
       </section>
 
-      {/* ============================== FINAL CTA ================================ */}
-      <AccentBand className="px-6 py-[80px] sm:py-[100px]">
+      {/* ================== LET'S GET STARTED (home 321:1623 pattern) =========== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[40px]">
           <div className="flex flex-col items-center gap-[24px] text-center">
             <Mark />
             <RuleRow>Let&#39;s get started</RuleRow>
             <h2
               style={{ fontFamily: HELV }}
-              className={`max-w-[897px] text-[#202020] ${FRAME_TYPE.display}`}
+              className={`max-w-[897px] text-balance text-[#202020] ${FRAME_TYPE.display}`}
             >
               See where you&#39;re losing roofing jobs.
             </h2>
@@ -285,7 +316,7 @@ export default function RoofingPage() {
             </p>
           </div>
         </div>
-      </AccentBand>
+      </section>
 
       <script
         type="application/ld+json"
