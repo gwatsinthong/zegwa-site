@@ -34,23 +34,17 @@ export const metadata: Metadata = pageMeta({
 // version -- only the layout/visual treatment changed. Not yet propagated to
 // the other vertical pages.
 
+// WHAT_WE_DO feeds only the bento card grid below (no schema/FAQ reads
+// these), so each card carries a short title + a brief visual fragment
+// rather than a full sentence -- the cards are meant to be scanned, not
+// read as paragraphs. Same five things, same meaning, just trimmed for the
+// card format.
 const WHAT_WE_DO = [
-  'Get your Google Business Profile ranking in the map pack for roof searches near you',
-  'Fix and build your listings across the directories homeowners and insurers check',
-  'Get you found in AI search, when someone asks ChatGPT or Google’s AI for a roofer',
-  'Set up review generation so new roof-job reviews keep coming in',
-  'Give you one dashboard to see every search, visit, and review',
-]
-
-// Pairs each WHAT_WE_DO string (copy, unchanged) with the short card title
-// used only by the new Framed-card-grid layout below. Not a copy change: the
-// full original sentence still renders in each card, verbatim, as the desc.
-const WHAT_WE_DO_TITLES = [
-  'Map pack ranking',
-  'Directory listings',
-  'AI search',
-  'Reviews',
-  'One dashboard',
+  { title: 'Map pack ranking', desc: 'Rank in the map pack near you' },
+  { title: 'Directory listings', desc: 'Fixed everywhere people look you up' },
+  { title: 'AI search', desc: 'Found when they ask ChatGPT' },
+  { title: 'Reviews', desc: 'New reviews, always answered' },
+  { title: 'One dashboard', desc: 'Every search and visit in one place' },
 ]
 
 const FAQS = [
@@ -91,7 +85,7 @@ export default function RoofingPage() {
         <div className="mx-auto flex max-w-[1140px] flex-col items-start gap-[48px] lg:flex-row lg:gap-[64px]">
           <div className="flex w-full flex-col items-start gap-[32px] lg:max-w-[480px]">
             <div className="flex flex-col items-start gap-[20px]">
-              <RuleRow>Roofing SEO</RuleRow>
+              <RuleRow>Local SEO</RuleRow>
               <h1
                 style={{ fontFamily: HELV }}
                 className={`text-balance text-left text-[#202020] ${FRAME_TYPE.display}`}
@@ -180,9 +174,9 @@ export default function RoofingPage() {
             {/* Bento: row 1 is two half-width tiles, row 2 is three third-width
                 tiles, so all 5 items get a home. */}
             <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-6">
-              {WHAT_WE_DO.map((text, i) => (
+              {WHAT_WE_DO.map((item, i) => (
                 <div
-                  key={text}
+                  key={item.title}
                   className={`flex flex-col gap-[24px] rounded-[16px] bg-[#fefefe] p-[32px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] ${
                     i < 2 ? 'sm:col-span-3' : 'sm:col-span-2'
                   }`}
@@ -192,9 +186,9 @@ export default function RoofingPage() {
                       style={{ fontFamily: HELV }}
                       className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}
                     >
-                      {WHAT_WE_DO_TITLES[i]}
+                      {item.title}
                     </h3>
-                    <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{text}</p>
+                    <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
                   </div>
                   <div
                     aria-hidden="true"
@@ -242,7 +236,7 @@ export default function RoofingPage() {
 
       {/* ================================ PRICING =============================== */}
       <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[32px]">
           <div className="flex flex-col items-center gap-[24px] text-center">
             <RuleRow>Pricing</RuleRow>
             <h2 style={{ fontFamily: HELV }} className={`max-w-[572px] text-[#202020] ${FRAME_TYPE.h2}`}>
@@ -255,24 +249,16 @@ export default function RoofingPage() {
 
       {/* ==================== YOU OWN EVERYTHING + LOCAL SEO LINK-UP ============ */}
       <section className="px-6 pb-[64px] sm:pb-[80px]">
-        <div className="mx-auto flex max-w-[590px] flex-col items-center gap-[24px]">
-          <div
-            className="h-[2px] w-full"
-            style={{
-              backgroundImage:
-                'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)',
-            }}
-          />
+        <div className="mx-auto flex max-w-[500px] flex-col items-center gap-[16px]">
           <p className="text-balance text-center text-[20px] font-bold leading-[1.4] tracking-[-0.4px] text-[#202020] sm:text-[24px]">
             You own everything. The website, the profile, the listings, the reviews, all of it
             stays yours. If you ever leave, you keep it.
           </p>
-          <p className="text-center text-[16px] leading-[1.5] text-[#777]">
-            Roofing SEO is local SEO built for one trade. See how the whole system works:{' '}
-            <Link href="/local-seo" className="font-bold text-[#202020] underline underline-offset-4">
-              Local SEO
+          <p className="text-center text-[14px] leading-[1.5] text-[#777]">
+            Roofing SEO is local SEO built for one trade.{' '}
+            <Link href="/local-seo" className="underline underline-offset-2 hover:text-[#202020]">
+              See how the whole system works.
             </Link>
-            .
           </p>
           <div
             className="h-[2px] w-full"
