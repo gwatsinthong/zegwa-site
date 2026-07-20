@@ -212,8 +212,8 @@ export default function RoofingPage() {
 
       {/* ============ WHAT DOES ROOFING SEO DO (home dark-band pattern) ========= */}
       <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[64px] text-[#fefefe] sm:py-[80px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col gap-[48px] md:flex-row md:items-center md:gap-[64px]">
-          <div className="flex w-full flex-col items-start gap-[24px] text-left md:max-w-[440px]">
+        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[40px] text-center">
+          <div className="flex flex-col items-center gap-[24px]">
             <Mark onDark />
             <RuleRow onDark>How it works</RuleRow>
             <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
@@ -223,18 +223,21 @@ export default function RoofingPage() {
               Roofing SEO makes your company show up when a homeowner nearby searches for a
               roofer or a roof repair.
             </p>
-            <div className="flex flex-col items-start gap-[12px]">
-              <PillCta tone="red" />
-              <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
-                Your audit in 24 hours. No strings.
-              </p>
-            </div>
           </div>
 
-          <div className="flex w-full flex-1 flex-col gap-[24px]">
-            <CheckListDark items={HOW_IT_WORKS} />
+          <div className="flex w-full flex-col items-center gap-[24px]">
+            <div className="inline-flex flex-col items-start gap-[16px]">
+              <CheckListDark items={HOW_IT_WORKS} />
+            </div>
             <p className="text-[16px] leading-[1.5] text-[#9d9a9a]">
               All of it kept running together, not a one-time setup.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta tone="red" />
+            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
+              Your audit in 24 hours. No strings.
             </p>
           </div>
         </div>

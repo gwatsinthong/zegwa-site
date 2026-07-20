@@ -70,7 +70,7 @@ export function CheckListDark({ items }: { items: string[] }) {
           >
             <polyline points="4 12.5 9.5 18 20 6" />
           </svg>
-          <p className="flex-1 text-balance text-[18px] font-bold leading-[1.4] tracking-[-0.4px] text-[#fefefe]">
+          <p className="flex-1 text-balance text-left text-[18px] font-bold leading-[1.4] tracking-[-0.4px] text-[#fefefe]">
             {it}
           </p>
         </div>
