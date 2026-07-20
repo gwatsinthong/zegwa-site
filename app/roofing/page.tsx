@@ -10,7 +10,7 @@ import {
   Framed,
   FaqList,
 } from '@/components/sections'
-import { BrowserFrame } from '@/components/vertical-sections'
+import { BrowserFrame, CheckListDark } from '@/components/vertical-sections'
 import PricingCards from '@/components/PricingCards'
 
 export const metadata: Metadata = pageMeta({
@@ -45,6 +45,13 @@ const WHAT_WE_DO = [
   { title: 'AI search', desc: 'Found when they ask ChatGPT' },
   { title: 'Reviews', desc: 'New reviews, always answered' },
   { title: 'One dashboard', desc: 'Every search and visit in one place' },
+]
+
+const HOW_IT_WORKS = [
+  'A fully set-up Google Business Profile',
+  'Map pack ranking and accurate directory listings',
+  'A steady flow of new reviews',
+  "Found in AI search, when someone asks ChatGPT or Google's AI for a roofer",
 ]
 
 const FAQS = [
@@ -205,32 +212,29 @@ export default function RoofingPage() {
 
       {/* ============ WHAT DOES ROOFING SEO DO (home dark-band pattern) ========= */}
       <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[64px] text-[#fefefe] sm:py-[80px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[40px] text-center">
-          <div className="flex flex-col items-center gap-[24px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col gap-[48px] md:flex-row md:items-center md:gap-[64px]">
+          <div className="flex w-full flex-col items-start gap-[24px] text-left md:max-w-[440px]">
             <Mark onDark />
             <RuleRow onDark>How it works</RuleRow>
-            <h2 style={{ fontFamily: HELV }} className="max-w-[700px] text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
+            <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
               What does roofing SEO actually do?
             </h2>
-          </div>
-
-          <div className="flex max-w-[600px] flex-col gap-[16px]">
             <p className="text-balance text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#fefefe] sm:text-[28px]">
               Roofing SEO makes your company show up when a homeowner nearby searches for a
               roofer or a roof repair.
             </p>
-            <p className="text-balance text-[18px] font-bold leading-[1.4] tracking-[-0.4px] text-[#9d9a9a] sm:text-[20px]">
-              It comes from a fully set-up Google Business Profile, the map pack, and accurate
-              directory listings. Add a steady flow of reviews and being found in AI search when
-              someone asks ChatGPT or Google&#39;s AI for a roofer, and that&#39;s what search
-              engine optimization for roofing companies actually covers, kept running together.
-            </p>
+            <div className="flex flex-col items-start gap-[12px]">
+              <PillCta tone="red" />
+              <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
+                Your audit in 24 hours. No strings.
+              </p>
+            </div>
           </div>
 
-          <div className="flex flex-col items-center gap-[12px]">
-            <PillCta tone="red" />
-            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
-              Your audit in 24 hours. No strings.
+          <div className="flex w-full flex-1 flex-col gap-[24px]">
+            <CheckListDark items={HOW_IT_WORKS} />
+            <p className="text-[16px] leading-[1.5] text-[#9d9a9a]">
+              All of it kept running together, not a one-time setup.
             </p>
           </div>
         </div>

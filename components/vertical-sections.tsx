@@ -46,3 +46,35 @@ export function BrowserFrame({
     </div>
   )
 }
+
+// ---------------------------------------------------------------------------
+// CheckListDark: CheckList's on-dark counterpart. sections.tsx's CheckList
+// hardcodes a dark stroke/text (#202020, #5c5c5c) sized for the light body,
+// so it disappears against a dark band. Same list shape, palette flipped to
+// the site's own on-dark tokens (#fefefe text, #f91626 accent stroke).
+
+export function CheckListDark({ items }: { items: string[] }) {
+  return (
+    <div className="flex flex-col gap-[16px]">
+      {items.map((it) => (
+        <div key={it} className="flex items-start gap-[12px]">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#f91626"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="mt-[2px] h-[20px] w-[20px] shrink-0"
+            aria-hidden="true"
+          >
+            <polyline points="4 12.5 9.5 18 20 6" />
+          </svg>
+          <p className="flex-1 text-balance text-[18px] font-bold leading-[1.4] tracking-[-0.4px] text-[#fefefe]">
+            {it}
+          </p>
+        </div>
+      ))}
+    </div>
+  )
+}
