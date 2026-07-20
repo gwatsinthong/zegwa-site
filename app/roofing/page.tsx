@@ -244,7 +244,7 @@ export default function RoofingPage() {
       </section>
 
       {/* ================================ PRICING =============================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
+      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[32px]">
           <div className="flex flex-col items-center gap-[24px] text-center">
             <RuleRow>Pricing</RuleRow>
