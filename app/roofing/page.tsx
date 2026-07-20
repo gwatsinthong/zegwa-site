@@ -85,7 +85,12 @@ export default function RoofingPage() {
         <div className="mx-auto flex max-w-[1140px] flex-col items-start gap-[48px] md:flex-row md:gap-[64px]">
           <div className="flex w-full flex-col items-start gap-[32px] md:max-w-[480px]">
             <div className="flex flex-col items-start gap-[20px]">
-              <RuleRow>Local SEO</RuleRow>
+              <div className="flex items-center gap-[8px]">
+                <span className="h-[2px] w-[24px] bg-gradient-to-r from-[#f0f0f0] to-[#cecece] border-b border-[#f0f0f0]" />
+                <span className="whitespace-nowrap text-[14px] font-medium uppercase leading-none text-[#777]">
+                  Local SEO
+                </span>
+              </div>
               <h1
                 style={{ fontFamily: HELV }}
                 className={`text-balance text-left text-[#202020] ${FRAME_TYPE.display}`}
