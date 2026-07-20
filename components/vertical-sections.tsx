@@ -2,21 +2,18 @@ import { HELV } from './sections'
 
 // Prototype primitives for the redesigned vertical service pages (roofing
 // first). Kept separate from components/sections.tsx (the locked Found
-// design system) because this introduces a new accent color and new visual
-// devices that haven't propagated to the rest of the site yet. Same base
-// tokens as sections.tsx: Helvetica Now Display, #202020/#5c5c5c text, sharp
-// corners, 1px hairline borders, no gradients. New accent: indigo #5B4BE8,
-// used only for icon strokes, the admission accent bar, diagram elements,
-// and subtle section-band tints -- never on CTAs, never replacing red on
-// money.
-
-export const INDIGO = '#5B4BE8'
+// design system) because layout devices here (browser-frame demo, card
+// grid) haven't propagated to the rest of the site yet. Same tokens and
+// palette as sections.tsx and the rest of the site: Helvetica Now Display,
+// #202020/#5c5c5c text, #e8e8e8 surface, sharp corners, 1px hairline
+// borders, no gradients, no accent color beyond black (CTAs) and red
+// (money, unchanged, used only in PricingCards).
 
 // ---------------------------------------------------------------------------
-// BrowserFrame: a screenshot shown inside a stylized browser chrome. The
-// source images are full-page captures (see public/work/thumbs.json), so the
-// image is cropped to its top edge at a fixed aspect ratio to show what's
-// actually above the fold.
+// BrowserFrame: a screenshot shown inside a plain, monochrome browser chrome.
+// The source images are full-page captures (see public/work/thumbs.json), so
+// the image is cropped to its top edge at a fixed aspect ratio to show
+// what's actually above the fold.
 
 export function BrowserFrame({
   src,
@@ -55,7 +52,9 @@ export function BrowserFrame({
 
 // ---------------------------------------------------------------------------
 // FeatureCard / CardGrid: the What We Do checklist, restyled as a grid of
-// bordered cards with a small indigo icon.
+// bordered cards with a small monochrome icon. Three columns on desktop so
+// an odd item count (five) doesn't leave a lone half-width card on its own
+// row -- the last row simply has two cards instead of one.
 
 export function FeatureCard({
   icon,
@@ -80,13 +79,13 @@ export function FeatureCard({
 }
 
 export function CardGrid({ children }: { children: React.ReactNode }) {
-  return <div className="grid w-full grid-cols-1 gap-[16px] sm:grid-cols-2">{children}</div>
+  return <div className="grid w-full grid-cols-1 gap-[16px] sm:grid-cols-3">{children}</div>
 }
 
 // ---------------------------------------------------------------------------
-// AccentBand: a full-width section band with a very subtle indigo tint,
-// for content that should read as a quiet, distinct beat (not a CTA, not
-// money) in the page rhythm.
+// AccentBand: a full-width section band using the site's existing counter
+// surface (#f0f0f0), for content that should read as a quiet, distinct beat
+// in the page rhythm without introducing a new color.
 
 export function AccentBand({
   children,
@@ -95,75 +94,33 @@ export function AccentBand({
   children: React.ReactNode
   className?: string
 }) {
+  return <div className={`w-full bg-[#f0f0f0] ${className}`}>{children}</div>
+}
+
+// ---------------------------------------------------------------------------
+// DiagramPlaceholder: a neutral stand-in for the AEO/local-search diagram,
+// same slot size as the real illustration will occupy. Plain hairline
+// border, sharp corners, muted centered label -- no accent color, no custom
+// artwork yet.
+
+export function DiagramPlaceholder({ className = '' }: { className?: string }) {
   return (
-    <div className={`w-full ${className}`} style={{ backgroundColor: 'rgba(91, 75, 232, 0.05)' }}>
-      {children}
+    <div
+      className={`flex aspect-[4/3] w-full items-center justify-center border border-[#202020]/15 bg-[#f0f0f0] ${className}`}
+    >
+      <span className="text-[14px] uppercase tracking-[0.15em] text-[#777]">Diagram</span>
     </div>
   )
 }
 
 // ---------------------------------------------------------------------------
-// AeoDiagram: a simple, decorative-functional illustration of a search
-// question resolving to a local result (map pin + rating + an AI answer
-// line). Indigo for accents, grey for structure. ~400x300, scales via
-// viewBox.
-
-export function AeoDiagram({ className = '' }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 400 300"
-      className={className}
-      role="img"
-      aria-label="A search question resolving to a local business result with a map pin, star rating, and AI answer"
-    >
-      {/* Left: search/question box */}
-      <rect x="16" y="110" width="150" height="80" rx="2" fill="none" stroke="#cecece" strokeWidth="1.5" />
-      <circle cx="42" cy="136" r="7" fill="none" stroke={INDIGO} strokeWidth="1.5" />
-      <line x1="47" y1="141" x2="52" y2="146" stroke={INDIGO} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="64" y1="133" x2="140" y2="133" stroke="#dedede" strokeWidth="4" strokeLinecap="round" />
-      <line x1="32" y1="160" x2="150" y2="160" stroke="#e8e8e8" strokeWidth="4" strokeLinecap="round" />
-      <line x1="32" y1="172" x2="120" y2="172" stroke="#e8e8e8" strokeWidth="4" strokeLinecap="round" />
-
-      {/* Arrow */}
-      <line x1="180" y1="150" x2="222" y2="150" stroke="#cecece" strokeWidth="1.5" />
-      <polyline points="212,142 222,150 212,158" fill="none" stroke="#cecece" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-
-      {/* Right: result card */}
-      <rect x="236" y="70" width="150" height="160" rx="2" fill="none" stroke="#202020" strokeWidth="1.5" />
-
-      {/* Map pin */}
-      <path
-        d="M311 96c-10 0-18 8-18 18 0 13 18 32 18 32s18-19 18-32c0-10-8-18-18-18z"
-        fill="none"
-        stroke={INDIGO}
-        strokeWidth="1.5"
-      />
-      <circle cx="311" cy="114" r="6" fill={INDIGO} />
-
-      {/* Star rating */}
-      <g transform="translate(258,160)" stroke={INDIGO} strokeWidth="1.2" fill="none">
-        <path d="M6 0l1.8 3.6L12 4.2 9 7l0.7 4L6 9l-3.7 2 0.7-4-3-2.8 4.2-0.6z" />
-        <path d="M20 0l1.8 3.6L26 4.2 23 7l0.7 4L20 9l-3.7 2 0.7-4-3-2.8 4.2-0.6z" />
-        <path d="M34 0l1.8 3.6L40 4.2 37 7l0.7 4L34 9l-3.7 2 0.7-4-3-2.8 4.2-0.6z" />
-        <path d="M48 0l1.8 3.6L54 4.2 51 7l0.7 4L48 9l-3.7 2 0.7-4-3-2.8 4.2-0.6z" fill={INDIGO} />
-        <path d="M62 0l1.8 3.6L68 4.2 65 7l0.7 4L62 9l-3.7 2 0.7-4-3-2.8 4.2-0.6z" />
-      </g>
-
-      {/* AI answer line */}
-      <rect x="250" y="188" width="112" height="26" rx="2" fill="none" stroke="#cecece" strokeWidth="1" />
-      <line x1="260" y1="197" x2="352" y2="197" stroke="#dedede" strokeWidth="3" strokeLinecap="round" />
-      <line x1="260" y1="205" x2="330" y2="205" stroke="#dedede" strokeWidth="3" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-// ---------------------------------------------------------------------------
-// What We Do icons: simple ~24px indigo-stroke SVGs, one per checklist item.
+// What We Do icons: simple ~24px monochrome-stroke SVGs, one per checklist
+// item. Same stroke color as the site's body text (#202020).
 
 const ICON_PROPS = {
   viewBox: '0 0 24 24',
   fill: 'none',
-  stroke: INDIGO,
+  stroke: '#202020',
   strokeWidth: 1.5,
   strokeLinecap: 'round' as const,
   strokeLinejoin: 'round' as const,

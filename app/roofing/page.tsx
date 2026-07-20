@@ -7,7 +7,7 @@ import {
   RuleRow,
   Mark,
   PillCta,
-  CheckList,
+  Callout,
   FaqList,
 } from '@/components/sections'
 import {
@@ -15,7 +15,7 @@ import {
   FeatureCard,
   CardGrid,
   AccentBand,
-  AeoDiagram,
+  DiagramPlaceholder,
   MapPinIcon,
   ListingsIcon,
   AiSparkleIcon,
@@ -38,9 +38,11 @@ export const metadata: Metadata = pageMeta({
 //
 // DESIGN PROTOTYPE: this page is the first to use the richer layout from
 // components/vertical-sections.tsx (split hero, browser-frame demo, card
-// grid, AEO diagram, indigo accent). Copy, FAQS, and jsonLd are unchanged
-// from the previous version -- only the layout/visual treatment changed.
-// Not yet propagated to the other vertical pages.
+// grid). Monochrome throughout, matching the rest of the site -- no accent
+// color beyond the site's existing black (CTAs) and red (money, unchanged).
+// Copy, FAQS, and jsonLd are unchanged from the previous version -- only the
+// layout/visual treatment changed. Not yet propagated to the other vertical
+// pages.
 
 const WHAT_WE_DO = [
   'Get your Google Business Profile ranking in the map pack for roof searches near you',
@@ -96,7 +98,7 @@ export default function RoofingPage() {
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ================================ HERO ================================= */}
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
-        <div className="mx-auto flex max-w-[1140px] flex-col items-center gap-[48px] lg:flex-row lg:items-center lg:gap-[64px]">
+        <div className="mx-auto flex max-w-[1140px] flex-col items-center gap-[48px] lg:flex-row lg:items-start lg:gap-[64px]">
           <div className="flex w-full flex-col items-start gap-[32px] lg:flex-1">
             <div className="flex flex-col items-start gap-[26px]">
               <RuleRow>Roofing SEO</RuleRow>
@@ -143,20 +145,20 @@ export default function RoofingPage() {
       </section>
 
       {/* ========================== DAMAGING ADMISSION ========================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto max-w-[700px]">
-          <div className="border-l-[4px] border-[#5B4BE8] bg-[#5B4BE8]/[0.04] py-[16px] pl-[24px] pr-[16px]">
-            <p className="text-left text-[18px] leading-[1.5] text-[#202020] sm:text-[20px]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
+        <div className="mx-auto flex max-w-[700px] flex-col items-center">
+          <Callout className="text-center">
+            <p className="text-[18px] leading-[1.5] text-[#202020] sm:text-[20px]">
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you exactly where other roofers are outranking you first. Then you
               decide.
             </p>
-          </div>
+          </Callout>
         </div>
       </section>
 
       {/* ================ WHAT DOES ROOFING SEO DO (AEO explainer) ============= */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px] lg:flex-row lg:items-center lg:gap-[64px]">
           <div className="flex w-full flex-col items-start gap-[16px] text-left lg:flex-1">
             <h2 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h2}`}>
@@ -172,13 +174,13 @@ export default function RoofingPage() {
             </p>
           </div>
           <div className="flex w-full items-center justify-center lg:flex-1">
-            <AeoDiagram className="w-full max-w-[400px]" />
+            <DiagramPlaceholder className="max-w-[400px]" />
           </div>
         </div>
       </section>
 
       {/* ================================ WHAT WE DO ============================ */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[40px]">
           <div className="flex flex-col items-center gap-[24px] text-center">
             <Mark />
@@ -198,7 +200,7 @@ export default function RoofingPage() {
       </section>
 
       {/* ============================ SAMPLE SITE =============================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
         <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[16px] text-center">
           <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
             Want to see the kind of site we build? Here&#39;s a sample roofing site.
@@ -230,7 +232,7 @@ export default function RoofingPage() {
       </section>
 
       {/* ========================== YOU OWN EVERYTHING ========================== */}
-      <AccentBand className="px-6 py-[64px]">
+      <AccentBand className="px-6 py-[48px]">
         <div className="mx-auto max-w-[600px] text-center">
           <p className="text-[20px] leading-[1.5] text-[#202020] sm:text-[24px]">
             You own everything. The website, the profile, the listings, the reviews, all of it
@@ -240,7 +242,7 @@ export default function RoofingPage() {
       </AccentBand>
 
       {/* ============================ LOCAL SEO LINK-UP ========================= */}
-      <section className="px-6 py-[80px] sm:py-[100px]">
+      <section className="px-6 py-[64px] sm:py-[80px]">
         <div className="mx-auto flex max-w-[700px] flex-col items-center text-center">
           <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
             Roofing SEO is local SEO built for one trade. See how the whole system works:{' '}
