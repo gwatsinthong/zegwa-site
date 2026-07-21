@@ -12,6 +12,7 @@ import { HELV, PillCta } from './sections'
 const NAV = [
   { label: 'Home', href: '/' },
   { label: 'Work', href: '/work' },
+  { label: 'Industries', href: '/industries' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },

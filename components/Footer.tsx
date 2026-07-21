@@ -32,6 +32,7 @@ const SERVICES = [
 
 const EXPLORE = [
   { label: 'Work', href: '/work' },
+  { label: 'Industries', href: '/industries' },
   { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'Contact', href: '/contact' },
@@ -41,6 +42,11 @@ const LEGAL = [
   { label: 'Terms of Service', href: '/terms' },
   { label: 'Privacy', href: '/privacy' },
   { label: 'Cookie Policy', href: '/cookies' },
+]
+
+const BANGALORE = [
+  { label: 'Web design Bangalore', href: '/web-design-bangalore' },
+  { label: 'SEO Bangalore', href: '/seo-bangalore' },
 ]
 
 const LABEL = 'text-[14px] font-medium uppercase leading-none text-[#9d9a9a]'
@@ -96,10 +102,11 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
             <LinkColumn title="Offers" links={OFFERS} />
             <LinkColumn title="Services" links={SERVICES} />
             <LinkColumn title="Explore" links={EXPLORE} />
+            <LinkColumn title="Bangalore" links={BANGALORE} />
             <LinkColumn
               title="Legal"
               links={LEGAL}
