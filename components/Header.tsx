@@ -71,13 +71,18 @@ const NAV_LINK =
 
 // Header-only override of the shared `light` PillCta: on hover it lifts,
 // picks up a soft shadow, and darkens toward near-black (no red). Text/icon
-// stay #202020 throughout; only the arrow nudges. Uses arbitrary child
-// selectors instead of editing the locked PillCta markup in sections.tsx.
+// go white; only the arrow nudges. Uses arbitrary child selectors instead of
+// editing the locked PillCta markup in sections.tsx.
+//
+// `[&:hover_span]:...` (self-hover, descendant target), NOT
+// `hover:[&_span]:...` -- the latter compiles to `.cls span:hover` (hover on
+// the descendant itself), so it only applied when the cursor was precisely
+// over the tiny arrow icon rather than anywhere on the pill.
 const CTA_HOVER =
   'transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out ' +
   'hover:-translate-y-[1px] hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:shadow-lg ' +
-  '[&_span]:transition-colors [&_span]:duration-200 [&_span]:ease-out hover:[&_span]:text-[#fefefe] ' +
-  '[&_svg]:transition-[color,transform] [&_svg]:duration-200 [&_svg]:ease-out hover:[&_svg]:text-[#fefefe] hover:[&_svg]:translate-x-[4px]'
+  '[&_span]:transition-colors [&_span]:duration-200 [&_span]:ease-out [&:hover_span]:text-[#fefefe] ' +
+  '[&_svg]:transition-[color,transform] [&_svg]:duration-200 [&_svg]:ease-out [&:hover_svg]:text-[#fefefe] [&:hover_svg]:translate-x-[4px]'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
