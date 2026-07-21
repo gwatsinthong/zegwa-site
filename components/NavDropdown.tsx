@@ -21,8 +21,14 @@ function ChevronDown({ className = '' }: { className?: string }) {
   )
 }
 
+// Flush against the trigger (no margin gap): a margin there would be a dead
+// zone outside every element's hit box, so moving the pointer from the
+// trigger down to the panel would cross it and fire mouseleave on the
+// container before ever reaching the panel, closing the menu prematurely.
+// The panel's own py-[8px] gives the same visual breathing room from inside
+// its (hoverable) box instead.
 const PANEL =
-  'absolute left-0 top-full z-20 mt-[8px] w-max rounded-xl border border-[#e0e0e0] bg-[#fefefe] py-[8px] shadow-lg'
+  'absolute left-0 top-full z-20 w-max rounded-xl border border-[#e0e0e0] bg-[#fefefe] py-[8px] shadow-lg'
 
 const PANEL_STATIC = 'mt-[8px] w-full rounded-xl border border-[#e0e0e0] bg-[#fefefe] py-[8px] shadow-lg'
 

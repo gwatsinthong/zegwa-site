@@ -89,7 +89,12 @@ export default function Header() {
   // it never overlaps the dark band or footer.
   return (
     <header style={{ fontFamily: HELV }}>
-      <div className="mx-auto flex w-full max-w-[1280px] items-center gap-[32px] px-6 py-[24px]">
+      {/* px-6 up to 1240px (where layout.tsx's decorative vertical rules stay
+          hidden); min-[1240px]:px-[52px] beyond that, since at 1280px nav
+          width the rules sit only ~4px past the plain px-6 edge -- 52px
+          keeps a consistent ~32px clearance from the rules at every width
+          once they're visible. */}
+      <div className="mx-auto flex w-full max-w-[1280px] items-center gap-[32px] px-6 py-[24px] min-[1240px]:px-[52px]">
         {/* Logo lockup (frame 321:1287): Gwatsin's real logo asset (dark Z badge
             + "Zegwa Studio") at ~22% over the natural 205x34 (250x41) for more
             presence. logo-inverse.svg is the dark-bg companion, used on the
