@@ -33,7 +33,7 @@ const PANEL =
 const PANEL_STATIC = 'mt-[8px] w-full rounded-xl border border-[#e0e0e0] bg-[#fefefe] py-[8px] shadow-lg'
 
 const ROW =
-  'block whitespace-nowrap px-[16px] py-[8px] text-[14px] text-[#202020] transition-colors hover:bg-[#f0f0f0]'
+  'block whitespace-nowrap rounded-lg px-[12px] py-[8px] text-[14px] text-[#202020] transition-colors hover:bg-[#f0f0f0]'
 
 // Hover-open, keyboard-accessible nav dropdown. Opens on hover, focus, or
 // click (so it works on touch where hover never fires); closes on
@@ -95,11 +95,11 @@ export default function NavDropdown({
 
       {open && (
         <div className={isMobile ? PANEL_STATIC : PANEL}>
-          <div className={isMobile ? 'flex flex-col gap-[16px] px-[8px]' : 'flex items-start gap-[24px] px-[8px]'}>
+          <div className={isMobile ? 'flex flex-col gap-[16px] px-[12px]' : 'flex items-start gap-[24px] px-[12px]'}>
             {groups.map((group, i) => (
-              <div key={group.heading ?? i} className="flex min-w-[160px] flex-col">
+              <div key={group.heading ?? i} className="flex min-w-[160px] flex-col gap-[2px] px-[4px]">
                 {group.heading && (
-                  <p className="px-[16px] pb-[4px] pt-[8px] text-[12px] font-bold uppercase tracking-[0.4px] text-[#777]">
+                  <p className="px-[12px] pb-[6px] pt-[8px] text-[12px] font-bold uppercase tracking-[0.4px] text-[#777]">
                     {group.heading}
                   </p>
                 )}
