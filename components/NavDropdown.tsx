@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useRef, useState } from 'react'
-import { ArrowDown } from './sections'
 
 export type NavDropdownGroup = {
   heading?: string
@@ -12,10 +11,20 @@ export type NavDropdownGroup = {
 const TRIGGER =
   'flex items-center gap-[6px] text-[16px] font-bold tracking-[0.16px] text-[#5c5c5c] outline-none transition-colors hover:text-[#202020] focus-visible:text-[#202020]'
 
-const PANEL =
-  'absolute left-0 top-full z-20 mt-[8px] w-max border border-[#e0e0e0] bg-[#fefefe] py-[8px]'
+// lucide-react isn't a project dependency, so the chevron is a plain inline
+// SVG (stroke, currentColor) rather than importing an icon library for one glyph.
+function ChevronDown({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  )
+}
 
-const PANEL_STATIC = 'mt-[8px] w-full border border-[#e0e0e0] bg-[#fefefe] py-[8px]'
+const PANEL =
+  'absolute left-0 top-full z-20 mt-[8px] w-max rounded-xl border border-[#e0e0e0] bg-[#fefefe] py-[8px] shadow-lg'
+
+const PANEL_STATIC = 'mt-[8px] w-full rounded-xl border border-[#e0e0e0] bg-[#fefefe] py-[8px] shadow-lg'
 
 const ROW =
   'block whitespace-nowrap px-[16px] py-[8px] text-[14px] text-[#202020] transition-colors hover:bg-[#f0f0f0]'
@@ -75,7 +84,7 @@ export default function NavDropdown({
         onClick={() => setOpen((v) => !v)}
       >
         {label}
-        <ArrowDown className={`h-[12px] w-[12px] transition-transform ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`h-[16px] w-[16px] transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
       </button>
 
       {open && (
