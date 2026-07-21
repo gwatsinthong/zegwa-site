@@ -96,10 +96,8 @@ export default function Header() {
           once they're visible. */}
       <div className="mx-auto flex w-full max-w-[1280px] items-center gap-[32px] px-6 py-[24px] min-[1240px]:px-[52px]">
         {/* Logo lockup (frame 321:1287): Gwatsin's real logo asset (dark Z badge
-            + "Zegwa Studio") at ~22% over the natural 205x34 (250x41) for more
-            presence. logo-inverse.svg is the dark-bg companion, used on the
-            Footer. h-[41px] pins the render height so it can't stretch the bar
-            taller than the nav items' own line height allows. */}
+            + "Zegwa Studio") at the natural 205x34. logo-inverse.svg is the
+            dark-bg companion, used on the Footer. */}
         <Link
           href="/"
           aria-label="Zegwa Studio home"
@@ -107,7 +105,7 @@ export default function Header() {
           className="flex flex-1 items-center"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="Zegwa Studio" width={250} height={41} className="h-[41px] w-auto" />
+          <img src="/logo.svg" alt="Zegwa Studio" width={205} height={34} className="h-[34px] w-auto" />
         </Link>
 
         <nav className="hidden flex-1 items-center justify-center gap-[32px] md:flex">
