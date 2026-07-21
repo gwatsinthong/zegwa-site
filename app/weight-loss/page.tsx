@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { pageMeta, pageJsonLd, SITE_URL } from '@/lib/seo'
-import { HELV, FRAME_TYPE, RuleRow, Mark, PillCta, FaqList } from '@/components/sections'
-import { BrowserFrame, CheckListDark } from '@/components/vertical-sections'
+import { HELV, FRAME_TYPE, RuleRow, Mark, PillCta, Framed, CheckList, FaqList } from '@/components/sections'
+import { BrowserFrame } from '@/components/vertical-sections'
 import PricingCards from '@/components/PricingCards'
 
 export const metadata: Metadata = pageMeta({
@@ -33,11 +33,6 @@ const WHAT_YOU_GET = [
   'Reviews set up so new patient reviews keep coming in',
   'One dashboard to see every search, visit, and review',
 ]
-
-// Split into two columns for the dark band's 2-col grid (3 + 2, so both
-// columns read top-aligned instead of one column trailing off short).
-const WHAT_YOU_GET_A = WHAT_YOU_GET.slice(0, 3)
-const WHAT_YOU_GET_B = WHAT_YOU_GET.slice(3)
 
 const FAQS = [
   {
@@ -145,32 +140,34 @@ export default function WeightLossPage() {
         </div>
       </section>
 
-      {/* =============== WHAT YOU GET (repurposed dark-band pattern) ============ */}
-      <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[64px] text-[#fefefe] sm:py-[80px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[24px] text-center">
-          <div className="flex flex-col items-center gap-[16px]">
-            <Mark onDark />
-            <RuleRow onDark>What you get</RuleRow>
-            <h2 style={{ fontFamily: HELV }} className="text-balance text-[28px] font-bold leading-[1.24] tracking-[-0.84px] text-[#fefefe] sm:text-[36px] sm:tracking-[-1.08px]">
+      {/* ================================ WHAT YOU GET =========================== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
+          <div className="flex flex-col items-center gap-[16px] text-center">
+            <Mark />
+            <RuleRow>What you get</RuleRow>
+            <h2 style={{ fontFamily: HELV }} className={`text-balance text-[#202020] ${FRAME_TYPE.h2}`}>
               Everything that gets your clinic found.
             </h2>
           </div>
 
-          <div className="flex w-full flex-col items-center gap-[12px]">
-            <div className="grid w-full max-w-[720px] grid-cols-1 gap-x-[32px] gap-y-[16px] sm:grid-cols-2">
-              <CheckListDark items={WHAT_YOU_GET_A} />
-              <CheckListDark items={WHAT_YOU_GET_B} />
-            </div>
-            <p className="text-[16px] leading-[1.5] text-[#9d9a9a]">
-              Set up once, then kept running.
-            </p>
-          </div>
+          <div className="flex w-full flex-col items-center gap-[48px] md:flex-row md:gap-[64px]">
+            <Framed
+              outer="p-[12px]"
+              inner=""
+              innerClass="relative aspect-[4/3] overflow-hidden"
+              innerShadow="shadow-[-1px_-1px_2px_0px_rgba(0,0,0,0.15),1px_1px_2px_0px_rgba(0,0,0,0.15)]"
+              className="w-full md:flex-1"
+            >
+              <div aria-hidden="true" className="absolute inset-0 h-full w-full bg-[#e8e8e8]" />
+            </Framed>
 
-          <div className="flex flex-col items-center gap-[12px]">
-            <PillCta tone="red" />
-            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
-              Your audit in 24 hours. No strings.
-            </p>
+            <div className="flex w-full flex-col items-start gap-[16px] md:flex-1">
+              <CheckList items={WHAT_YOU_GET} gap="gap-[16px]" />
+              <p className="text-[16px] leading-[1.5] text-[#777]">
+                Set up once, then kept running.
+              </p>
+            </div>
           </div>
         </div>
       </section>
