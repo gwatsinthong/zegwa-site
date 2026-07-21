@@ -1,16 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { pageMeta, pageJsonLd, SITE_URL } from '@/lib/seo'
-import {
-  HELV,
-  FRAME_TYPE,
-  RuleRow,
-  Mark,
-  PillCta,
-  Callout,
-  CheckList,
-  FaqList,
-} from '@/components/sections'
+import { HELV, FRAME_TYPE, RuleRow, Mark, PillCta, Framed, FaqList } from '@/components/sections'
 import PricingCards from '@/components/PricingCards'
 
 export const metadata: Metadata = pageMeta({
@@ -26,16 +17,22 @@ export const metadata: Metadata = pageMeta({
 // this is the AEO/AI-search differentiator, not tied to a demo subdomain.
 // Written to read plainly for an owner and to be cleanly citable by AI
 // assistants: direct definitions, clear Q&A, no invented adoption stats.
+//
+// PROPAGATION: structure copied from the redesigned app/local-seo/page.tsx --
+// centered hero, gradient statement, dark band carrying the AEO explainer as
+// prose, bento WHAT_WE_DO (the 5 generic cards). NO industry hub -- this
+// page has sibling pillar links instead, kept as a one-line link section.
+// Copy is ai-search's own, unchanged. FAQS and jsonLd are unchanged.
 
 const WHY_IT_MATTERS =
   'More people now ask an AI assistant for a recommendation instead of scrolling through search results. Most local businesses have done nothing to show up there yet. Being one of the first in your area to get this right is the advantage, before it becomes as competitive as regular search.'
 
 const WHAT_WE_DO = [
-  'Make sure your business information is clear and consistent everywhere AI assistants read it',
-  'Optimize your Google Business Profile and listings, the sources AI pulls from',
-  'Build up your reviews, which AI assistants weigh when they recommend',
-  'Structure your website so AI can understand what you do and who you serve',
-  'Give you one dashboard to see your search, visit, and review data in one place',
+  { title: 'Map pack ranking', desc: 'Rank in the map pack near you' },
+  { title: 'Directory listings', desc: 'Fixed everywhere people look you up' },
+  { title: 'AI search', desc: 'Found when they ask ChatGPT' },
+  { title: 'Reviews', desc: 'New reviews, always answered' },
+  { title: 'One dashboard', desc: 'Every search and visit in one place' },
 ]
 
 const FAQS = [
@@ -96,26 +93,45 @@ export default function AiSearchOptimizationPage() {
         </div>
       </section>
 
-      {/* ========================== DAMAGING ADMISSION ========================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center">
-          <Callout className="text-center">
-            <p className="text-[18px] leading-[1.5] text-[#202020] sm:text-[20px]">
+      {/* ========================= STATEMENT (home 321:1331 pattern) ============ */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[590px] flex-col items-center gap-[64px]">
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)',
+            }}
+          />
+          <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
+            <p className="text-balance text-[#777]">
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you whether AI assistants even know your business exists yet. Then you
               decide.
             </p>
-          </Callout>
+          </div>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+            }}
+          />
         </div>
       </section>
 
-      {/* =================== WHAT IS AI SEARCH OPTIMIZATION (explainer) ========= */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[24px] text-center">
-          <h2 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h2}`}>
-            What is AI search optimization?
-          </h2>
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c] sm:text-[18px]">
+      {/* === WHAT IS AI SEARCH OPTIMIZATION + WHY IT MATTERS (dark-band pattern) === */}
+      <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[64px] text-[#fefefe] sm:py-[80px]">
+        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[40px] text-center">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark onDark />
+            <RuleRow onDark>How it works</RuleRow>
+            <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
+              What is AI search optimization?
+            </h2>
+          </div>
+
+          <p className="text-[16px] leading-[1.5] text-[#9d9a9a] sm:text-[18px]">
             AI search optimization is the work that makes AI assistants like ChatGPT and
             Google&#39;s AI recommend your business when someone asks. Those assistants pull from
             your web presence: your Google Business Profile, your listings, your reviews, and
@@ -124,41 +140,77 @@ export default function AiSearchOptimizationPage() {
             this answer engine optimization (AEO); others just call it ai search optimization
             services. It&#39;s the same work either way.
           </p>
-        </div>
-      </section>
 
-      {/* ============================ WHY IT MATTERS ============================= */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[24px] text-center">
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c] sm:text-[18px]">
+          <p className="text-[16px] leading-[1.5] text-[#9d9a9a] sm:text-[18px]">
             {WHY_IT_MATTERS}
           </p>
+
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta tone="red" />
+            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
+              Your audit in 24 hours. No strings.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* ================================ WHAT WE DO ============================ */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[40px]">
-          <div className="flex flex-col items-center gap-[24px] text-center">
+      {/* ===================== WHAT WE DO (home WHAT YOU GET pattern) =========== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
             <Mark />
             <RuleRow>What we do</RuleRow>
+            <h2
+              style={{ fontFamily: HELV }}
+              className={`max-w-[500px] text-balance text-center text-[#202020] ${FRAME_TYPE.h2}`}
+            >
+              Everything that gets you found.
+            </h2>
           </div>
-          <CheckList items={WHAT_WE_DO} gap="gap-[16px]" />
+
+          <Framed outer="p-[16px]" bare className="w-full">
+            {/* Bento: row 1 is two half-width tiles, row 2 is three third-width
+                tiles, so all 5 items get a home. */}
+            <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-6">
+              {WHAT_WE_DO.map((item, i) => (
+                <div
+                  key={item.title}
+                  className={`flex flex-col gap-[24px] rounded-[16px] bg-[#fefefe] p-[32px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] ${
+                    i < 2 ? 'sm:col-span-3' : 'sm:col-span-2'
+                  }`}
+                >
+                  <div className="flex flex-col gap-[8px]">
+                    <h3
+                      style={{ fontFamily: HELV }}
+                      className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className={`w-full rounded-[8px] bg-[#e8e8e8] ${i < 2 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </Framed>
         </div>
       </section>
 
       {/* ============================ SIBLING PILLARS ============================ */}
       <section className="px-6 pb-[80px] sm:pb-[100px]">
         <div className="mx-auto flex max-w-[700px] flex-col items-center text-center">
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
+          <p className="text-[16px] leading-[1.5] text-[#777]">
             AI search builds on the same foundation as the rest of getting found. See{' '}
-            <Link href="/local-seo" className="font-bold text-[#202020] underline underline-offset-4">
+            <Link href="/local-seo" className="underline underline-offset-2 hover:text-[#202020]">
               Local SEO
             </Link>{' '}
             and{' '}
             <Link
               href="/google-business-profile"
-              className="font-bold text-[#202020] underline underline-offset-4"
+              className="underline underline-offset-2 hover:text-[#202020]"
             >
               Google Business Profile
             </Link>
@@ -168,8 +220,8 @@ export default function AiSearchOptimizationPage() {
       </section>
 
       {/* ================================ PRICING =============================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
+      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[32px]">
           <div className="flex flex-col items-center gap-[24px] text-center">
             <RuleRow>Pricing</RuleRow>
             <h2 style={{ fontFamily: HELV }} className={`max-w-[572px] text-[#202020] ${FRAME_TYPE.h2}`}>
@@ -181,12 +233,19 @@ export default function AiSearchOptimizationPage() {
       </section>
 
       {/* ========================== YOU OWN EVERYTHING ========================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[500px] flex-col items-center text-center">
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
+        <div className="mx-auto flex max-w-[500px] flex-col items-center gap-[16px]">
+          <p className="text-balance text-center text-[20px] font-bold leading-[1.4] tracking-[-0.4px] text-[#202020] sm:text-[24px]">
             You own everything. The website, the profile, the listings, the reviews, all of it
             stays yours. If you ever leave, you keep it.
           </p>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+            }}
+          />
         </div>
       </section>
 
@@ -205,7 +264,7 @@ export default function AiSearchOptimizationPage() {
             <RuleRow>Let&#39;s get started</RuleRow>
             <h2
               style={{ fontFamily: HELV }}
-              className={`max-w-[897px] text-[#202020] ${FRAME_TYPE.display}`}
+              className={`max-w-[897px] text-balance text-[#202020] ${FRAME_TYPE.display}`}
             >
               Find out if AI knows your business.
             </h2>
