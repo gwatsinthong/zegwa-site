@@ -1,16 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { pageMeta, pageJsonLd, SITE_URL } from '@/lib/seo'
-import {
-  HELV,
-  FRAME_TYPE,
-  RuleRow,
-  Mark,
-  PillCta,
-  Callout,
-  CheckList,
-  FaqList,
-} from '@/components/sections'
+import { HELV, FRAME_TYPE, RuleRow, Mark, PillCta, Framed, FaqList } from '@/components/sections'
 import PricingCards from '@/components/PricingCards'
 
 export const metadata: Metadata = pageMeta({
@@ -25,14 +16,35 @@ export const metadata: Metadata = pageMeta({
 // approach, plus a hub section linking all vertical pages. No demo section --
 // GBP work is not tied to a single demo subdomain. Marketing-site page
 // selling the service; no NAP, no LocalBusiness schema.
+//
+// PROPAGATION: structure copied from the redesigned app/local-seo/page.tsx --
+// centered hero, gradient statement, dark band carrying the AEO explainer as
+// prose, bento WHAT_WE_DO (the 5 generic cards), and the industry hub rebuilt
+// as a card grid matching app/industries/page.tsx instead of a plain bullet
+// list. Copy is GBP's own, unchanged. FAQS and jsonLd are unchanged.
 
 const WHAT_WE_DO = [
-  'Set up and verify your Google Business Profile the right way',
-  'Optimize your categories, services, hours, photos, and posts so you rank in the map pack',
-  'Keep your listings consistent everywhere people look you up',
-  "Get you found in AI search, when someone asks ChatGPT or Google's AI for a recommendation",
-  'Set up review generation so new reviews keep coming in',
-  'Give you one dashboard to see every search, visit, call, and review',
+  { title: 'Map pack ranking', desc: 'Rank in the map pack near you' },
+  { title: 'Directory listings', desc: 'Fixed everywhere people look you up' },
+  { title: 'AI search', desc: 'Found when they ask ChatGPT' },
+  { title: 'Reviews', desc: 'New reviews, always answered' },
+  { title: 'One dashboard', desc: 'Every search and visit in one place' },
+]
+
+type Industry = { label: string; href: string; desc: string }
+
+const INDUSTRIES: Industry[] = [
+  { label: 'Roofing', href: '/roofing', desc: 'Get found when someone needs a roof.' },
+  { label: 'Plumbing', href: '/plumbing', desc: 'Get found when a pipe bursts.' },
+  { label: 'HVAC', href: '/hvac', desc: 'Get found when the AC quits.' },
+  { label: 'Electrical', href: '/electrical', desc: "Get found when the power's out." },
+  { label: 'Auto repair', href: '/auto-repair', desc: 'Get found when the car breaks down.' },
+  { label: 'Landscaping', href: '/landscaping', desc: 'Get found when they want the yard done.' },
+  { label: 'Law firms', href: '/law-firm-seo', desc: 'Get found when someone needs a lawyer.' },
+  { label: 'Dental', href: '/dental', desc: 'Get found by new patients nearby.' },
+  { label: 'Chiropractic', href: '/chiropractic', desc: "Get found when someone's in pain." },
+  { label: 'Med spa', href: '/med-spa', desc: 'Get found when they research treatments.' },
+  { label: 'Veterinary', href: '/veterinary', desc: 'Get found when a pet needs care.' },
 ]
 
 const FAQS = [
@@ -94,26 +106,45 @@ export default function GoogleBusinessProfilePage() {
         </div>
       </section>
 
-      {/* ========================== DAMAGING ADMISSION ========================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center">
-          <Callout className="text-center">
-            <p className="text-[18px] leading-[1.5] text-[#202020] sm:text-[20px]">
+      {/* ========================= STATEMENT (home 321:1331 pattern) ============ */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[590px] flex-col items-center gap-[64px]">
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)',
+            }}
+          />
+          <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
+            <p className="text-balance text-[#777]">
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you exactly where your profile is losing you customers first. Then you
               decide.
             </p>
-          </Callout>
+          </div>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+            }}
+          />
         </div>
       </section>
 
-      {/* =================== WHAT IS GBP OPTIMIZATION (AEO explainer) ========== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[24px] text-center">
-          <h2 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h2}`}>
-            What is Google Business Profile optimization?
-          </h2>
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c] sm:text-[18px]">
+      {/* ============ WHAT IS GBP OPTIMIZATION (home dark-band pattern) ========= */}
+      <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[64px] text-[#fefefe] sm:py-[80px]">
+        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[40px] text-center">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark onDark />
+            <RuleRow onDark>How it works</RuleRow>
+            <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
+              What is Google Business Profile optimization?
+            </h2>
+          </div>
+
+          <p className="text-[16px] leading-[1.5] text-[#9d9a9a] sm:text-[18px]">
             Google Business Profile optimization is the work that makes your business rank in the
             map pack and show up in local search. It comes from a complete and accurate profile:
             the right categories, photos, posts, reviews, and consistent listings across the web,
@@ -122,27 +153,68 @@ export default function GoogleBusinessProfilePage() {
             actually cover, and it&#39;s the core of what it takes to manage google business
             profile the right way over time.
           </p>
+
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta tone="red" />
+            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
+              Your audit in 24 hours. No strings.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* ================================ WHAT WE DO ============================ */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[40px]">
-          <div className="flex flex-col items-center gap-[24px] text-center">
+      {/* ===================== WHAT WE DO (home WHAT YOU GET pattern) =========== */}
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
             <Mark />
             <RuleRow>What we do</RuleRow>
+            <h2
+              style={{ fontFamily: HELV }}
+              className={`max-w-[500px] text-balance text-center text-[#202020] ${FRAME_TYPE.h2}`}
+            >
+              Everything that gets you found.
+            </h2>
           </div>
-          <CheckList items={WHAT_WE_DO} gap="gap-[16px]" />
+
+          <Framed outer="p-[16px]" bare className="w-full">
+            {/* Bento: row 1 is two half-width tiles, row 2 is three third-width
+                tiles, so all 5 items get a home. */}
+            <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-6">
+              {WHAT_WE_DO.map((item, i) => (
+                <div
+                  key={item.title}
+                  className={`flex flex-col gap-[24px] rounded-[16px] bg-[#fefefe] p-[32px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] ${
+                    i < 2 ? 'sm:col-span-3' : 'sm:col-span-2'
+                  }`}
+                >
+                  <div className="flex flex-col gap-[8px]">
+                    <h3
+                      style={{ fontFamily: HELV }}
+                      className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className={`w-full rounded-[8px] bg-[#e8e8e8] ${i < 2 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </Framed>
         </div>
       </section>
 
       {/* ============================ LOCAL SEO SIBLING ========================= */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
         <div className="mx-auto flex max-w-[700px] flex-col items-center text-center">
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
+          <p className="text-[16px] leading-[1.5] text-[#777]">
             Your Google Business Profile is one piece of local SEO. See how the whole system
             works:{' '}
-            <Link href="/local-seo" className="font-bold text-[#202020] underline underline-offset-4">
+            <Link href="/local-seo" className="underline underline-offset-2 hover:text-[#202020]">
               Local SEO
             </Link>
             .
@@ -152,32 +224,39 @@ export default function GoogleBusinessProfilePage() {
 
       {/* ==================== GOOGLE BUSINESS PROFILE BY INDUSTRY =============== */}
       <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[24px] text-center">
-          <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h3}`}>
-            Google Business Profile by industry
-          </h3>
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
-            We optimize profiles for specific trades and practices:
-          </p>
-          <ul className="flex flex-col gap-[8px] text-[16px] font-bold text-[#202020]">
-            <li><Link href="/roofing">Roofing</Link></li>
-            <li><Link href="/plumbing">Plumbing</Link></li>
-            <li><Link href="/hvac">HVAC</Link></li>
-            <li><Link href="/electrical">Electrical</Link></li>
-            <li><Link href="/auto-repair">Auto repair</Link></li>
-            <li><Link href="/landscaping">Landscaping</Link></li>
-            <li><Link href="/law-firm-seo">Law firms</Link></li>
-            <li><Link href="/dental">Dental</Link></li>
-            <li><Link href="/chiropractic">Chiropractic</Link></li>
-            <li><Link href="/med-spa">Med spa</Link></li>
-            <li><Link href="/veterinary">Veterinary</Link></li>
-          </ul>
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
+          <div className="flex flex-col items-center gap-[16px] text-center">
+            <RuleRow>Google Business Profile by industry</RuleRow>
+            <h2
+              style={{ fontFamily: HELV }}
+              className={`max-w-[500px] text-balance text-center text-[#202020] ${FRAME_TYPE.h2}`}
+            >
+              We optimize profiles for specific trades and practices.
+            </h2>
+          </div>
+
+          <Framed outer="p-[16px]" bare className="w-full">
+            <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3">
+              {INDUSTRIES.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex flex-col gap-[8px] rounded-[16px] bg-[#fefefe] p-[32px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] outline-none transition-shadow hover:shadow-[-1px_-1px_6px_0px_rgba(0,0,0,0.2),1px_1px_6px_0px_rgba(0,0,0,0.2)] focus-visible:ring-2 focus-visible:ring-[#202020]/30"
+                >
+                  <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}>
+                    {item.label}
+                  </h3>
+                  <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
+                </Link>
+              ))}
+            </div>
+          </Framed>
         </div>
       </section>
 
       {/* ================================ PRICING =============================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
+      <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[32px]">
           <div className="flex flex-col items-center gap-[24px] text-center">
             <RuleRow>Pricing</RuleRow>
             <h2 style={{ fontFamily: HELV }} className={`max-w-[572px] text-[#202020] ${FRAME_TYPE.h2}`}>
@@ -189,12 +268,19 @@ export default function GoogleBusinessProfilePage() {
       </section>
 
       {/* ========================== YOU OWN EVERYTHING ========================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[500px] flex-col items-center text-center">
-          <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
+        <div className="mx-auto flex max-w-[500px] flex-col items-center gap-[16px]">
+          <p className="text-balance text-center text-[20px] font-bold leading-[1.4] tracking-[-0.4px] text-[#202020] sm:text-[24px]">
             You own everything. The website, the profile, the listings, the reviews, all of it
             stays yours. If you ever leave, you keep it.
           </p>
+          <div
+            className="h-[2px] w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+            }}
+          />
         </div>
       </section>
 
@@ -213,7 +299,7 @@ export default function GoogleBusinessProfilePage() {
             <RuleRow>Let&#39;s get started</RuleRow>
             <h2
               style={{ fontFamily: HELV }}
-              className={`max-w-[897px] text-[#202020] ${FRAME_TYPE.display}`}
+              className={`max-w-[897px] text-balance text-[#202020] ${FRAME_TYPE.display}`}
             >
               See what your profile is missing.
             </h2>
