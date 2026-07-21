@@ -34,6 +34,11 @@ const WHAT_YOU_GET = [
   'One dashboard to see every search, visit, and review',
 ]
 
+// Split into two columns for the dark band's 2-col grid (3 + 2, so both
+// columns read top-aligned instead of one column trailing off short).
+const WHAT_YOU_GET_A = WHAT_YOU_GET.slice(0, 3)
+const WHAT_YOU_GET_B = WHAT_YOU_GET.slice(3)
+
 const FAQS = [
   {
     q: 'What do you need from me to get started?',
@@ -142,18 +147,19 @@ export default function WeightLossPage() {
 
       {/* =============== WHAT YOU GET (repurposed dark-band pattern) ============ */}
       <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[64px] text-[#fefefe] sm:py-[80px]">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[40px] text-center">
-          <div className="flex flex-col items-center gap-[24px]">
+        <div className="mx-auto flex max-w-[700px] flex-col items-center gap-[24px] text-center">
+          <div className="flex flex-col items-center gap-[16px]">
             <Mark onDark />
             <RuleRow onDark>What you get</RuleRow>
-            <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#fefefe] sm:text-[48px] sm:tracking-[-1.44px]">
+            <h2 style={{ fontFamily: HELV }} className="text-balance text-[28px] font-bold leading-[1.24] tracking-[-0.84px] text-[#fefefe] sm:text-[36px] sm:tracking-[-1.08px]">
               Everything that gets your clinic found.
             </h2>
           </div>
 
-          <div className="flex w-full flex-col items-center gap-[24px]">
-            <div className="inline-flex flex-col items-start gap-[16px]">
-              <CheckListDark items={WHAT_YOU_GET} />
+          <div className="flex w-full flex-col items-center gap-[12px]">
+            <div className="grid w-full max-w-[720px] grid-cols-1 gap-x-[32px] gap-y-[16px] sm:grid-cols-2">
+              <CheckListDark items={WHAT_YOU_GET_A} />
+              <CheckListDark items={WHAT_YOU_GET_B} />
             </div>
             <p className="text-[16px] leading-[1.5] text-[#9d9a9a]">
               Set up once, then kept running.
