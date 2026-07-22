@@ -570,16 +570,22 @@ export function PillCta({
   // pill is also shadowless: gradient #4a4a4a→#000 top-to-bottom, padding
   // 12px/80px, gap 10px, text 16px/1.5. The Link is the tray; the inner span is
   // the pill.
+  //
+  // Hover (same lift/shadow/darken/arrow-nudge language as the header CTA):
+  // the tray lifts and picks up a soft cast shadow, the ring brightens to
+  // pure white, the pill's gradient deepens to solid black, and the arrow
+  // nudges right. `group`/`group-hover` reaches the nested pill/arrow since
+  // this markup is authored directly here (no locked-file workaround needed).
   if (tone === 'black') {
     return (
       <Link
         href={href}
         style={{ fontFamily: HELV }}
-        className={`inline-flex items-center justify-center rounded-[999px] border-[6px] border-[#cecece] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 ${className}`}
+        className={`group inline-flex items-center justify-center rounded-[999px] border-[6px] border-[#cecece] outline-none transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-[2px] hover:border-[#fefefe] hover:shadow-[0_16px_32px_rgba(0,0,0,0.32)] focus-visible:ring-2 focus-visible:ring-[#202020]/40 ${className}`}
       >
-        <span className="flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b from-[#4a4a4a] to-black px-[80px] py-[12px]">
+        <span className="flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b from-[#4a4a4a] to-black px-[80px] py-[12px] transition-[background-image] duration-200 ease-out group-hover:from-black group-hover:to-black">
           <span className="text-[16px] font-bold leading-[1.5] tracking-[0.16px] text-[#fefefe]">{label}</span>
-          <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
+          <ArrowRight className="h-[24px] w-[24px] text-[#fefefe] transition-transform duration-200 ease-out group-hover:translate-x-[4px]" />
         </span>
       </Link>
     )
