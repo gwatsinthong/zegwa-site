@@ -44,6 +44,14 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'translateY(18px) scale(0.9)' },
           '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
         },
+        // Slow breathing glow for the red money-band PillCta's idle state
+        // (it sits on a dark surface, so a soft red bloom reads well there).
+        // 0%/100% match the CTA's plain rest shadow so prefers-reduced-motion
+        // users (who never get the animate-* utility) still see that shadow.
+        'red-glow-pulse': {
+          '0%, 100%': { boxShadow: '0 10px 24px rgba(0,0,0,0.35), 0 0 0px rgba(249,22,38,0)' },
+          '50%': { boxShadow: '0 10px 24px rgba(0,0,0,0.35), 0 0 30px rgba(249,22,38,0.55)' },
+        },
       },
       animation: {
         'ring-spin': 'ring-spin 7s linear infinite',
@@ -51,6 +59,7 @@ const config: Config = {
         'glow-in': 'glow-in 900ms ease-out both',
         'orb-in': 'orb-in 650ms cubic-bezier(0.16,1,0.3,1) both',
         'card-in': 'card-in 600ms cubic-bezier(0.16,1,0.3,1) both',
+        'red-glow-pulse': 'red-glow-pulse 2600ms ease-in-out infinite',
       },
     },
   },

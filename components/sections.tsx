@@ -633,14 +633,21 @@ export function PillCta({
   // Red tone: the money-band CTA sits on the dark "cost of waiting" surface and
   // has no authored ring node, so it keeps its standalone gradient pill with a
   // plain soft drop shadow (a light ring/halo would glow on dark).
+  //
+  // Idle: a slow breathing red glow (motion-safe only -- reduced-motion users
+  // just get the plain rest shadow via the always-on shadow-[...] fallback,
+  // since the animate-* utility never applies for them). Hover: lifts, the
+  // gradient brightens, the glow snaps to a bigger fixed bloom (pausing the
+  // pulse so it isn't fighting the hover shadow every frame), and the arrow
+  // nudges right -- same language as the other CTA tones.
   return (
     <Link
       href={href}
       style={{ fontFamily: HELV }}
-      className={`inline-flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b from-[#f91626] to-[#a80813] px-[48px] py-[14px] shadow-[0_10px_24px_rgba(0,0,0,0.35)] outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/40 sm:px-[80px] ${className}`}
+      className={`group inline-flex items-center justify-center gap-[10px] rounded-[999px] bg-gradient-to-b from-[#f91626] to-[#a80813] px-[48px] py-[14px] shadow-[0_10px_24px_rgba(0,0,0,0.35)] outline-none transition-[transform,background-image,box-shadow] duration-200 ease-out motion-safe:animate-red-glow-pulse hover:-translate-y-[2px] hover:from-[#ff2d3f] hover:to-[#c40a17] hover:shadow-[0_16px_32px_rgba(0,0,0,0.4),0_0_36px_rgba(249,22,38,0.65)] hover:[animation-play-state:paused] focus-visible:ring-2 focus-visible:ring-[#202020]/40 sm:px-[80px] ${className}`}
     >
       <span className="text-[16px] font-bold tracking-[0.16px] text-[#fefefe]">{label}</span>
-      <ArrowRight className="h-[24px] w-[24px] text-[#fefefe]" />
+      <ArrowRight className="h-[24px] w-[24px] text-[#fefefe] transition-transform duration-200 ease-out group-hover:translate-x-[4px]" />
     </Link>
   )
 }
