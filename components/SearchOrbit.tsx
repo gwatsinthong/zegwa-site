@@ -1,10 +1,21 @@
 import { HELV, SOFT_DROP_SHADOW } from './sections'
 
-// Home hero illustration (stage 1: static, no motion yet). Not a Figma frame --
-// built from scratch per spec: the business sits at the center as a glossy orb,
-// with search-platform result cards floating in an orbit around it on a soft
-// glow field. All content below is sample/mockup data (a fake "Smile Dental
-// Clinic" search result), not real customer content.
+// Home hero illustration. Not a Figma frame -- built from scratch per spec:
+// the business sits at the center as a glossy orb, with search-platform
+// result cards floating in an orbit around it on a soft glow field. All
+// content below is sample/mockup data (a fake "Smile Dental Clinic" search
+// result), not real customer content.
+//
+// Motion: a one-shot entrance sequence (glow fades in, then the orb settles
+// in with a small scale overshoot, then each card rises/scales in with a
+// per-card stagger) plus a per-card hover lift. All of it is CSS-only via
+// motion-safe: keyframes in tailwind.config.ts (ring-spin/pill-shimmer are
+// unrelated, reused by the black PillCta) -- respects prefers-reduced-motion
+// and needs no client-side JS. Each entrance keyframe lives on its own
+// nested wrapper div rather than the positioned parent, since a parent's
+// inline `transform` (used here for orbit placement/tilt/scale) and a CSS
+// keyframe's `transform` can't compose -- whichever applies last simply
+// replaces the other's value outright.
 //
 // Swap points (Gwatsin to supply):
 //   - public/hero/orb.png            -- replaces the CSS sphere placeholder below
@@ -163,7 +174,7 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
   return (
     <div
       style={{ fontFamily: HELV }}
-      className={`rounded-[13px] bg-[#fefefe] p-[13px] ${SOFT_DROP_SHADOW} ${className}`}
+      className={`rounded-[13px] bg-[#fefefe] p-[13px] ${SOFT_DROP_SHADOW} transition-transform duration-300 ease-out hover:-translate-y-[6px] hover:scale-[1.03] ${className}`}
     >
       <div className="flex items-center gap-[9px] border-b border-[#f0f0f0] pb-[10px]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -267,7 +278,10 @@ function GlowField({ scale = 1 }: { scale?: number }) {
     { dx: -272, dy: -65 }, // ring 5
   ]
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden motion-safe:animate-glow-in"
+    >
       {/* Focused violet bloom, concentrated right behind the orb (not spread
           across the whole box). */}
       <div
@@ -333,53 +347,65 @@ function Orb({ size = 180 }: { size?: number }) {
       className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
       style={{ width: size, height: size }}
     >
-      {/* Cast shadow: grounds the orb above the glow field. */}
-      <div
-        className="absolute left-1/2 -translate-x-1/2 rounded-full blur-[8px]"
-        style={{
-          top: size * 0.86,
-          width: size * 0.82,
-          height: size * 0.22,
-          background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 72%)',
-        }}
-      />
-
-      {/* Sphere, with a violet rim light + inset glow around the edge. */}
-      <div
-        className="relative flex h-full w-full items-center justify-center rounded-full"
-        style={{
-          background: 'radial-gradient(circle at 32% 26%, #55525a 0%, #2a2830 42%, #111014 72%, #000 100%)',
-          boxShadow:
-            '0 18px 36px rgba(0,0,0,0.32), 0 0 0 1px rgba(155,114,203,0.28), 0 0 26px 3px rgba(147,112,219,0.4), inset 0 0 18px rgba(147,112,219,0.25), inset 2px 2px 10px rgba(255,255,255,0.12)',
-        }}
-      >
-        {/* Top gloss highlight. */}
+      {/* Entrance (fade + settle-in scale) on its own nested wrapper -- the
+          outer div above already owns the -translate-x/y-1/2 centering
+          transform, and CSS can only apply one `transform` value per
+          element, so animating scale here (a separate element) keeps the
+          centering intact instead of the keyframe clobbering it. */}
+      {/* animationDelay set inline, not via a Tailwind arbitrary-property
+          class: the `animate-orb-in` utility sets the full `animation`
+          shorthand, which resets animation-delay to 0 as part of that
+          shorthand -- a separate same-specificity class for just the delay
+          isn't guaranteed to win that fight. Inline style always wins. */}
+      <div className="relative h-full w-full motion-safe:animate-orb-in" style={{ animationDelay: '150ms' }}>
+        {/* Cast shadow: grounds the orb above the glow field. */}
         <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-[18%] top-[12%] h-[34%] w-[46%] rounded-full blur-[6px]"
+          className="absolute left-1/2 -translate-x-1/2 rounded-full blur-[8px]"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 75%)',
+            top: size * 0.86,
+            width: size * 0.82,
+            height: size * 0.22,
+            background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 72%)',
           }}
         />
 
-        <span
-          style={{ fontFamily: HELV }}
-          className="relative z-10 px-[16px] text-center text-[12px] font-bold uppercase leading-[1.3] tracking-[0.08em] text-white"
+        {/* Sphere, with a violet rim light + inset glow around the edge. */}
+        <div
+          className="relative flex h-full w-full items-center justify-center rounded-full"
+          style={{
+            background: 'radial-gradient(circle at 32% 26%, #55525a 0%, #2a2830 42%, #111014 72%, #000 100%)',
+            boxShadow:
+              '0 18px 36px rgba(0,0,0,0.32), 0 0 0 1px rgba(155,114,203,0.28), 0 0 26px 3px rgba(147,112,219,0.4), inset 0 0 18px rgba(147,112,219,0.25), inset 2px 2px 10px rgba(255,255,255,0.12)',
+          }}
         >
-          Your Business
-        </span>
+          {/* Top gloss highlight. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[18%] top-[12%] h-[34%] w-[46%] rounded-full blur-[6px]"
+            style={{
+              background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 75%)',
+            }}
+          />
 
-        {/* Small red status dot, bottom-center. */}
-        <span
-          aria-hidden="true"
-          className="absolute left-1/2 -translate-x-1/2 rounded-full bg-[#f91626]"
-          style={{
-            width: dot,
-            height: dot,
-            bottom: size * 0.08,
-            boxShadow: '0 0 6px rgba(249,22,38,0.7), 0 0 0 2px rgba(0,0,0,0.4)',
-          }}
-        />
+          <span
+            style={{ fontFamily: HELV }}
+            className="relative z-10 px-[16px] text-center text-[12px] font-bold uppercase leading-[1.3] tracking-[0.08em] text-white"
+          >
+            Your Business
+          </span>
+
+          {/* Small red status dot, bottom-center. */}
+          <span
+            aria-hidden="true"
+            className="absolute left-1/2 -translate-x-1/2 rounded-full bg-[#f91626]"
+            style={{
+              width: dot,
+              height: dot,
+              bottom: size * 0.08,
+              boxShadow: '0 0 6px rgba(249,22,38,0.7), 0 0 0 2px rgba(0,0,0,0.4)',
+            }}
+          />
+        </div>
       </div>
     </div>
   )
@@ -398,7 +424,7 @@ export default function SearchOrbit() {
       <div className="relative hidden h-[690px] w-full md:block">
         <GlowField scale={1.3} />
         <Orb size={234} />
-        {PLATFORMS.map((p) => (
+        {PLATFORMS.map((p, i) => (
           <div
             key={p.id}
             className="absolute top-1/2"
@@ -407,7 +433,14 @@ export default function SearchOrbit() {
               transform: `translate(-50%, calc(-50% + ${p.pos.dy}px)) rotate(${p.tilt}deg) scale(${p.cardScale})`,
             }}
           >
-            <PlatformCard platform={p} className={p.desktopWidth === 230 ? 'w-[230px]' : 'w-[248px]'} />
+            {/* Entrance stagger on its own nested wrapper, same reasoning as
+                Orb's inner div: the parent above already owns the
+                position/tilt/scale transform, so the entrance's translateY+
+                scale keyframe animates independently here instead of
+                overwriting it. */}
+            <div className="motion-safe:animate-card-in" style={{ animationDelay: `${350 + i * 80}ms` }}>
+              <PlatformCard platform={p} className={p.desktopWidth === 230 ? 'w-[230px]' : 'w-[248px]'} />
+            </div>
           </div>
         ))}
       </div>
@@ -421,8 +454,10 @@ export default function SearchOrbit() {
           <Orb size={120} />
         </div>
         <div className="flex w-full max-w-[320px] flex-col gap-[12px]">
-          {mobileCards.map((p) => (
-            <PlatformCard key={p.id} platform={p} className="w-full" />
+          {mobileCards.map((p, i) => (
+            <div key={p.id} className="motion-safe:animate-card-in" style={{ animationDelay: `${300 + i * 100}ms` }}>
+              <PlatformCard platform={p} className="w-full" />
+            </div>
           ))}
         </div>
       </div>
