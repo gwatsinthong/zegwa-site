@@ -4,6 +4,7 @@ import { pageMeta } from '@/lib/seo'
 import Deliverables from '@/components/Deliverables'
 import SearchOrbit from '@/components/SearchOrbit'
 import Reveal from '@/components/Reveal'
+import ScrollTint from '@/components/ScrollTint'
 import {
   HELV,
   ArrowRight,
@@ -250,13 +251,15 @@ export default function FoundPage() {
               they have just sits there. The customers looking right now are finding someone else.
             </p>
             */}
-            <p
-              className="translate-y-[12px] text-balance text-[#777] opacity-0 transition-[opacity,transform] duration-700 ease-out motion-reduce:transition-none group-data-[visible=true]:translate-y-0 group-data-[visible=true]:opacity-100"
+            <ScrollTint
+              from="#777777"
+              to="#202020"
+              className="translate-y-[12px] text-balance opacity-0 transition-[opacity,transform] duration-700 ease-out motion-reduce:transition-none group-data-[visible=true]:translate-y-0 group-data-[visible=true]:opacity-100"
               style={{ transitionDelay: '150ms' }}
             >
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you exactly where you&#39;re losing customers first. Then you decide.
-            </p>
+            </ScrollTint>
           </div>
           <div
             className="h-[2px] w-full origin-center scale-x-0 transition-transform duration-700 ease-out motion-reduce:transition-none group-data-[visible=true]:scale-x-100"
