@@ -151,6 +151,39 @@ const PLATFORMS: Platform[] = [
 // The 3 archetypes (search / listing / AI answer), shown stacked on mobile.
 const MOBILE_IDS = ['google-search', 'google-business-profile', 'chatgpt']
 
+// Type-specific glyphs for the thumbnail swap-point boxes below (Gwatsin to
+// replace with real imagery per card -- search-result photo, map snippet, AI
+// avatar). Until then these read as a deliberate placeholder icon rather
+// than a blank gradient box. Photo/pin use the same muted grey as the card's
+// "⋮" glyph; the AI sparkle picks up the hero's violet glow tint instead, so
+// the three swap-point types stay visually distinct from each other too.
+function PhotoIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <circle cx="8.5" cy="9.5" r="1.5" />
+      <path d="M21 15l-5-5-4 4-3-3-6 6" />
+    </svg>
+  )
+}
+
+function PinIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M12 21s7-7.58 7-12a7 7 0 1 0-14 0c0 4.42 7 12 7 12z" />
+      <circle cx="12" cy="9" r="2.4" />
+    </svg>
+  )
+}
+
+function SparkleIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" />
+    </svg>
+  )
+}
+
 function Stars({ filled }: { filled: number }) {
   return (
     <span className="inline-flex gap-[1px]" aria-hidden="true">
@@ -204,7 +237,9 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
                 </p>
               </div>
               {/* Swap: search-result thumbnail for "{BUSINESS}" */}
-              <div className="h-[35px] w-[35px] shrink-0 rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
+              <div className="flex h-[35px] w-[35px] shrink-0 items-center justify-center rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de] text-[#9d9a9a]">
+                <PhotoIcon className="h-[17px] w-[17px]" />
+              </div>
             </div>
           </>
         )}
@@ -221,7 +256,9 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
               </p>
             </div>
             {/* Swap: mini-map/thumbnail for {platform.name} listing */}
-            <div className="h-[40px] w-[40px] shrink-0 rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
+            <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de] text-[#9d9a9a]">
+              <PinIcon className="h-[19px] w-[19px]" />
+            </div>
           </div>
         )}
 
@@ -229,7 +266,9 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
           <div className="flex items-center gap-[9px]">
             <p className="min-w-0 flex-1 text-[11px] leading-[1.4] text-[#5c5c5c]">{platform.answer ?? AI_ANSWER}</p>
             {/* Swap: AI-answer thumbnail for {platform.name} */}
-            <div className="h-[31px] w-[31px] shrink-0 rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
+            <div className="flex h-[31px] w-[31px] shrink-0 items-center justify-center rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de] text-[#8b5cf6]/60">
+              <SparkleIcon className="h-[15px] w-[15px]" />
+            </div>
           </div>
         )}
       </div>
