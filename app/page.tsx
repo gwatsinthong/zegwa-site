@@ -58,9 +58,6 @@ const FEATURES = [
   },
 ]
 
-// Rows 3, 6, and 9 reuse the closest existing icon (no dedicated image
-// exists yet for "Photos and posts", "Reviews answered", or "Monthly
-// report") -- swap in a real icon for each when one's available.
 const BUILD_ROWS = [
   {
     build: 'Your website',
@@ -75,7 +72,7 @@ const BUILD_ROWS = [
   {
     build: 'Photos and posts',
     does: 'Updated regularly, because Google rewards it',
-    icon: '/images/home-build-gbp.jpg',
+    icon: '/images/home-build-photos.jpg',
   },
   {
     build: 'Directory listings',
@@ -90,7 +87,7 @@ const BUILD_ROWS = [
   {
     build: 'Reviews answered',
     does: 'Every one, in your voice, without you lifting a finger',
-    icon: '/images/home-build-gbp.jpg',
+    icon: '/images/home-build-reviews.jpg',
   },
   {
     build: 'Old leads worked',
@@ -105,7 +102,7 @@ const BUILD_ROWS = [
   {
     build: 'Monthly report',
     does: "What it's doing, in plain English, every month",
-    icon: '/images/home-build-dashboard.jpg',
+    icon: '/images/home-build-report.jpg',
   },
 ]
 
