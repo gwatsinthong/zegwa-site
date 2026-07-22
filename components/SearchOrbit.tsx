@@ -105,9 +105,15 @@ const PLATFORMS: Platform[] = [
     name: 'Perplexity',
     type: 'ai',
     logo: '/logos/perplexity.svg',
-    pos: { dxPct: -18.75, dy: 218 },
+    // Bottom row holds 3 cards (vs. 2 in the top/middle rows), so it needs a
+    // wider spread than the -18.75/+18.75 the top row uses for its pair --
+    // pushed out to -32/+32 (matching the google-maps/gbp middle-row spread)
+    // with a shrunk desktopWidth on the two outer cards, so all three clear
+    // each other instead of overlapping.
+    pos: { dxPct: -32, dy: 222 },
     tilt: -3,
     cardScale: 0.95,
+    desktopWidth: 230,
     answer: PERPLEXITY_ANSWER,
   },
   {
@@ -115,7 +121,7 @@ const PLATFORMS: Platform[] = [
     name: 'Gemini',
     type: 'ai',
     logo: '/logos/gemini.svg',
-    pos: { dxPct: 0, dy: 257 },
+    pos: { dxPct: 0, dy: 268 },
     tilt: 3,
     cardScale: 1.05,
   },
@@ -124,9 +130,10 @@ const PLATFORMS: Platform[] = [
     name: 'Apple Maps',
     type: 'listing',
     logo: '/logos/apple-maps.svg',
-    pos: { dxPct: 18.75, dy: 218 },
+    pos: { dxPct: 32, dy: 222 },
     tilt: 5,
     cardScale: 0.92,
+    desktopWidth: 230,
   },
 ]
 
