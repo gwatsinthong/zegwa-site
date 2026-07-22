@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { pageMeta } from '@/lib/seo'
 import Deliverables from '@/components/Deliverables'
 import SearchOrbit from '@/components/SearchOrbit'
+import Reveal from '@/components/Reveal'
 import {
   HELV,
   ArrowRight,
@@ -228,8 +229,19 @@ export default function FoundPage() {
 
       {/* ========================= STATEMENT (321:1331) ========================= */}
       <section className="px-6 py-[80px] sm:py-[100px]">
-        <div className="mx-auto flex max-w-[590px] flex-col items-center gap-[64px]">
-          <div className="h-[2px] w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)' }} />
+        {/* Scroll-triggered reveal (below the fold, so an on-load animation
+            like the hero's would already be finished by the time it's seen):
+            both rules draw in from the center, the line flanking the text
+            starts first, the text fades/rises up between them, then the
+            second rule draws in last. motion-reduce skips the transition
+            (Reveal still flips data-visible regardless of that preference,
+            so the end state always renders -- only the animated
+            interpolation is suppressed). */}
+        <Reveal className="mx-auto flex max-w-[590px] flex-col items-center gap-[64px]">
+          <div
+            className="h-[2px] w-full origin-center scale-x-0 transition-transform duration-700 ease-out motion-reduce:transition-none group-data-[visible=true]:scale-x-100"
+            style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 30%, #cecece 70%, #f0f0f0 100%)' }}
+          />
           <div className="text-[24px] font-bold leading-[1.32] tracking-[-0.72px] text-[#202020] sm:text-[36px] sm:tracking-[-1.08px]">
             {/* Reversible removal: redundant against the new hero H1. Keep
                 recoverable, do not delete.
@@ -238,13 +250,22 @@ export default function FoundPage() {
               they have just sits there. The customers looking right now are finding someone else.
             </p>
             */}
-            <p className="text-balance text-[#777]">
+            <p
+              className="translate-y-[12px] text-balance text-[#777] opacity-0 transition-[opacity,transform] duration-700 ease-out motion-reduce:transition-none group-data-[visible=true]:translate-y-0 group-data-[visible=true]:opacity-100"
+              style={{ transitionDelay: '150ms' }}
+            >
               We&#39;re new. No case studies yet. So we don&#39;t ask you to trust us. The free
               audit shows you exactly where you&#39;re losing customers first. Then you decide.
             </p>
           </div>
-          <div className="h-[2px] w-full" style={{ backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)' }} />
-        </div>
+          <div
+            className="h-[2px] w-full origin-center scale-x-0 transition-transform duration-700 ease-out motion-reduce:transition-none group-data-[visible=true]:scale-x-100"
+            style={{
+              backgroundImage: 'linear-gradient(90deg, #f0f0f0 0%, #cecece 10%, #cecece 90%, #f0f0f0 100%)',
+              transitionDelay: '350ms',
+            }}
+          />
+        </Reveal>
       </section>
 
       {/* ========================= WHAT YOU GET (321:1336) ====================== */}
