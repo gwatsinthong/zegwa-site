@@ -33,7 +33,13 @@ export default function FadeUp({
           observer.disconnect()
         }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -80px 0px' },
+      // threshold near 0 so this fires as soon as any part of the wrapped
+      // element enters the viewport -- a percentage threshold (e.g. 0.15)
+      // requires that fraction of the ELEMENT'S OWN height to be visible,
+      // which a tall wrapped section (e.g. a whole page body) may never
+      // reach from a normal scroll position, leaving it stuck at opacity-0
+      // indefinitely (only "fixed" by a reflow, like opening DevTools).
+      { threshold: 0.01, rootMargin: '0px 0px -80px 0px' },
     )
     observer.observe(el)
     return () => observer.disconnect()

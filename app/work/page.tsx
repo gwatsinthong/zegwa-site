@@ -127,10 +127,9 @@ export default function WorkPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================== HERO ================================= */}
-      <FadeUp>
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
-          <div className="flex flex-col items-center gap-[26px]">
+          <FadeUp className="flex flex-col items-center gap-[26px]">
             <RuleRow>See it first</RuleRow>
             <h1
               style={{ fontFamily: HELV }}
@@ -141,14 +140,14 @@ export default function WorkPage() {
             <p className="max-w-[357px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
               Sample sites we built to show the work. Click into any of them.
             </p>
-          </div>
+          </FadeUp>
 
           {/* ============================ GRID ================================ */}
           <Framed outer="p-[16px]" bare className="w-full">
             <WorkGrid items={SAMPLES} />
           </Framed>
 
-          <div className="flex max-w-[600px] flex-col items-center gap-[48px] text-center">
+          <FadeUp className="flex max-w-[600px] flex-col items-center gap-[48px] text-center">
             <p className="text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
               Pick the one closest to your trade and click through it. That&#39;s what your
               customers would see. Want yours? Get a free audit and we&#39;ll show you exactly what
@@ -160,10 +159,9 @@ export default function WorkPage() {
                 Your audit in 24 hours. No strings.
               </p>
             </div>
-          </div>
+          </FadeUp>
         </div>
       </section>
-      </FadeUp>
     </div>
   )
 }
