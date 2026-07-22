@@ -11,11 +11,11 @@ import { HELV, SOFT_DROP_SHADOW } from './sections'
 //   - each card's thumbnail / mini-map placeholder (labeled inline per card)
 //
 // Real brand logos are wired from public/logos/<id>.svg (see PLATFORMS below
-// for each `logo` path). Two of the seven -- yelp.svg and gemini.svg -- are
-// wide wordmark lockups (icon + text), not square icons like the other five;
-// at the card's fixed 27x27 badge size they render as a thin, hard-to-read
-// sliver rather than a clean mark. Flagging for Gwatsin: a square icon-only
-// crop of those two would look better in this slot.
+// for each `logo` path). One of the seven -- gemini.svg -- is a wide
+// wordmark lockup (icon + text), not a square icon like the other six; at the
+// card's fixed 27x27 badge size it renders as a thin, hard-to-read sliver
+// rather than a clean mark. Flagging for Gwatsin: a square icon-only crop
+// would look better in this slot.
 
 type CardType = 'search' | 'listing' | 'ai'
 
@@ -44,6 +44,9 @@ type Platform = {
   // tuned individually (measured, not guessed) to keep real clearance from
   // both the orb and the page margin while still reading larger than before.
   desktopWidth?: number
+  // Per-card AI-answer blurb override (type: 'ai' only). Falls back to the
+  // shared AI_ANSWER when unset, e.g. ChatGPT and Gemini.
+  answer?: string
 }
 
 const BUSINESS = 'Smile Dental Clinic'
@@ -52,6 +55,8 @@ const REVIEWS = '(512)'
 const QUERY = 'best dentist near me'
 const STATUS = 'Closes 8 PM'
 const AI_ANSWER = `${BUSINESS} is one of the top-rated dental clinics nearby, known for same-day appointments and friendly service.`
+const PERPLEXITY_ANSWER =
+  'Smile Dental Clinic is a top-rated local dentist, widely recommended for same-day appointments and friendly care.'
 
 // Desktop orbit positions: each card sits at a %-of-container horizontal
 // offset (so it scales with the column width) and a fixed px vertical
@@ -96,13 +101,14 @@ const PLATFORMS: Platform[] = [
     desktopWidth: 230,
   },
   {
-    id: 'yelp',
-    name: 'Yelp',
-    type: 'listing',
-    logo: '/logos/yelp.svg',
+    id: 'perplexity',
+    name: 'Perplexity',
+    type: 'ai',
+    logo: '/logos/perplexity.svg',
     pos: { dxPct: -18.75, dy: 218 },
     tilt: -3,
     cardScale: 0.95,
+    answer: PERPLEXITY_ANSWER,
   },
   {
     id: 'gemini',
@@ -203,7 +209,7 @@ function PlatformCard({ platform, className = '' }: { platform: Platform; classN
 
         {platform.type === 'ai' && (
           <div className="flex items-center gap-[9px]">
-            <p className="min-w-0 flex-1 text-[11px] leading-[1.4] text-[#5c5c5c]">{AI_ANSWER}</p>
+            <p className="min-w-0 flex-1 text-[11px] leading-[1.4] text-[#5c5c5c]">{platform.answer ?? AI_ANSWER}</p>
             {/* Swap: AI-answer thumbnail for {platform.name} */}
             <div className="h-[31px] w-[31px] shrink-0 rounded-[7px] bg-gradient-to-br from-[#efeeeb] to-[#e2e1de]" />
           </div>
