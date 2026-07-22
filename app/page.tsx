@@ -5,6 +5,7 @@ import Deliverables from '@/components/Deliverables'
 import SearchOrbit from '@/components/SearchOrbit'
 import Reveal from '@/components/Reveal'
 import ScrollTint from '@/components/ScrollTint'
+import FadeUp from '@/components/FadeUp'
 import {
   HELV,
   ArrowRight,
@@ -201,7 +202,11 @@ export default function FoundPage() {
       {/* ============================ HERO (321:1286) ============================ */}
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[32px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[24px]">
-          <div className="flex flex-col items-center gap-[20px]">
+          {/* Onload fade-up (not scroll-triggered like FadeUp/Reveal -- this
+              is above the fold, already in view when the page paints), timed
+              to lead into SearchOrbit's own glow/orb/card sequence rather
+              than fight it for attention. */}
+          <div className="flex flex-col items-center gap-[20px] motion-safe:animate-fade-up">
             <RuleRow>Found</RuleRow>
             <h1
               style={{ fontFamily: HELV }}
@@ -214,7 +219,10 @@ export default function FoundPage() {
             </p>
           </div>
 
-          <div className="flex flex-col items-center gap-[12px]">
+          <div
+            className="flex flex-col items-center gap-[12px] motion-safe:animate-fade-up"
+            style={{ animationDelay: '150ms' }}
+          >
             <PillCta />
             <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
               Your audit in 24 hours. No strings.
@@ -272,6 +280,7 @@ export default function FoundPage() {
       </section>
 
       {/* ========================= WHAT YOU GET (321:1336) ====================== */}
+      <FadeUp>
       <section className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
           <div className="flex flex-col items-center gap-[24px]">
@@ -310,8 +319,10 @@ export default function FoundPage() {
           </Framed>
         </div>
       </section>
+      </FadeUp>
 
       {/* ===================== THE COST OF WAITING (321:1380) =================== */}
+      <FadeUp>
       <section className="border-y-2 border-[#cecece] bg-[#202020] px-6 py-[80px] text-[#fefefe] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px] text-center">
           <div className="flex flex-col items-center gap-[24px]">
@@ -345,8 +356,10 @@ export default function FoundPage() {
           </div>
         </div>
       </section>
+      </FadeUp>
 
       {/* ======================= WHAT'S INCLUDED (321:1397) ===================== */}
+      <FadeUp>
       <section className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
           <div className="flex flex-col items-center gap-[24px]">
@@ -397,8 +410,10 @@ export default function FoundPage() {
           <Deliverables />
         </div>
       </section>
+      </FadeUp>
 
       {/* ============================ PRICING (321:1567) ======================== */}
+      <FadeUp>
       <section className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
           <div className="flex flex-col items-center gap-[24px]">
@@ -461,8 +476,10 @@ export default function FoundPage() {
           </div>
         </div>
       </section>
+      </FadeUp>
 
       {/* ==================== LET'S GET STARTED + FAQ (321:1623) ================= */}
+      <FadeUp>
       <section id="faq" className="border-b border-[#fefefe] px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
           <div className="flex flex-col items-center gap-[40px]">
@@ -504,6 +521,7 @@ export default function FoundPage() {
           </Framed>
         </div>
       </section>
+      </FadeUp>
     </div>
   )
 }

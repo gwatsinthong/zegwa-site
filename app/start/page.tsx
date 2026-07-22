@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import AuditForm from '@/components/AuditForm'
 import { HELV, FRAME_TYPE, RuleRow } from '@/components/sections'
 import { pageMeta } from '@/lib/seo'
+import FadeUp from '@/components/FadeUp'
 
 export const metadata: Metadata = pageMeta({
   title: 'Get your free audit',
@@ -20,6 +21,7 @@ export default function StartPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================= HERO (395:2247) ========================= */}
+      <FadeUp>
       <section className="px-6 pb-[26px] pt-[64px] sm:pt-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[26px] text-center">
           <RuleRow>Free audit</RuleRow>
@@ -35,8 +37,10 @@ export default function StartPage() {
           </p>
         </div>
       </section>
+      </FadeUp>
 
       {/* ============================= DEMO / FORM (395:2285) =================== */}
+      <FadeUp delay={100}>
       <section className="px-6 pt-[64px] pb-[80px] sm:pt-[100px] sm:pb-[100px]">
         <div className="mx-auto flex max-w-[984px] flex-col items-center gap-[32px]">
           <AuditForm />
@@ -51,6 +55,7 @@ export default function StartPage() {
           </div>
         </div>
       </section>
+      </FadeUp>
     </div>
   )
 }

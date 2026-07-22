@@ -9,6 +9,7 @@ import {
   SplitFeature,
   FaqList,
 } from '@/components/sections'
+import FadeUp from '@/components/FadeUp'
 
 export const metadata: Metadata = pageMeta({
   title: 'About',
@@ -65,6 +66,7 @@ export default function AboutPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================= HERO (360:4183) ========================= */}
+      <FadeUp>
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
           <div className="flex flex-col items-center gap-[26px]">
@@ -88,8 +90,10 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      </FadeUp>
 
       {/* ========================== STATEMENT (360:4733) ====================== */}
+      <FadeUp>
       <section className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[550px] flex-col items-center gap-[64px]">
           <div
@@ -120,10 +124,12 @@ export default function AboutPage() {
           />
         </div>
       </section>
+      </FadeUp>
 
       {/* =============== HOW WE WORK (360:4738) / NO LOCK-IN (364:4849) ======== */}
       {WORK.map((section) => (
-        <section key={section.kicker} className="px-6 py-[80px] sm:py-[100px]">
+        <FadeUp key={section.kicker}>
+        <section className="px-6 py-[80px] sm:py-[100px]">
           <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
             <div className="flex flex-col items-center gap-[24px]">
               <Mark />
@@ -138,9 +144,11 @@ export default function AboutPage() {
             <SplitFeature body={section.body} image={section.image} alt={section.heading} />
           </div>
         </section>
+        </FadeUp>
       ))}
 
       {/* =============== LET'S GET STARTED + FAQ (360:4361) =================== */}
+      <FadeUp>
       <section id="faq" className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
           <div className="flex flex-col items-center gap-[40px]">
@@ -169,6 +177,7 @@ export default function AboutPage() {
           <FaqList items={FAQS} />
         </div>
       </section>
+      </FadeUp>
     </div>
   )
 }

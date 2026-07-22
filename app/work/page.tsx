@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { pageMeta } from '@/lib/seo'
 import WorkGrid, { type WorkSample } from '@/components/WorkGrid'
 import { HELV, FRAME_TYPE, Framed, RuleRow, PillCta } from '@/components/sections'
+import FadeUp from '@/components/FadeUp'
 
 export const metadata: Metadata = pageMeta({
   title: 'Our work',
@@ -126,6 +127,7 @@ export default function WorkPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================== HERO ================================= */}
+      <FadeUp>
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
           <div className="flex flex-col items-center gap-[26px]">
@@ -161,6 +163,7 @@ export default function WorkPage() {
           </div>
         </div>
       </section>
+      </FadeUp>
     </div>
   )
 }

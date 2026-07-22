@@ -13,6 +13,7 @@ import {
 } from '@/components/sections'
 import PricingCards from '@/components/PricingCards'
 import IncludedTable from '@/components/IncludedTable'
+import FadeUp from '@/components/FadeUp'
 
 export const metadata: Metadata = pageMeta({
   title: 'Pricing',
@@ -251,6 +252,7 @@ export default function PricingPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================= HERO (348:1726) ========================= */}
+      <FadeUp>
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
           <div className="flex flex-col items-center gap-[26px]">
@@ -273,10 +275,14 @@ export default function PricingPage() {
           <PricingCards />
         </div>
       </section>
+      </FadeUp>
 
+      <FadeUp>
       <IncludedTable />
+      </FadeUp>
 
       {/* ================================ FAQ =================================== */}
+      <FadeUp>
       <section className="px-6 py-[80px] sm:py-[100px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
           <FaqList items={FAQS} />
@@ -289,6 +295,7 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+      </FadeUp>
 
       {/* HIDDEN (Found-only launch, restore later): the "Not sure which one?"
           problem-spotter section (348:4043) is lifted into the unused

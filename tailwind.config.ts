@@ -52,6 +52,15 @@ const config: Config = {
           '0%, 100%': { boxShadow: '0 10px 24px rgba(0,0,0,0.35), 0 0 0px rgba(249,22,38,0)' },
           '50%': { boxShadow: '0 10px 24px rgba(0,0,0,0.35), 0 0 30px rgba(249,22,38,0.55)' },
         },
+        // Plain fade + rise, no scale -- for above-the-fold text blocks
+        // (hero headline) where card-in's scale(0.9) start would read as a
+        // distracting zoom on large type. Pure CSS, so it's safe straight on
+        // a Server Component with no IntersectionObserver: it's only ever
+        // used above the fold, already in view on load.
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         'ring-spin': 'ring-spin 7s linear infinite',
@@ -60,6 +69,7 @@ const config: Config = {
         'orb-in': 'orb-in 650ms cubic-bezier(0.16,1,0.3,1) both',
         'card-in': 'card-in 600ms cubic-bezier(0.16,1,0.3,1) both',
         'red-glow-pulse': 'red-glow-pulse 2600ms ease-in-out infinite',
+        'fade-up': 'fade-up 700ms cubic-bezier(0.16,1,0.3,1) both',
       },
     },
   },

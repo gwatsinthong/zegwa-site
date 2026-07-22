@@ -3,6 +3,7 @@ import ContactForm from '@/components/ContactForm'
 import { SocialLinks } from '@/components/Social'
 import { HELV, FRAME_TYPE, RuleRow } from '@/components/sections'
 import { pageMeta } from '@/lib/seo'
+import FadeUp from '@/components/FadeUp'
 
 export const metadata: Metadata = pageMeta({
   title: 'Contact',
@@ -25,6 +26,7 @@ export default function ContactPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================= HERO (364:4889) ========================= */}
+      <FadeUp>
       <section className="px-6 pb-[64px] pt-[64px] sm:pb-[80px] sm:pt-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[26px] text-center">
           <RuleRow>Contact</RuleRow>
@@ -40,8 +42,10 @@ export default function ContactPage() {
           </p>
         </div>
       </section>
+      </FadeUp>
 
       {/* ==================== FORM + DETAILS (364:4941) ======================== */}
+      <FadeUp>
       <section className="px-6 pb-[80px] sm:pb-[100px]">
         <div className="mx-auto flex max-w-[984px] flex-col items-stretch gap-[40px] md:flex-row md:items-center md:gap-[24px]">
           <div className="w-full md:flex-1">
@@ -89,6 +93,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      </FadeUp>
     </div>
   )
 }
