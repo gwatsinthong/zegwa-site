@@ -87,11 +87,8 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-shell px-6 py-14">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           {/* Brand lockup (frame Group 9). Gwatsin's real logo asset, dark-bg
-              variant (white wordmark, light Z badge) at the natural 205x34.
-              Company/legal fine print sits underneath, kept visually
-              secondary (smaller, gray, not bold) so it reads as boilerplate
-              rather than competing with the nav columns beside it. */}
-          <div className="flex max-w-[280px] flex-col gap-6">
+              variant (white wordmark, light Z badge) at the natural 205x34. */}
+          <div className="flex max-w-[250px] flex-col gap-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo-inverse.svg"
@@ -103,29 +100,6 @@ export default function Footer() {
             <p className="max-w-[197px] text-[14px] font-bold text-[#cecece]">
               Helping businesses get found and book more.
             </p>
-
-            <div className="flex flex-col gap-2 text-[12px] leading-relaxed text-[#9d9a9a]">
-              <p className="font-bold text-[#cecece]">Zegwa Studio (OPC) Private Limited</p>
-              <p>
-                Registered office: No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI
-                Bk, Bangalore South, Karnataka 560095, India
-              </p>
-              <p>
-                Phone:{' '}
-                <a href="tel:+917026949689" className="transition-colors hover:text-white focus-visible:text-white">
-                  +91 7026949689
-                </a>{' '}
-                &middot; Grievances: Gwatsin Thong
-              </p>
-              {/* US mailing address: a mailing address only, not an office, HQ,
-                  or place of business -- Zegwa Studio is an Indian company.
-                  Shown here so it matches the address in outbound email
-                  signatures. */}
-              <p>
-                US mailing address: 2232 Dell Range Blvd, Suite 303 1743, Cheyenne, WY 82009,
-                United States
-              </p>
-            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
@@ -150,16 +124,54 @@ export default function Footer() {
             />
           </div>
 
-          <div className="flex flex-col gap-4">
-            <p className={LABEL}>Get in touch</p>
-            <div className="flex flex-col gap-3">
-              <a
-                href="mailto:hello@zegwastudio.com"
-                className="text-[14px] font-bold text-[#cecece] outline-none transition-colors hover:text-white focus-visible:text-white"
-              >
-                hello@zegwastudio.com
-              </a>
-              <SocialLinks linkClassName="text-[#cecece] hover:text-white focus-visible:text-white" />
+          <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-4">
+              <p className={LABEL}>Get in touch</p>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="mailto:hello@zegwastudio.com"
+                  className="text-[14px] font-bold text-[#cecece] outline-none transition-colors hover:text-white focus-visible:text-white"
+                >
+                  hello@zegwastudio.com
+                </a>
+                <SocialLinks linkClassName="text-[#cecece] hover:text-white focus-visible:text-white" />
+              </div>
+            </div>
+
+            <div className="flex max-w-[253px] flex-col gap-4">
+              <p className={LABEL}>Company</p>
+              <p className="text-[14px] font-bold leading-relaxed text-[#cecece]">
+                Zegwa Studio (OPC) Private Limited
+              </p>
+              <div className="text-[14px] font-bold leading-relaxed text-[#cecece]">
+                Registered office:
+                <address className="not-italic">
+                  No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore
+                  South, Karnataka 560095, India
+                </address>
+              </div>
+              <p className="text-[14px] font-bold leading-relaxed text-[#cecece]">
+                Phone:{' '}
+                <a
+                  href="tel:+917026949689"
+                  className="outline-none transition-colors hover:text-white focus-visible:text-white"
+                >
+                  +91 7026949689
+                </a>
+              </p>
+              <p className="text-[14px] font-bold leading-relaxed text-[#cecece]">
+                For queries or grievances: Gwatsin Thong
+              </p>
+            </div>
+
+            {/* US mailing address: a mailing address only, not an office, HQ, or
+                place of business -- Zegwa Studio is an Indian company. Shown here
+                so it matches the address in outbound email signatures. */}
+            <div className="flex max-w-[253px] flex-col gap-4">
+              <p className={LABEL}>US mailing address</p>
+              <address className="text-[14px] font-bold not-italic leading-relaxed text-[#cecece]">
+                2232 Dell Range Blvd, Suite 303 1743, Cheyenne, WY 82009, United States
+              </address>
             </div>
           </div>
         </div>
