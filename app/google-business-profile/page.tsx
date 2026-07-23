@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { pageMeta, pageJsonLd, SITE_URL } from '@/lib/seo'
 import { HELV, FRAME_TYPE, RuleRow, Mark, PillCta, Framed, FaqList } from '@/components/sections'
 import WhatWeDoBento from '@/components/WhatWeDoBento'
+import IndustryCardGrid, { type Industry } from '@/components/IndustryCardGrid'
 import PricingCards from '@/components/PricingCards'
 
 export const metadata: Metadata = pageMeta({
@@ -32,20 +33,18 @@ const WHAT_WE_DO = [
   { title: 'One dashboard', desc: 'Every search and visit in one place' },
 ]
 
-type Industry = { label: string; href: string; desc: string }
-
 const INDUSTRIES: Industry[] = [
-  { label: 'Roofing', href: '/roofing', desc: 'Get found when someone needs a roof.' },
-  { label: 'Plumbing', href: '/plumbing', desc: 'Get found when a pipe bursts.' },
-  { label: 'HVAC', href: '/hvac', desc: 'Get found when the AC quits.' },
-  { label: 'Electrical', href: '/electrical', desc: "Get found when the power's out." },
-  { label: 'Auto repair', href: '/auto-repair', desc: 'Get found when the car breaks down.' },
-  { label: 'Landscaping', href: '/landscaping', desc: 'Get found when they want the yard done.' },
-  { label: 'Law firms', href: '/law-firm-seo', desc: 'Get found when someone needs a lawyer.' },
-  { label: 'Dental', href: '/dental', desc: 'Get found by new patients nearby.' },
-  { label: 'Chiropractic', href: '/chiropractic', desc: "Get found when someone's in pain." },
-  { label: 'Med spa', href: '/med-spa', desc: 'Get found when they research treatments.' },
-  { label: 'Veterinary', href: '/veterinary', desc: 'Get found when a pet needs care.' },
+  { label: 'Roofing', href: '/roofing', desc: 'Get found when someone needs a roof.', image: '/images/industry-roofing.jpg' },
+  { label: 'Plumbing', href: '/plumbing', desc: 'Get found when a pipe bursts.', image: '/images/industry-plumbing.jpg' },
+  { label: 'HVAC', href: '/hvac', desc: 'Get found when the AC quits.', image: '/images/industry-hvac.jpg' },
+  { label: 'Electrical', href: '/electrical', desc: "Get found when the power's out.", image: '/images/industry-electrical.jpg' },
+  { label: 'Auto repair', href: '/auto-repair', desc: 'Get found when the car breaks down.', image: '/images/industry-auto-repair.jpg' },
+  { label: 'Landscaping', href: '/landscaping', desc: 'Get found when they want the yard done.', image: '/images/industry-landscaping.jpg' },
+  { label: 'Law firms', href: '/law-firm-seo', desc: 'Get found when someone needs a lawyer.', image: '/images/industry-law-firm.jpg' },
+  { label: 'Dental', href: '/dental', desc: 'Get found by new patients nearby.', image: '/images/industry-dental.jpg' },
+  { label: 'Chiropractic', href: '/chiropractic', desc: "Get found when someone's in pain.", image: '/images/industry-chiropractic.jpg' },
+  { label: 'Med spa', href: '/med-spa', desc: 'Get found when they research treatments.', image: '/images/industry-med-spa.jpg' },
+  { label: 'Veterinary', href: '/veterinary', desc: 'Get found when a pet needs care.', image: '/images/industry-veterinary.jpg' },
 ]
 
 const FAQS = [
@@ -194,22 +193,7 @@ export default function GoogleBusinessProfilePage() {
             </h2>
           </div>
 
-          <Framed outer="p-[16px]" bare className="w-full">
-            <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3">
-              {INDUSTRIES.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex flex-col gap-[8px] rounded-[16px] bg-[#fefefe] p-[32px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] outline-none transition-shadow hover:shadow-[-1px_-1px_6px_0px_rgba(0,0,0,0.2),1px_1px_6px_0px_rgba(0,0,0,0.2)] focus-visible:ring-2 focus-visible:ring-[#202020]/30"
-                >
-                  <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}>
-                    {item.label}
-                  </h3>
-                  <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
-                </Link>
-              ))}
-            </div>
-          </Framed>
+          <IndustryCardGrid items={INDUSTRIES} />
         </div>
       </section>
 

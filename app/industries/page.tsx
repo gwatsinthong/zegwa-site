@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import type { Metadata } from 'next'
 import { pageMeta } from '@/lib/seo'
-import { HELV, FRAME_TYPE, RuleRow, Mark, PillCta, Framed } from '@/components/sections'
+import { HELV, FRAME_TYPE, RuleRow, Mark, PillCta } from '@/components/sections'
+import IndustryCardGrid, { type Industry } from '@/components/IndustryCardGrid'
 
 export const metadata: Metadata = pageMeta({
   title: 'Industries we serve',
@@ -15,8 +15,6 @@ export const metadata: Metadata = pageMeta({
 // Grouped into three plain, real-world groups rather than by product type
 // (SEO vertical vs. conversion page), since a visitor looking for their own
 // business doesn't care about that internal distinction.
-
-type Industry = { label: string; href: string; desc: string; image: string }
 
 const HOME_AND_TRADES: Industry[] = [
   { label: 'Roofing', href: '/roofing', desc: 'Get found when someone needs a roof.', image: '/images/industry-roofing.jpg' },
@@ -49,30 +47,7 @@ function IndustryGrid({ title, items }: { title: string; items: Industry[] }) {
       <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.h5}`}>
         {title}
       </h3>
-      <Framed outer="p-[16px]" bare className="w-full">
-        <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex flex-col gap-[16px] rounded-[16px] bg-[#fefefe] p-[16px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] outline-none transition-shadow hover:shadow-[-1px_-1px_6px_0px_rgba(0,0,0,0.2),1px_1px_6px_0px_rgba(0,0,0,0.2)] focus-visible:ring-2 focus-visible:ring-[#202020]/30"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={item.image}
-                alt=""
-                className="aspect-[16/9] w-full rounded-[8px] object-cover"
-              />
-              <div className="flex flex-col gap-[8px] px-[16px] pb-[16px]">
-                <h4 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}>
-                  {item.label}
-                </h4>
-                <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </Framed>
+      <IndustryCardGrid items={items} />
     </div>
   )
 }
