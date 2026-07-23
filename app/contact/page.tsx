@@ -80,6 +80,20 @@ export default function ContactPage() {
                 Karnataka, India 560095
               </address>
               <p className={VALUE}>CIN: U62012KA2026OPC218915</p>
+              <p className={VALUE}>
+                Phone: <a href="tel:+917026949689" className={EMAIL}>+91 7026949689</a>
+              </p>
+              <p className={VALUE}>For queries or grievances: Gwatsin Thong</p>
+            </div>
+
+            {/* US mailing address: a mailing address only, not an office, HQ, or
+                place of business -- Zegwa Studio is an Indian company. Shown here
+                so it matches the address in outbound email signatures. */}
+            <div className="flex w-full max-w-[367px] flex-col gap-[16px]">
+              <p className={LABEL}>US mailing address:</p>
+              <address className={`not-italic ${VALUE}`}>
+                2232 Dell Range Blvd, Suite 303 1743, Cheyenne, WY 82009, United States
+              </address>
             </div>
 
             {/* Socials */}

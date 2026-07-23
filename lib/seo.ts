@@ -55,9 +55,16 @@ export function pageMeta({
 }
 
 // Organization + WebSite JSON-LD, server-rendered in the root layout. Only
-// genuinely displayed facts: name, legal name, registered address, CIN, and the
-// contact email. No ratings, reviews, or awards (none are shown). sameAs is
-// omitted until real social profiles exist.
+// genuinely displayed facts: name, legal name, registered address, CIN,
+// phone, and the contact email. No ratings, reviews, or awards (none are
+// shown). sameAs is omitted until real social profiles exist.
+//
+// The address here is deliberately the single registered office (India) --
+// Zegwa Studio is an Indian company, and schema.org's `address` on an
+// Organization asserts where that organization is located/registered. The
+// Cheyenne, WY line shown in the site footer is a US mailing address, not a
+// place of business, so it does not belong in this node (adding it here
+// would misrepresent it as an office/registered address).
 export function organizationJsonLd() {
   return {
     '@context': 'https://schema.org',
@@ -69,6 +76,7 @@ export function organizationJsonLd() {
         legalName: 'Zegwa Studio (OPC) Private Limited',
         url: SITE_URL,
         email: 'hello@zegwastudio.com',
+        telephone: '+91 7026949689',
         // Swap: real logo asset once available (no logo exists yet).
         logo: `${SITE_URL}/logo.png`,
         address: {

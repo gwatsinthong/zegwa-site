@@ -140,12 +140,37 @@ export default function Footer() {
 
             <div className="flex max-w-[253px] flex-col gap-4">
               <p className={LABEL}>Company</p>
-              <address className="text-[14px] font-bold not-italic leading-relaxed text-[#cecece]">
+              <p className="text-[14px] font-bold leading-relaxed text-[#cecece]">
                 Zegwa Studio (OPC) Private Limited
-                <br />
-                <br />
-                No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore
-                South, Karnataka, India 560095
+              </p>
+              <div className="text-[14px] font-bold leading-relaxed text-[#cecece]">
+                Registered office:
+                <address className="not-italic">
+                  No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore
+                  South, Karnataka 560095, India
+                </address>
+              </div>
+              <p className="text-[14px] font-bold leading-relaxed text-[#cecece]">
+                Phone:{' '}
+                <a
+                  href="tel:+917026949689"
+                  className="outline-none transition-colors hover:text-white focus-visible:text-white"
+                >
+                  +91 7026949689
+                </a>
+              </p>
+              <p className="text-[14px] font-bold leading-relaxed text-[#cecece]">
+                For queries or grievances: Gwatsin Thong
+              </p>
+            </div>
+
+            {/* US mailing address: a mailing address only, not an office, HQ, or
+                place of business -- Zegwa Studio is an Indian company. Shown here
+                so it matches the address in outbound email signatures. */}
+            <div className="flex max-w-[253px] flex-col gap-4">
+              <p className={LABEL}>US mailing address</p>
+              <address className="text-[14px] font-bold not-italic leading-relaxed text-[#cecece]">
+                2232 Dell Range Blvd, Suite 303 1743, Cheyenne, WY 82009, United States
               </address>
             </div>
           </div>

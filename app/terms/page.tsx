@@ -151,9 +151,12 @@ const CONTENT: LegalContent = {
         { k: 'p', label: 'CIN', text: ': U62012KA2026OPC218915' },
         {
           k: 'p',
-          text: 'No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore South, Karnataka, India 560095',
+          label: 'Registered office',
+          text: ': No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore South, Karnataka, India 560095',
         },
+        { k: 'p', label: 'Phone', text: ': +91 7026949689' },
         { k: 'p', label: 'Contact', text: ': hello@zegwastudio.com' },
+        { k: 'p', label: 'For queries or grievances', text: ': Gwatsin Thong' },
       ],
     },
     {
@@ -412,10 +415,17 @@ const CONTENT: LegalContent = {
       blocks: [
         { k: 'p', text: 'For questions about these Terms:' },
         { k: 'p', label: 'Email', text: ': hello@zegwastudio.com' },
+        { k: 'p', label: 'Phone', text: ': +91 7026949689' },
         {
           k: 'p',
-          label: 'Post',
+          label: 'Registered office',
           text: ': Zegwa Studio (OPC) Private Limited, No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore South, Karnataka, India 560095',
+        },
+        { k: 'p', label: 'For queries or grievances', text: ': Gwatsin Thong' },
+        {
+          k: 'p',
+          label: 'US mailing address',
+          text: ': 2232 Dell Range Blvd, Suite 303 1743, Cheyenne, WY 82009, United States',
         },
       ],
     },

@@ -66,7 +66,7 @@ const CONTENT: LegalContent = {
         },
         {
           k: 'p',
-          label: 'Registered address',
+          label: 'Registered office',
           text: ': No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore South, Karnataka, India 560095',
         },
         { k: 'p', label: 'CIN', text: ': U62012KA2026OPC218915' },
@@ -348,10 +348,17 @@ const CONTENT: LegalContent = {
       blocks: [
         { k: 'p', text: 'For privacy-related questions, requests, or complaints:' },
         { k: 'p', label: 'Email', text: ': privacy@zegwastudio.com' },
+        { k: 'p', label: 'Phone', text: ': +91 7026949689' },
         {
           k: 'p',
-          label: 'Post',
+          label: 'Registered office',
           text: ': Zegwa Studio (OPC) Private Limited, No. 472/7, Balaji Arcade, AVS Compound, Ejipura, Koramangala VI Bk, Bangalore South, Karnataka, India 560095',
+        },
+        { k: 'p', label: 'For queries or grievances', text: ': Gwatsin Thong' },
+        {
+          k: 'p',
+          label: 'US mailing address',
+          text: ': 2232 Dell Range Blvd, Suite 303 1743, Cheyenne, WY 82009, United States',
         },
         { k: 'p', text: 'We aim to respond to all privacy requests within 30 days.' },
       ],
