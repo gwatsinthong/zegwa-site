@@ -2,7 +2,17 @@ import { FRAME_TYPE, Framed, HELV, Mark, RuleRow } from './sections'
 
 // The "What we do" bento grid used by every industry/service vertical page
 // (roofing, plumbing, chiropractic, local-seo, ...). Identical markup and
-// heading copy across all of them -- only the 5 items differ per page.
+// heading copy across all of them -- only the 5 items' desc wording differs
+// per page (title and order are always the same 5 concepts), so the tile
+// images are keyed by position rather than threaded through every page's
+// WHAT_WE_DO data.
+const TILE_IMAGES = [
+  '/images/bento-map-pack.jpg',
+  '/images/bento-directory-listings.jpg',
+  '/images/bento-ai-search.jpg',
+  '/images/bento-reviews.jpg',
+  '/images/bento-one-dashboard.jpg',
+]
 
 export type WhatWeDoItem = { title: string; desc: string }
 
@@ -38,9 +48,11 @@ export default function WhatWeDoBento({ items }: { items: WhatWeDoItem[] }) {
                   </h3>
                   <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
                 </div>
-                <div
-                  aria-hidden="true"
-                  className={`w-full rounded-[8px] bg-[#e8e8e8] ${i < 2 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={TILE_IMAGES[i]}
+                  alt=""
+                  className={`w-full rounded-[8px] object-cover ${i < 2 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
                 />
               </div>
             ))}
