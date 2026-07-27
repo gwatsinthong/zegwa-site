@@ -6,6 +6,7 @@ import SearchOrbit from '@/components/SearchOrbit'
 import Reveal from '@/components/Reveal'
 import ScrollTint from '@/components/ScrollTint'
 import FadeUp from '@/components/FadeUp'
+import { BrowserFrame } from '@/components/vertical-sections'
 import {
   HELV,
   ArrowRight,
@@ -120,6 +121,14 @@ const PRICING_ONGOING_ITEMS = [
   'Photos and posts kept current',
   'Your AI and local presence maintained',
   'A monthly report, plus the dashboard any time',
+]
+
+const DASHBOARD_POINTS = [
+  { label: 'The work log', desc: 'Every task we complete, dated. The proof of the labor.' },
+  { label: 'Your rankings', desc: 'Where you show up in local search, tracked over time.' },
+  { label: 'Your reviews', desc: 'New Google reviews as they land, with our responses.' },
+  { label: 'Requests', desc: 'Ask for a change or a fix, tracked through to done.' },
+  { label: 'Reports and documents', desc: 'Every monthly report and file, in one place.' },
 ]
 
 const FAQS = [
@@ -405,6 +414,62 @@ export default function FoundPage() {
           </Framed>
 
           <Deliverables />
+        </div>
+      </section>
+      </FadeUp>
+
+      {/* =========== YOUR DASHBOARD (portal purpose disclosure for Google
+          Sign-In brand verification -- every Found client logs into a
+          private dashboard, this section says so plainly on the home page) */}
+      <FadeUp>
+      <section className="px-6 py-[80px] sm:py-[100px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+          <div className="flex flex-col items-center gap-[24px]">
+            <Mark />
+            <RuleRow>Your dashboard</RuleRow>
+            <div className="flex max-w-[500px] flex-col items-center gap-[16px] text-center">
+              <h2 style={{ fontFamily: HELV }} className="text-balance text-[32px] font-bold leading-[1.24] tracking-[-0.96px] text-[#202020] sm:text-[48px] sm:tracking-[-1.44px]">
+                See exactly what we did, every month.
+              </h2>
+              <p className="max-w-[441px] text-[16px] leading-[1.5] text-[#5c5c5c]">
+                Every Zegwa client gets a private dashboard. Not a wall of vanity metrics. A
+                monthly log of the actual work, dated, so you always know what you are paying for.
+              </p>
+            </div>
+          </div>
+
+          {/* Illustrative visual only: a sample dashboard for a fictional demo
+              client (Summit Air), not a real Zegwa client. The "Sample
+              dashboard" pill overlaid on the frame's top-left corner makes
+              that unambiguous -- BrowserFrame has no built-in tag slot, so
+              the pill is a separate absolutely-positioned element layered on
+              top of it (the screenshot file itself is untouched). */}
+          <div className="relative w-full max-w-[820px]">
+            <span className="absolute -top-[11px] left-[16px] z-10 rounded-[999px] border border-[#cecece] bg-[#fefefe] px-[10px] py-[3px] text-[11px] font-bold uppercase leading-none tracking-wide text-[#5c5c5c]">
+              Sample dashboard
+            </span>
+            <BrowserFrame
+              src="/images/home-dashboard-sample.jpg"
+              url="summitairhvac.com"
+              alt="Sample client dashboard showing the work log, rankings, reviews, requests, and reports"
+            />
+          </div>
+
+          <div className="grid w-full grid-cols-1 gap-x-[24px] gap-y-[32px] sm:grid-cols-2 lg:grid-cols-5">
+            {DASHBOARD_POINTS.map((p) => (
+              <div key={p.label} className="flex flex-col gap-[8px] border-t-2 border-[#e0e0e0] pt-[16px]">
+                <p style={{ fontFamily: HELV }} className="text-[16px] font-bold leading-[1.4] text-[#202020]">
+                  {p.label}
+                </p>
+                <p className="text-[14px] leading-[1.5] text-[#5c5c5c]">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="max-w-[600px] text-center text-[16px] leading-[1.5] text-[#5c5c5c]">
+            You own everything. The site, the content, the data. All yours, whether you stay or
+            not.
+          </p>
         </div>
       </section>
       </FadeUp>
