@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { HELV, FRAME_TYPE, RuleRow, Mark, Framed, PillCta } from '@/components/sections'
+import StartAuditForm from '@/components/StartAuditForm'
 
 // ORPHAN PAGE: noindex, not in nav, not in footer, no inbound internal links,
 // absent from app/sitemap.ts (leave it that way). This is the landing target
@@ -107,6 +108,26 @@ function ItemGrid({ items }: { items: { label: string; desc: string }[] }) {
 export default function StartServicesPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
+      {/* ============================== FREE AUDIT FORM ============================== */}
+      <section className="px-6 pb-[64px] pt-[64px] sm:pb-[80px] sm:pt-[80px]">
+        <div className="mx-auto flex max-w-[600px] flex-col items-center gap-[40px]">
+          <div className="flex flex-col items-center gap-[16px] text-center">
+            <RuleRow>Free audit</RuleRow>
+            <h2
+              style={{ fontFamily: HELV }}
+              className={`text-balance text-center text-[#202020] ${FRAME_TYPE.h3}`}
+            >
+              See what&#39;s holding your site back.
+            </h2>
+            <p className="max-w-[440px] text-[16px] leading-[1.5] text-[#5c5c5c]">
+              Pick what you need and send it over. We&#39;ll take a look and tell you what it
+              would take, free.
+            </p>
+          </div>
+          <StartAuditForm />
+        </div>
+      </section>
+
       {/* ================================ HERO ================================= */}
       <section className="px-6 pb-[80px] pt-[64px] sm:pb-[100px] sm:pt-[80px]">
         <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
