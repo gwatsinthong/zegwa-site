@@ -20,6 +20,16 @@ const PILL_INACTIVE = 'border-[#e0e0e0] bg-[#fefefe] text-[#5c5c5c] hover:border
 const FIELD_SHELL =
   'w-full rounded-[8px] bg-[#fefefe] px-[12px] py-[8px] text-[16px] leading-[1.5] text-[#202020] shadow-[inset_1px_1px_2px_0px_rgba(0,0,0,0.2),inset_-1px_-1px_2px_0px_rgba(0,0,0,0.2)] outline-none transition-shadow placeholder:text-[#777] focus-visible:ring-2 focus-visible:ring-[#202020]/20'
 
+// encodeURIComponent leaves apostrophes (and ! ( ) *) unescaped -- they're in
+// its unreserved-character set per the spec. That's normally harmless, but we
+// want every character in a user-typed field fully percent-encoded rather
+// than relying on which characters the browser happens to accept literally
+// in a query string, so force the apostrophe to %27 on top of the standard
+// encoding.
+function encodeMessage(message: string) {
+  return encodeURIComponent(message).replace(/'/g, '%27')
+}
+
 export function buildWhatsAppUrl({
   choice,
   site,
@@ -32,8 +42,8 @@ export function buildWhatsAppUrl({
   const need = choice ?? 'Not sure'
   const siteText = site.trim() || 'not yet'
   const notesText = notes.trim() || 'none'
-  const message = `Hi Zegwa Studio, I'd like a free audit. Need: ${need}. Site: ${siteText}. Notes: ${notesText}`
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  const message = `Hi Zegwa Studio, I would like a free audit. Need: ${need}. Site: ${siteText}. Notes: ${notesText}`
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeMessage(message)}`
 }
 
 export default function StartAuditForm() {
