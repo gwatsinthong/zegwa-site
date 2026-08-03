@@ -26,7 +26,7 @@ export default function AuditCta({
   return (
     <div className={`flex flex-col items-center gap-3 ${className}`}>
       <Link
-        href="/start"
+        href="/audit"
         className={`inline-flex items-center justify-center gap-2 px-8 py-3 text-base font-medium outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2 ${
           onDark ? 'focus-visible:ring-offset-[#202020]' : 'focus-visible:ring-offset-bg'
         } ${button}`}

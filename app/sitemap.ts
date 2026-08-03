@@ -32,7 +32,7 @@ const ROUTES = [
   '/seo-bangalore',
   '/about',
   '/contact',
-  '/start',
+  '/audit',
   '/privacy',
   '/terms',
   '/cookies',

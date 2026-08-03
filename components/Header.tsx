@@ -129,7 +129,7 @@ export default function Header() {
         </nav>
 
         <div className="hidden flex-1 justify-end md:flex">
-          <PillCta tone="light" href="/start" label="Get free audit" className={CTA_HOVER} />
+          <PillCta tone="light" href="/audit" label="Get free audit" className={CTA_HOVER} />
         </div>
 
         <button
@@ -169,7 +169,7 @@ export default function Header() {
               </Link>
             ))}
             <div className="mt-2">
-              <PillCta tone="light" href="/start" label="Get free audit" className={CTA_HOVER} />
+              <PillCta tone="light" href="/audit" label="Get free audit" className={CTA_HOVER} />
             </div>
           </div>
         </nav>

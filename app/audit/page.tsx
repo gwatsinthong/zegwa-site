@@ -8,7 +8,7 @@ export const metadata: Metadata = pageMeta({
   title: 'Get your free audit',
   description:
     'Tell us about your business and we show you where customers are slipping, in 24 hours, free. No calls and no commitment.',
-  path: '/start',
+  path: '/audit',
 })
 
 // Figma-faithful rebuild of frame 395:2244 "Start" (body only; the shell
@@ -17,7 +17,7 @@ export const metadata: Metadata = pageMeta({
 // AuditForm (live endpoint, five response states); this page only supplies
 // the hero copy and the trust-line row around it.
 
-export default function StartPage() {
+export default function AuditPage() {
   return (
     <div style={{ fontFamily: HELV }} className="text-[#202020]">
       {/* ============================= HERO (395:2247) ========================= */}

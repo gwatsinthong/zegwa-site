@@ -130,7 +130,7 @@ function BlackCta({ label }: { label: string }) {
   return (
     <div className="pt-2">
       <Link
-        href="/start"
+        href="/audit"
         className="inline-flex items-center justify-center gap-2 bg-text px-6 py-3 text-base font-medium text-bg outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-text/40 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
       >
         {label}
@@ -425,7 +425,7 @@ export default function SampleReportPage() {
           <p className="text-muted">{"So let's confirm these on a 15-minute call."}</p>
           <div className="pt-2">
             <Link
-              href="/start"
+              href="/audit"
               className="inline-flex items-center justify-center gap-2 border border-hairline bg-white px-6 py-3 text-base font-medium text-text outline-none transition-colors hover:border-text focus-visible:ring-2 focus-visible:ring-text/30 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
             >
               Book the call

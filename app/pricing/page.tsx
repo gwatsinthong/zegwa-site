@@ -55,7 +55,7 @@ const TIERS: Tier[] = [
       'Monthly upkeep and reporting',
       'No minimum. Cancel anytime.',
     ],
-    cta: { label: 'See the fix', href: '/start', tone: 'white' },
+    cta: { label: 'See the fix', href: '/audit', tone: 'white' },
   },
 ]
 
@@ -77,7 +77,7 @@ const hiddenCaptureAndBundleTiers: Tier[] = [
       '1,000 voice minutes, tuning, reporting',
       '3-month minimum, then cancel anytime.',
     ],
-    cta: { label: 'See the fix', href: '/start', tone: 'white' },
+    cta: { label: 'See the fix', href: '/audit', tone: 'white' },
   },
   {
     name: 'BUNDLE',
@@ -90,7 +90,7 @@ const hiddenCaptureAndBundleTiers: Tier[] = [
       'Built together so nothing falls through',
       'Save $500 upfront and $200/mo.',
     ],
-    cta: { label: 'Get free audit', href: '/start', tone: 'blackFlat' },
+    cta: { label: 'Get free audit', href: '/audit', tone: 'blackFlat' },
     highlighted: true,
     bestValue: 'BEST VALUE',
   },
@@ -209,7 +209,7 @@ export default function PricingPage() {
                       <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{p.body}</p>
                     </div>
                     {/* CAPTURE CARVE-OUT: this whole section is hidden (see hiddenProblemSpotter above); every row's CTA -> /start */}
-                    <PillCta label={p.cta.label} href="/start" tone={p.cta.tone} />
+                    <PillCta label={p.cta.label} href="/audit" tone={p.cta.tone} />
                   </div>
                 </div>
               </Framed>
@@ -239,7 +239,7 @@ export default function PricingPage() {
             </p>
           </div>
           <div className="flex flex-col items-center gap-[12px]">
-            <PillCta />
+            <PillCta href="/audit" />
             <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
               Your audit in 24 hours. No strings.
             </p>
@@ -288,7 +288,7 @@ export default function PricingPage() {
           <FaqList items={FAQS} />
 
           <div className="flex flex-col items-center gap-[12px]">
-            <PillCta />
+            <PillCta href="/audit" />
             <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
               Your audit in 24 hours. No strings.
             </p>

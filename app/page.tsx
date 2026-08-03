@@ -229,7 +229,7 @@ export default function FoundPage() {
             className="flex flex-col items-center gap-[12px] motion-safe:animate-fade-up"
             style={{ animationDelay: '150ms' }}
           >
-            <PillCta />
+            <PillCta href="/audit" />
             <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
               Your audit in 24 hours. No strings.
             </p>
@@ -355,7 +355,7 @@ export default function FoundPage() {
           </div>
 
           <div className="flex flex-col items-center gap-[12px]">
-            <PillCta tone="red" />
+            <PillCta tone="red" href="/audit" />
             <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
               Your audit in 24 hours. No strings.
             </p>
@@ -530,7 +530,7 @@ export default function FoundPage() {
                 move it back here. */}
 
             <div className="mt-[16px] flex flex-col items-center gap-[12px]">
-              <PillCta />
+              <PillCta href="/audit" />
               <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
                 Your audit in 24 hours. No strings.
               </p>
@@ -556,7 +556,7 @@ export default function FoundPage() {
               </p>
             </div>
             <div className="flex flex-col items-center gap-[12px]">
-              <PillCta />
+              <PillCta href="/audit" />
               <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
                 Your audit in 24 hours. No strings.
               </p>

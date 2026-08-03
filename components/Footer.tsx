@@ -15,7 +15,7 @@ import { REOPEN_EVENT } from './CookieConsent'
 // FOLDED (not deleted): the standalone "Offers" column (Get free audit,
 // Pricing) is gone, but both links survive inside EXPLORE below.
 const hiddenOffersColumn = [
-  { label: 'Get free audit', href: '/start' },
+  { label: 'Get free audit', href: '/audit' },
   { label: 'Pricing', href: '/pricing' },
 ]
 
@@ -40,7 +40,7 @@ const EXPLORE = [
   { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'Contact', href: '/contact' },
-  { label: 'Get free audit', href: '/start' },
+  { label: 'Get free audit', href: '/audit' },
 ]
 
 const LEGAL = [

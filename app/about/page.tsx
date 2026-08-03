@@ -83,7 +83,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="flex flex-col items-center gap-[12px]">
-            <PillCta />
+            <PillCta href="/audit" />
             <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
               Your audit in 24 hours. No strings.
             </p>
@@ -167,7 +167,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="flex flex-col items-center gap-[12px]">
-              <PillCta />
+              <PillCta href="/audit" />
               <p className="max-w-[448px] text-center text-[16px] leading-[1.5] text-[#777]">
                 Your audit in 24 hours. No strings.
               </p>
