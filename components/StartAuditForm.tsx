@@ -10,7 +10,7 @@ import { HELV } from './sections'
 
 const WHATSAPP_NUMBER = '917026949689'
 
-const CHOICES = ['Website review', 'Local SEO', 'App or software']
+const CHOICES = ['New website', 'Local SEO', 'App or software']
 
 const PILL_BASE =
   'whitespace-nowrap rounded-[999px] border px-[16px] py-[8px] text-[14px] font-bold tracking-[0.16px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#202020]/30'
@@ -80,7 +80,7 @@ export default function StartAuditForm() {
 
       <div className="flex flex-col gap-[8px]">
         <label htmlFor="audit-site" className="text-[14px] font-bold leading-[1.5] text-[#202020]">
-          Website
+          Current site (optional)
         </label>
         <input
           id="audit-site"

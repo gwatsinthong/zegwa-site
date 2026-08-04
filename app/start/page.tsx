@@ -28,26 +28,26 @@ const BUILD_ITEMS = [
   },
   {
     label: 'Mobile app development',
-    desc: 'iOS and Android apps, built cross-platform to keep cost and timelines sensible.',
+    desc: 'iOS and Android apps, built cross-platform to keep cost and timelines down.',
   },
   {
-    label: 'Custom software and portals',
-    desc: 'Dashboards, client portals, and internal tools shaped around how you actually work.',
+    label: 'Custom software and AI',
+    desc: 'Dashboards, portals, and AI tools shaped around how you actually work.',
   },
   {
     label: 'Online stores and e-commerce',
-    desc: 'Sell online with catalog, payments, and delivery, including networks like ONDC.',
+    desc: 'Sell online with catalog, payments, and delivery, including ONDC.',
   },
 ]
 
 const GROW_ITEMS = [
   {
     label: 'Local SEO and Google presence',
-    desc: 'Rank on Google and Maps so customers find you, call you, and trust you.',
+    desc: 'Rank on Google and Maps so customers find you and trust you.',
   },
   {
     label: 'Cloud setup and accounts',
-    desc: 'Your tools, accounts, and cloud services set up right and kept secure.',
+    desc: 'Your tools, accounts, and services set up right and kept secure.',
   },
   {
     label: 'Automation and WhatsApp',
@@ -55,25 +55,25 @@ const GROW_ITEMS = [
   },
   {
     label: 'Care and maintenance',
-    desc: 'One point of contact for the whole technical side, on a simple monthly plan.',
+    desc: 'One point of contact for everything technical, on a simple monthly plan.',
   },
 ]
 
 const HOW_WE_WORK_ITEMS = [
   {
     label: 'Fixed scope, clear price',
-    desc: "You know what you're getting and what it costs before we start.",
+    desc: "You know what you're getting and the cost before we start.",
   },
   {
     label: 'You own everything',
-    desc: 'Your site, your accounts, your data, always in your name.',
+    desc: 'Your site, your accounts, and your data, always in your name.',
   },
   {
     label: 'One point of contact',
-    desc: 'You deal with us directly, start to finish.',
+    desc: 'You deal with us directly, from start to finish.',
   },
   {
-    label: 'No jargon. Plain answers',
+    label: 'No jargon, plain answers',
     desc: 'You never need to understand the technical part.',
   },
 ]
@@ -117,7 +117,7 @@ export default function StartServicesPage() {
               style={{ fontFamily: HELV }}
               className={`text-balance text-center text-[#202020] ${FRAME_TYPE.h3}`}
             >
-              See what&#39;s holding your site back.
+              Tell us what you&#39;re building.
             </h2>
             <p className="max-w-[440px] text-[16px] leading-[1.5] text-[#5c5c5c]">
               Pick what you need and send it over. We&#39;ll take a look and tell you what it
@@ -140,17 +140,17 @@ export default function StartServicesPage() {
               <RuleRow>Zegwa Studio</RuleRow>
             </div>
             <div className="hidden sm:block">
-              <RuleRow>Zegwa Studio &middot; Software and IT</RuleRow>
+              <RuleRow>Zegwa Studio &middot; Software</RuleRow>
             </div>
             <h1
               style={{ fontFamily: HELV }}
               className={`max-w-[704px] text-center text-[#202020] ${FRAME_TYPE.display}`}
             >
-              Websites, apps, and software, done properly.
+              We build websites, apps, and software.
             </h1>
             <p className="max-w-[560px] text-center text-[18px] leading-[1.5] text-[#5c5c5c] sm:text-[20px]">
-              We handle design, development, and the technical side for businesses that want it
-              done right, so you can get on with the rest.
+              Design, development, and everything technical, handled for you. You get on with
+              running your business.
             </p>
           </div>
           <div className="flex flex-col items-center gap-[16px] sm:flex-row">
@@ -257,7 +257,7 @@ export default function StartServicesPage() {
 
       {/* ============================== PAGE FOOTNOTE ================================ */}
       <p className="px-6 py-[24px] text-center text-[12px] font-medium leading-[1.5] text-[#9d9a9a]">
-        Zegwa Studio &middot; Software and IT &middot; Bangalore
+        Zegwa Studio &middot; Software &middot; Bangalore
       </p>
     </div>
   )
