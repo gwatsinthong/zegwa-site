@@ -335,11 +335,6 @@ export default function StartServicesPage() {
           </div>
         </div>
       </section>
-
-      {/* ============================== PAGE FOOTNOTE ================================ */}
-      <p className="px-6 py-[24px] text-center text-[12px] font-medium leading-[1.5] text-[#9d9a9a]">
-        Zegwa Studio &middot; Software &middot; Bangalore
-      </p>
     </div>
   )
 }
