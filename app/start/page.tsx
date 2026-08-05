@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { HELV, FRAME_TYPE, RuleRow, Mark, Framed, PillCta } from '@/components/sections'
+import { HELV, FRAME_TYPE, RuleRow, Mark, PillCta } from '@/components/sections'
 import StartAuditForm from '@/components/StartAuditForm'
 
 // ORPHAN PAGE: noindex, not in nav, not in footer, no inbound internal links,
@@ -85,23 +85,104 @@ const CONTACT_ROWS = [
   { label: 'Based in', value: 'Bangalore', href: null },
 ]
 
-function ItemGrid({ items }: { items: { label: string; desc: string }[] }) {
+// Service cards (Build, Grow and run): image slot on top, then title and
+// line. No outer grey shell -- cards sit directly on the page background.
+// The image slot is a plain grey placeholder block (not a real screenshot);
+// swap the div for a real <img> per card once real product/site images exist.
+function ServiceGrid({ items }: { items: { label: string; desc: string }[] }) {
   return (
-    <Framed outer="p-[16px]" bare className="w-full">
-      <div className="grid grid-cols-1 gap-[24px] sm:grid-cols-2">
-        {items.map((item) => (
-          <div
-            key={item.label}
-            className="flex flex-col gap-[8px] rounded-[16px] bg-[#fefefe] p-[24px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] sm:p-[32px]"
-          >
+    <div className="grid w-full grid-cols-1 gap-[24px] sm:grid-cols-2">
+      {items.map((item) => (
+        <div
+          key={item.label}
+          className="flex flex-col gap-[16px] rounded-[16px] bg-[#fefefe] p-[16px] shadow-[-1px_-1px_2px_0px_rgba(0,0,0,0.1),1px_1px_2px_0px_rgba(0,0,0,0.1)]"
+        >
+          <div aria-hidden="true" className="aspect-[16/10] w-full rounded-[8px] bg-[#e0e0e0]" />
+          <div className="flex flex-col gap-[8px] px-[8px] pb-[8px]">
             <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}>
               {item.label}
             </h3>
             <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
           </div>
-        ))}
-      </div>
-    </Framed>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// How-we-work cards: a small stroke-line icon instead of an image slot (these
+// are principles, not services -- nothing to screenshot). One glyph per
+// principle, same stroke weight/box, muted grey to keep red reserved for CTAs.
+const ICON_PROPS = {
+  width: 24,
+  height: 24,
+  viewBox: '0 0 24 24',
+  fill: 'none' as const,
+  stroke: 'currentColor',
+  strokeWidth: 1.5,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+  'aria-hidden': true as const,
+}
+
+function TagIcon() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M13 3 21 11 13 19a2 2 0 0 1-2.8 0L4 12.8V5a2 2 0 0 1 2-2h7Z" />
+      <circle cx="8.5" cy="8.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+function ShieldIcon() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M12 3 19 6v6c0 5-3.2 7.6-7 9-3.8-1.4-7-4-7-9V6l7-3Z" />
+    </svg>
+  )
+}
+
+function PersonIcon() {
+  return (
+    <svg {...ICON_PROPS}>
+      <circle cx="12" cy="8" r="3.25" />
+      <path d="M5 20c0-4 3-6 7-6s7 2 7 6" />
+    </svg>
+  )
+}
+
+function SpeechIcon() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M4 5h16v11H9l-3 3v-3H4V5Z" />
+      <path d="M8 9h8M8 12h5" />
+    </svg>
+  )
+}
+
+const HOW_WE_WORK_ICONS = [TagIcon, ShieldIcon, PersonIcon, SpeechIcon]
+
+function PrincipleGrid({ items }: { items: { label: string; desc: string }[] }) {
+  return (
+    <div className="grid w-full grid-cols-1 gap-[24px] sm:grid-cols-2">
+      {items.map((item, i) => {
+        const Icon = HOW_WE_WORK_ICONS[i]
+        return (
+          <div
+            key={item.label}
+            className="flex flex-col gap-[12px] rounded-[16px] bg-[#fefefe] p-[24px] shadow-[-1px_-1px_2px_0px_rgba(0,0,0,0.1),1px_1px_2px_0px_rgba(0,0,0,0.1)]"
+          >
+            <span className="text-[#5c5c5c]">
+              <Icon />
+            </span>
+            <h3 style={{ fontFamily: HELV }} className={`text-[#202020] ${FRAME_TYPE.cardTitle}`}>
+              {item.label}
+            </h3>
+            <p className="text-[16px] leading-[1.5] text-[#5c5c5c]">{item.desc}</p>
+          </div>
+        )
+      })}
+    </div>
   )
 }
 
@@ -161,8 +242,8 @@ export default function StartServicesPage() {
       </section>
 
       {/* =============================== BUILD =================================== */}
-      <section className="px-6 py-[80px] sm:py-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+      <section className="px-6 py-[64px] sm:py-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
           <div className="flex flex-col items-center gap-[24px]">
             <Mark />
             <RuleRow>Build</RuleRow>
@@ -173,13 +254,13 @@ export default function StartServicesPage() {
               Design and development.
             </h2>
           </div>
-          <ItemGrid items={BUILD_ITEMS} />
+          <ServiceGrid items={BUILD_ITEMS} />
         </div>
       </section>
 
       {/* ============================ GROW AND RUN ================================ */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
           <div className="flex flex-col items-center gap-[24px]">
             <Mark />
             <RuleRow>Grow and run</RuleRow>
@@ -190,13 +271,13 @@ export default function StartServicesPage() {
               Get found, stay running.
             </h2>
           </div>
-          <ItemGrid items={GROW_ITEMS} />
+          <ServiceGrid items={GROW_ITEMS} />
         </div>
       </section>
 
       {/* ============================== HOW WE WORK =============================== */}
-      <section className="px-6 pb-[80px] sm:pb-[100px]">
-        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[64px]">
+      <section className="px-6 pb-[64px] sm:pb-[80px]">
+        <div className="mx-auto flex max-w-[1040px] flex-col items-center gap-[48px]">
           <div className="flex flex-col items-center gap-[24px]">
             <Mark />
             <RuleRow>How we work</RuleRow>
@@ -207,7 +288,7 @@ export default function StartServicesPage() {
               Simple and accountable.
             </h2>
           </div>
-          <ItemGrid items={HOW_WE_WORK_ITEMS} />
+          <PrincipleGrid items={HOW_WE_WORK_ITEMS} />
         </div>
       </section>
 
