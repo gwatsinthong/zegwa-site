@@ -3,17 +3,17 @@ import type { ProspectSignals } from "@/lib/signals";
 import type { SearchVisibilityResult } from "@/lib/search-visibility-core";
 
 // Pure, plain (NOT "use client") helpers for the Verdict slide's 2x2 pillar
-// grid — cover-slide.tsx's Server Component calls these directly, so per the
+// grid, cover-slide.tsx's Server Component calls these directly, so per the
 // Step 1 RSC-boundary lesson (production incident, digest 1402459869) none
 // of this can live in a "use client" file.
 //
 // The prototype hardcodes one headline value per pillar ("#1 in map pack",
 // "No booking or form", "No HTTPS") for Atlas's specific real result. Real
 // leads land in every state, so each headline below is DERIVED from the
-// same real signals/breakdown computeAuditScore already reads — never a
+// same real signals/breakdown computeAuditScore already reads, never a
 // copy of the mock text. Chip state (strong/mid/weak) reuses the identical
 // >=75%/>=45% bucketing the Cover pillars use, extended with an explicit
-// "unmeasured" state (never silently rendered as "weak" — an unmeasured
+// "unmeasured" state (never silently rendered as "weak": an unmeasured
 // signal is not the same claim as a real, honest zero).
 
 export type ChipState = "strong" | "mid" | "weak" | "unmeasured";
@@ -40,22 +40,22 @@ export type PillarCard = {
   subMath: string;
 };
 
-/** The Verdict slide's own headline — deliberately a DISTINCT framing from
+/** The Verdict slide's own headline, deliberately a DISTINCT framing from
  *  the Cover slide's pickVisceralOpener wound-hook, not a re-statement of
  *  it (recon finding: both slides used to render the identical opener
  *  string back to back). Cover leads with the single most striking real
  *  finding as a prose sentence; Verdict leads with the score-anchored
- *  standing — the real total plus whichever of these SAME four already-
- *  computed pillar cards is weakest — so the two slides complement rather
+ *  standing: the real total plus whichever of these SAME four already
+ *  computed pillar cards is weakest, so the two slides complement rather
  *  than echo, and nothing here is invented beyond what the cards already
  *  say. */
 export function verdictHeadline(total: number | null, cards: PillarCard[] | null): string {
   if (total == null || !cards || cards.length === 0) return "Not yet scored.";
   const measured = cards.filter((c) => c.chipState !== "unmeasured");
-  if (measured.length === 0) return `${total}/100 — most of this audit couldn't be measured yet.`;
+  if (measured.length === 0) return `${total}/100. Most of this audit couldn't be measured yet.`;
   const weakest = measured.reduce((worst, c) => (c.points / Math.max(c.max, 1) < worst.points / Math.max(worst.max, 1) ? c : worst));
-  if (weakest.chipState === "strong") return `${total}/100 — every measured pillar is holding up.`;
-  return `${total}/100 — the biggest gap is ${weakest.eyebrow.toLowerCase()}: ${weakest.headline}.`;
+  if (weakest.chipState === "strong") return `${total}/100. Every measured pillar is holding up.`;
+  return `${total}/100. The biggest gap is ${weakest.eyebrow.toLowerCase()}: ${weakest.headline}.`;
 }
 
 function findSub(breakdown: SubComponent[], key: string): SubComponent {
