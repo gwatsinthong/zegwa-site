@@ -1,11 +1,11 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/seo'
 
-// Allow all indexable content. /sample-report is noindex and shared manually,
-// so it is disallowed. The AI-search crawlers named in the guidelines get an
-// explicit allow rule (allow = simply not disallowed, stated per the docs).
+// Allow all indexable content. The AI-search crawlers named in the
+// guidelines get an explicit allow rule (allow = simply not disallowed,
+// stated per the docs).
 export default function robots(): MetadataRoute.Robots {
-  const rule = { allow: '/', disallow: '/sample-report' }
+  const rule = { allow: '/' }
   return {
     rules: [
       { userAgent: '*', ...rule },

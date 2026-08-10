@@ -1,8 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/seo'
 
-// Only real, indexable routes. Excludes /sample-report (noindex) and the
-// non-existent /capture.
+// Only real, indexable routes. Excludes /sample-audit (noindex, shared
+// manually) and the non-existent /capture.
 const ROUTES = [
   '/',
   '/work',
