@@ -9,6 +9,7 @@ import FadeUp from '@/components/FadeUp'
 import { BrowserFrame } from '@/components/vertical-sections'
 import {
   HELV,
+  FRAME_TYPE,
   ArrowRight,
   Framed,
   RuleRow,
@@ -485,13 +486,36 @@ export default function FoundPage() {
             />
           </div>
 
-          <div className="grid w-full grid-cols-1 gap-x-[24px] gap-y-[32px] sm:grid-cols-2 lg:grid-cols-5">
-            {DASHBOARD_POINTS.map((p) => (
-              <div key={p.label} className="flex flex-col gap-[8px] border-t-2 border-[#e0e0e0] pt-[16px]">
-                <p style={{ fontFamily: HELV }} className="text-[16px] font-bold leading-[1.4] text-[#202020]">
+          {/* Asymmetric bento: "The work log" (index 0) is the primary
+              point, so it gets an explicit 2x2 span and stays first in
+              source order (mobile keeps a plain single column, work log
+              still first). The other four are plain 1x1 cells -- CSS
+              grid's default auto-placement flows them into the remaining
+              2x2 block beside/below the feature tile on its own, no
+              explicit column/row needed on any of them. */}
+          <div className="grid w-full grid-cols-1 gap-[16px] sm:grid-cols-2 lg:grid-cols-4">
+            {DASHBOARD_POINTS.map((p, i) => (
+              <div
+                key={p.label}
+                className={`flex flex-col justify-center gap-[8px] rounded-[16px] bg-[#fefefe] p-[24px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] sm:p-[32px] ${
+                  i === 0
+                    ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2 lg:min-h-[328px]'
+                    : 'lg:min-h-[152px]'
+                }`}
+              >
+                <p
+                  style={{ fontFamily: HELV }}
+                  className={
+                    i === 0
+                      ? `text-[#202020] ${FRAME_TYPE.cardTitle}`
+                      : 'text-[16px] font-bold leading-[1.4] text-[#202020]'
+                  }
+                >
                   {p.label}
                 </p>
-                <p className="text-[14px] leading-[1.5] text-[#5c5c5c]">{p.desc}</p>
+                <p className={i === 0 ? 'text-[16px] leading-[1.5] text-[#5c5c5c]' : 'text-[14px] leading-[1.5] text-[#5c5c5c]'}>
+                  {p.desc}
+                </p>
               </div>
             ))}
           </div>
