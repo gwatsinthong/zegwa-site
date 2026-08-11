@@ -53,6 +53,38 @@ export default function AuditPage() {
             </p>
             <p className="sm:whitespace-nowrap">Nothing to buy. Decide after you&#39;ve seen it.</p>
           </div>
+
+          {/* Sample-audit peek: a real screenshot of slide 1 of the live
+              /sample-audit deck (captured via Playwright, not mocked), faded
+              at the bottom to signal there's more, linking out to the full
+              deck in a new tab. Not an audit CTA -- the form above already
+              is that -- just proof of what the free audit actually looks
+              like. */}
+          <div className="flex w-full flex-col items-center gap-[16px] border-t border-[#e0e0e0] pt-[32px]">
+            <p className="text-center text-[16px] leading-[1.5] text-[#5c5c5c]">
+              Not sure what you&#39;ll get? Here&#39;s a real sample audit.
+            </p>
+            <div className="relative w-full max-w-[600px] overflow-hidden rounded-[16px] border border-[#e0e0e0] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.1),1px_1px_4px_0px_rgba(0,0,0,0.1)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/sample-audit-peek.png"
+                alt="Preview of a sample audit report: estimated monthly lost leads and audit score"
+                className="block w-full"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[64px] bg-gradient-to-t from-[#e8e8e8] to-transparent"
+              />
+            </div>
+            <a
+              href="/sample-audit"
+              target="_blank"
+              rel="noopener"
+              className="text-[16px] font-bold text-[#202020] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[#202020]/30"
+            >
+              View the full sample audit
+            </a>
+          </div>
         </div>
       </section>
       </FadeUp>

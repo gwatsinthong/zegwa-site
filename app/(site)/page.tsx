@@ -360,6 +360,36 @@ export default function FoundPage() {
               Your audit in 24 hours. No strings.
             </p>
           </div>
+
+          {/* Sample-audit peek: a real screenshot of slide 1 of the live
+              /sample-audit deck (captured via Playwright, not mocked). The
+              primary CTA above stays red and unchanged; this is a secondary,
+              plain underlined link (not a second bright button) opening the
+              full deck in a new tab, so it never competes with the audit
+              CTA. Bordered/faded in the site's own dark-band tokens so the
+              peek's own light background sits cleanly on #202020. */}
+          <div className="flex w-full flex-col items-center gap-[16px]">
+            <div className="relative w-full max-w-[600px] overflow-hidden rounded-[16px] border border-white/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/sample-audit-peek.png"
+                alt="Preview of a sample audit report: estimated monthly lost leads and audit score"
+                className="block w-full"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[64px] bg-gradient-to-t from-[#202020] to-transparent"
+              />
+            </div>
+            <a
+              href="/sample-audit"
+              target="_blank"
+              rel="noopener"
+              className="text-[16px] font-bold text-[#fefefe] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[#fefefe]/30"
+            >
+              See a sample audit
+            </a>
+          </div>
         </div>
       </section>
       </FadeUp>
