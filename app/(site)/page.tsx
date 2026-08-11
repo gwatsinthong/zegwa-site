@@ -354,16 +354,9 @@ export default function FoundPage() {
             </p>
           </div>
 
-          <div className="flex flex-col items-center gap-[12px]">
-            <PillCta tone="red" href="/audit" />
-            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
-              Your audit in 24 hours. No strings.
-            </p>
-          </div>
-
           {/* Sample-audit peek: a real screenshot of slide 1 of the live
               /sample-audit deck (captured via Playwright, not mocked). The
-              primary CTA above stays red and unchanged; this is a secondary,
+              primary CTA below stays red and unchanged; this is a secondary,
               plain underlined link (not a second bright button) opening the
               full deck in a new tab, so it never competes with the audit
               CTA. Bordered/faded in the site's own dark-band tokens so the
@@ -389,6 +382,13 @@ export default function FoundPage() {
             >
               See a sample audit
             </a>
+          </div>
+
+          <div className="flex flex-col items-center gap-[12px]">
+            <PillCta tone="red" href="/audit" />
+            <p className="max-w-[448px] text-[16px] leading-[1.5] text-[#9d9a9a]">
+              Your audit in 24 hours. No strings.
+            </p>
           </div>
         </div>
       </section>
