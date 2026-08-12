@@ -124,6 +124,20 @@ const PRICING_ONGOING_ITEMS = [
   'A monthly report, plus the dashboard any time',
 ]
 
+// Illustrative activity feed inside the work-log bento tile. Same four rows
+// already shown in the Summit Air portal mock's "Recent activity" list above
+// (public/images/home-dashboard-sample.jpg -- baked into that screenshot,
+// not live markup, so there's nothing to import from), reused verbatim
+// rather than inventing new data. Tag colors from the mock (purple/orange/
+// green dots) aren't ours to reuse here -- kept plain/greyscale to match
+// this site's own palette instead of the mock product's.
+const WORK_LOG_FEED = [
+  { tag: 'CITATIONS', text: 'Fixed 4 duplicate listings across Yelp, YP, Bing Places', date: 'Jul 14' },
+  { tag: 'REVIEWS', text: 'Responded to 2 new Google reviews', date: 'Jul 9' },
+  { tag: 'AEO', text: 'Added FAQ block for emergency AC repair', date: 'Jul 2' },
+  { tag: 'CITATIONS', text: 'Corrected NAP mismatch on 6 directories', date: 'Jun 27' },
+]
+
 const DASHBOARD_POINTS = [
   { label: 'The work log', desc: 'Every task we complete, dated. The proof of the labor.' },
   { label: 'Your rankings', desc: 'Where you show up in local search, tracked over time.' },
@@ -497,10 +511,10 @@ export default function FoundPage() {
             {DASHBOARD_POINTS.map((p, i) => (
               <div
                 key={p.label}
-                className={`flex flex-col justify-center gap-[8px] rounded-[16px] bg-[#fefefe] p-[24px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] sm:p-[32px] ${
+                className={`flex flex-col gap-[8px] rounded-[16px] bg-[#fefefe] p-[24px] shadow-[-1px_-1px_4px_0px_rgba(0,0,0,0.15),1px_1px_4px_0px_rgba(0,0,0,0.15)] sm:p-[32px] ${
                   i === 0
                     ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2 lg:min-h-[328px]'
-                    : 'lg:min-h-[152px]'
+                    : 'justify-center lg:min-h-[152px]'
                 }`}
               >
                 <p
@@ -516,6 +530,32 @@ export default function FoundPage() {
                 <p className={i === 0 ? 'text-[16px] leading-[1.5] text-[#5c5c5c]' : 'text-[14px] leading-[1.5] text-[#5c5c5c]'}>
                   {p.desc}
                 </p>
+
+                {i === 0 && (
+                  <div className="mt-[16px] flex flex-col gap-[12px]">
+                    <span className="w-fit rounded-[999px] border border-[#cecece] bg-[#fefefe] px-[10px] py-[3px] text-[11px] font-bold uppercase leading-none tracking-wide text-[#5c5c5c]">
+                      Example activity
+                    </span>
+                    <div className="flex flex-col">
+                      {WORK_LOG_FEED.map((item, idx) => (
+                        <div
+                          key={`${item.tag}-${item.date}`}
+                          className={`flex items-center justify-between gap-[12px] py-[10px] ${
+                            idx > 0 ? 'border-t border-[#e0e0e0]' : ''
+                          }`}
+                        >
+                          <div className="flex min-w-0 items-center gap-[10px]">
+                            <span className="shrink-0 text-[11px] font-bold uppercase leading-none tracking-wide text-[#9d9a9a]">
+                              {item.tag}
+                            </span>
+                            <span className="truncate text-[14px] leading-[1.4] text-[#202020]">{item.text}</span>
+                          </div>
+                          <span className="shrink-0 text-[12px] leading-none text-[#9d9a9a]">{item.date}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
